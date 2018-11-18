@@ -1,476 +1,483 @@
 <!doctype html>
 <html lang="en">
- <head>
-   <!-- Required meta tags -->
-   <meta charset="utf-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-   <!-- Bootstrap CSS -->
-   <link rel="stylesheet" href="css/bootstrap.min.css">
-   <link rel="stylesheet" href="css/extras.css">
- </head>
- <body>
-   <!-- PRACTICA 6: tu contenido aqui -->
-  
-   <!-- Navegador de contenido -->
-   <nav class="navbar navbar-expand-lg navbar navbar-dark bg-primary">
-     <a class="navbar-brand" href="#">VMAX</a>
-     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-       <span class="navbar-toggler-icon"></span>
-     </button>
-  
-     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-       <ul class="navbar-nav mr-auto">
-         <li class="nav-item active">
-           <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-         </li>
-         <li class="nav-item dropdown">
-           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-             Add
-           </a>
-           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/extras.css">
+</head>
+
+<body>
+  <!-- PRACTICA 6: tu contenido aqui -->
+
+  <!-- Navegador de contenido -->
+  <nav class="navbar navbar-expand-lg navbar navbar-dark bg-primary">
+    <a class="navbar-brand" href="#">VMAX</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home
+            <span class="sr-only">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            Add
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="#" role="button" data-toggle="modal" data-target="#add">
               Virtual Machine
             </a>
             <a class="dropdown-item" href="#" role="button" data-toggle="modal" data-target="#addGroups">
-             Group
-           </a>
+              Group
+            </a>
           </div>
 
-         </li>
-         <li class="nav-item dropdown">
-           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-             Edit
-           </a>
-           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            Edit
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="#" role="button" data-toggle="modal" data-target="#editVMs">Virtual Machine</a>
             <a class="dropdown-item" href="#" role="button" data-toggle="modal" data-target="#editGroups">Group</a>
-           </div>
-         </li>
-   		<li class="nav-item">
-           <a class="nav-link" href="#" role="button" data-toggle="modal" data-target="#import">Import</a>
-         </li>
-         <li class="nav-item">
-           <a class="nav-link" href="#" role="button" data-toggle="modal" data-target="#export">Export</a>
-         </li>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" role="button" data-toggle="modal" data-target="#import">Import</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" role="button" data-toggle="modal" data-target="#export">Export</a>
+        </li>
 
-       </ul>
-       <form class="form-inline my-2 my-lg-0">
-         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-       </form>
-     </div>
-   </nav>
-
-   <!-- Modal ADD Vms -->
-<div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenterTitle">ADD VIRTUAL MACHINE</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <!-- Mio -->
-      <div class="modal-content">
-     <div class="row">
-      <!-- GRUPOS -->
-      <!-- Columna 1-->
-      <div class="col-sm-5">
-      <div class="modal-body">
-       <form>
-         <!-- Name-->
-         <div class="form-group">
-           <label for="-name" class="col-form-label">Name:</label>
-           <input type="text" class="form-control" id="-name" placeholder="Name...">
-         </div>
-         <!-- RAM-->
-         <div class="form-group">
-           <label for="-ram" class="col-form-label">RAM (MB):</label>
-           <input type="text" class="form-control" id="-ram" placeholder="RAM...">
-         </div>
-         <!-- HD SIZE-->
-         <div class="form-group">
-           <label for="-ram" class="col-form-label">HD Size (MB):</label>
-           <input type="text" class="form-control" id="-ram" placeholder="HD Size...">
-         </div>
-         <!-- ISO-->
-         <div class="form-group">
-           <label for="-ram" class="col-form-label">ISO (.ova):</label>
-           <input type="text" class="form-control" id="-ram" placeholder="ISO...">
-         </div>
-       </form>
-     </div>
-     </div>
-
-     <!-- Columna 2-->
-     <div class="col-sm-5">
-      <div class="modal-body">
-       <form>
-         <!-- Name-->
-         <div class="form-group">
-           <label for="-name" class="col-form-label">CPU (%):</label>
-           <input type="text" class="form-control" id="-name" placeholder="CPU...">
-         </div>
-         <!-- RAM-->
-         <div class="form-group">
-           <label for="-ram" class="col-form-label">NUM. CORES:</label>
-           <input type="text" class="form-control" id="-ram" placeholder="Number of cores...">
-         </div>
-         <!-- HD SIZE-->
-         <div class="form-group">
-           <label for="-ram" class="col-form-label">IP:</label>
-           <input type="text" class="form-control" id="-ram" placeholder="IP...">
-         </div>
-   
-       </form>
-     </div>
-     </div>
-
-   </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">OK</button>
-        <!--hastaaki -->
-      </div>
-    </div>
-  </div>
-</div>
-
-  <!-- Modal ADD Groups -->
-<div class="modal fade" id="addGroups" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
- <div class="modal-dialog modal-dialog-centered" role="document">
-   <div class="modal-content">
-     <div class="modal-header">
-       <h5 class="modal-title" id="exampleModalCenterTitle">ADD VIRTUAL MACHINE</h5>
-       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-         <span aria-hidden="true">&times;</span>
-       </button>
-     </div>
-     <!-- Mio -->
-     <div class="modal-content">
-    <div class="row">
-     <!-- GRUPOS -->
-     <!-- Columna 1-->
-     <div class="col-sm-8">
-     <div class="modal-body">
-      <form>
-        <!-- Name-->
-        <div class="form-group">
-          <label for="-name" class="col-form-label">Name:</label>
-          <input type="text" class="form-control" id="-name" placeholder="Name...">
-        </div>
-       <!-- Add VMs-->
-       <div class="form-group">
-         <label for="-ram" class="col-form-label">Add VMs:</label>
-         <input type="text" class="form-control" id="-ram" placeholder="VMs...">
-       </div>
-
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
       </form>
     </div>
-    </div>
-  </div>
-     </div>
-     <div class="modal-footer">
-       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-       <button type="button" class="btn btn-primary">OK</button>
-       <!--hastaaki -->
-     </div>
-   </div>
- </div>
-</div>
+  </nav>
 
- <!-- Modal EDIT Vms -->
- <div class="modal fade" id="editVMs" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenterTitle">EDIT VIRTUAL MACHINE</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <!-- Mio -->
+  <!-- Modal ADD Vms -->
+  <div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
-     <div class="row">
-      <!-- GRUPOS -->
-      <!-- Columna 1-->
-      <div class="col-sm-5">
-      <div class="modal-body">
-       <form>
-         <!-- Name-->
-         <div class="form-group">
-           <label for="-name" class="col-form-label">Name:</label>
-           <input type="text" class="form-control" id="-name" placeholder="VM 1">
-         </div>
-         <!-- RAM-->
-         <div class="form-group">
-           <label for="-ram" class="col-form-label">RAM (MB):</label>
-           <input type="text" class="form-control" id="-ram" placeholder="512 MB">
-         </div>
-         <!-- HD SIZE-->
-         <div class="form-group">
-           <label for="-ram" class="col-form-label">HD Size (MB):</label>
-           <input type="text" class="form-control" id="-ram" placeholder="512 MB">
-         </div>
-         <!-- ISO-->
-         <div class="form-group">
-           <label for="-ram" class="col-form-label">ISO (.ova):</label>
-           <input type="text" class="form-control" id="-ram" placeholder="iu.iso">
-         </div>
-       </form>
-     </div>
-     </div>
-
-     <!-- Columna 2-->
-     <div class="col-sm-5">
-      <div class="modal-body">
-       <form>
-         <!-- CPU-->
-         <div class="form-group">
-           <label for="-name" class="col-form-label">CPU (%):</label>
-           <input type="text" class="form-control" id="-name" placeholder="30%">
-         </div>
-         <!-- NumCores-->
-         <div class="form-group">
-           <label for="-ram" class="col-form-label">NUM. CORES:</label>
-           <input type="text" class="form-control" id="-ram" placeholder="4">
-         </div>
-         <!-- IP-->
-         <div class="form-group">
-           <label for="-ram" class="col-form-label">IP:</label>
-           <input type="text" class="form-control" id="-ram" placeholder="216.3.128.12">
-         </div>
-   
-       </form>
-     </div>
-     </div>
-
-   </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">OK</button>
-        <!--hastaaki -->
-      </div>
-    </div>
-  </div>
-</div>
-
- <!-- Modal EDIT Groups -->
- <div class="modal fade" id="editGroups" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenterTitle">EDIT GROUPS</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <!-- Mio -->
-      <div class="modal-content">
-     <div class="row">
-      <!-- GRUPOS -->
-      <!-- Columna 1-->
-      <div class="col-sm-5">
-      <div class="modal-body">
-       <form>
-         <!-- Name-->
-         <div class="form-group">
-           <label for="-name" class="col-form-label">Name:</label>
-           <input type="text" class="form-control" id="-name" placeholder="Grupo 1">
-         </div>
-         <!-- Add Items-->
-         <div class="form-group">
-           <label for="-ram" class="col-form-label">Add Items:</label>
-           <input type="text" class="form-control" id="-ram" placeholder="...">
-         </div>
-         <div class="card">
-          <div class="vm-export">
-                         <img src="./images/greenVM.png" class="vm-icont" alt="Responsive image" id="img">
-                         <img src="./images/greenVM.png" class="vm-icont" alt="Responsive image">
-                         <img src="./images/yellowVM.png" class="vm-icont" alt="Responsive image">
-                         <img src="./images/redVM.png" class="vm-icont" alt="Responsive image">
-                         <img src="./images/folder.png" class="vm-icont" alt="Responsive image">
-               </div>
-              </div>
-       </form>
-     </div>
-     </div>
-
-     <!-- Columna 2-->
-     <div class="col-sm-5">
-      <div class="modal-body">
-       <form>
-         <!-- RemoveItems-->
-         <div class="form-group">
-           <label for="-name" class="col-form-label">Remove Items:</label>
-           <input type="text" class="form-control" id="-name" placeholder="...">
-         </div>
-         <div class="card">
-    <div class="vm-export">
-                   <img src="./images/greenVM.png" class="vm-icont" alt="Responsive image" id="img">
-                   <img src="./images/greenVM.png" class="vm-icont" alt="Responsive image">
-                   <img src="./images/yellowVM.png" class="vm-icont" alt="Responsive image">
-                   <img src="./images/redVM.png" class="vm-icont" alt="Responsive image">
-                   <img src="./images/folder.png" class="vm-icont" alt="Responsive image">
-         </div>
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">ADD VIRTUAL MACHINE</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
-       </form>
-     </div>
-     </div>
+        <!-- Mio -->
+        <div class="modal-content">
+          <div class="row">
+            <!-- GRUPOS -->
+            <!-- Columna 1-->
+            <div class="col-sm-5">
+              <div class="modal-body">
+                <form>
+                  <!-- Name-->
+                  <div class="form-group">
+                    <label for="-name" class="col-form-label">Name:</label>
+                    <input type="text" class="form-control" id="-name" placeholder="Name...">
+                  </div>
+                  <!-- RAM-->
+                  <div class="form-group">
+                    <label for="-ram" class="col-form-label">RAM (MB):</label>
+                    <input type="text" class="form-control" id="-ram" placeholder="RAM...">
+                  </div>
+                  <!-- HD SIZE-->
+                  <div class="form-group">
+                    <label for="-ram" class="col-form-label">HD Size (MB):</label>
+                    <input type="text" class="form-control" id="-ram" placeholder="HD Size...">
+                  </div>
+                  <!-- ISO-->
+                  <div class="form-group">
+                    <label for="-ram" class="col-form-label">ISO (.ova):</label>
+                    <input type="text" class="form-control" id="-ram" placeholder="ISO...">
+                  </div>
+                </form>
+              </div>
+            </div>
 
-   </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">OK</button>
-        <!--hastaaki -->
+            <!-- Columna 2-->
+            <div class="col-sm-5">
+              <div class="modal-body">
+                <form>
+                  <!-- Name-->
+                  <div class="form-group">
+                    <label for="-name" class="col-form-label">CPU (%):</label>
+                    <input type="text" class="form-control" id="-name" placeholder="CPU...">
+                  </div>
+                  <!-- RAM-->
+                  <div class="form-group">
+                    <label for="-ram" class="col-form-label">NUM. CORES:</label>
+                    <input type="text" class="form-control" id="-ram" placeholder="Number of cores...">
+                  </div>
+                  <!-- HD SIZE-->
+                  <div class="form-group">
+                    <label for="-ram" class="col-form-label">IP:</label>
+                    <input type="text" class="form-control" id="-ram" placeholder="IP...">
+                  </div>
+
+                </form>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">OK</button>
+          <!--hastaaki -->
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- Modal Import-->
-<div class="modal fade" id="import" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <!-- Modal ADD Groups -->
+  <div class="modal fade" id="addGroups" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">ADD GROUP</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <!-- Mio -->
+        <div class="modal-content">
+          <div class="row">
+            <!-- GRUPOS -->
+            <!-- Columna 1-->
+            <div class="col-sm-8">
+              <div class="modal-body">
+                <form>
+                  <!-- Name-->
+                  <div class="form-group">
+                    <label for="-name" class="col-form-label">Name:</label>
+                    <input type="text" class="form-control" id="-name" placeholder="Name...">
+                  </div>
+                  <!-- Add VMs-->
+                  <div class="form-group">
+                    <label for="-ram" class="col-form-label">Add VMs:</label>
+                    <input type="text" class="form-control" id="-ram" placeholder="VMs...">
+                  </div>
 
-
-   <div class="modal-dialog modal-dialog-centered" role="document">
-     <div class="modal-content">
-       <div class="modal-header">
-         <h5 class="modal-title" id="exampleModalCenterTitle">IMPORT VIRTUAL MACHINE</h5>
-         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-           <span aria-hidden="true">&times;</span>
-         </button>
-       </div>
-       <!-- Mio -->
-       <div class="modal-content">
-      <div class="row">
-       <!-- GRUPOS -->
-       <!-- Columna 1-->
-       <div class="col-sm-10">
-       <div class="modal-body">
-        <form>
-          <!-- Name-->
-          <div class="form-group">
-            <label for="-name" class="col-form-label">Name:</label>
-            <input type="text" class="form-control" id="-name" placeholder="Name...">
+                </form>
+              </div>
+            </div>
           </div>
-          <!-- Route-->
-          <div class="form-group">
-
-            <div class="input-group mb-3">
-  			<div class="input-group-prepend">
-   			 <span class="input-group-text" id="inputGroupFileAddon01">Route:</span>
-  			</div>
- 			<div class="custom-file">
-   			 <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-    			<label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-  			</div>
-			</div>
-
-          </div>
-          
-        </form>
-      </div>
-      </div>
-    </div>
-       </div>
-       <div class="modal-footer">
-         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-         <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
-
-         <!--hastaaki -->
-       </div>
-     </div>
-   </div>
- </div>
-
-<!-- Modal Export-->
- <div class="modal fade" id="export" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-   <div class="modal-dialog modal-dialog-centered" role="document">
-     <div class="modal-content">
-       <div class="modal-header">
-         <h5 class="modal-title" id="exampleModalCenterTitle">EXPORT VIRTUAL MACHINE</h5>
-         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-           <span aria-hidden="true">&times;</span>
-         </button>
-       </div>
-       <!-- Mio -->
-       <div class="modal-content">
-      <div class="row">
-       <!-- GRUPOS -->
-       <!-- Columna 1-->
-       <div class="col-sm-10">
-       <div class="modal-body">
-        <form>
-          <!-- Route-->
-          <div class="form-group">
-
-            <div class="input-group mb-3">
-  			<div class="input-group-prepend">
-   			 <span class="input-group-text" id="inputGroupFileAddon01">Route:</span>
-  			</div>
- 			<div class="custom-file">
-   			 <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-    			<label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-  			</div>
-			</div>
-
-          </div>
-          
-        </form>
-      </div>
-      </div>
-    </div>
-       </div>
-       <div class="modal-footer">
-         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-         <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
-
-         <!--hastaaki -->
-       </div>
-     </div>
-   </div>
- </div>
-
-<!-- Modal Confirmar -->
-<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        Are you sure you want to delete this?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Confirm</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">OK</button>
+          <!--hastaaki -->
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<!--AREA DE CONTENIDO-->
-   <div class="container">
-     <div class="row">
-       <!-- GRUPOS -->
-       <div class="col-sm-3">
-         <div class="card">
-           <div class="card-header">
-         <h2>Groups</h2>
-         <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#addGroups">Add</button>
+  <!-- Modal EDIT Vms -->
+  <div class="modal fade" id="editVMs" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">EDIT VIRTUAL MACHINE</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <!-- Mio -->
+        <div class="modal-content">
+          <div class="row">
+            <!-- GRUPOS -->
+            <!-- Columna 1-->
+            <div class="col-sm-5">
+              <div class="modal-body">
+                <form>
+                  <!-- Name-->
+                  <div class="form-group">
+                    <label for="-name" class="col-form-label">Name:</label>
+                    <input type="text" class="form-control" id="-name" placeholder="VM 1">
+                  </div>
+                  <!-- RAM-->
+                  <div class="form-group">
+                    <label for="-ram" class="col-form-label">RAM (MB):</label>
+                    <input type="text" class="form-control" id="-ram" placeholder="512 MB">
+                  </div>
+                  <!-- HD SIZE-->
+                  <div class="form-group">
+                    <label for="-ram" class="col-form-label">HD Size (MB):</label>
+                    <input type="text" class="form-control" id="-ram" placeholder="512 MB">
+                  </div>
+                  <!-- ISO-->
+                  <div class="form-group">
+                    <label for="-ram" class="col-form-label">ISO (.ova):</label>
+                    <input type="text" class="form-control" id="-ram" placeholder="iu.iso">
+                  </div>
+                </form>
+              </div>
+            </div>
 
-         <button type="button" class="btn btn-danger btn-sm"data-toggle="modal" data-target="#confirm-delete">Remove</button>
-       </div>
-       <div class="card-body">
-          <div class="list-group" id="list-tab" role="tablist">
+            <!-- Columna 2-->
+            <div class="col-sm-5">
+              <div class="modal-body">
+                <form>
+                  <!-- CPU-->
+                  <div class="form-group">
+                    <label for="-name" class="col-form-label">CPU (%):</label>
+                    <input type="text" class="form-control" id="-name" placeholder="30%">
+                  </div>
+                  <!-- NumCores-->
+                  <div class="form-group">
+                    <label for="-ram" class="col-form-label">NUM. CORES:</label>
+                    <input type="text" class="form-control" id="-ram" placeholder="4">
+                  </div>
+                  <!-- IP-->
+                  <div class="form-group">
+                    <label for="-ram" class="col-form-label">IP:</label>
+                    <input type="text" class="form-control" id="-ram" placeholder="216.3.128.12">
+                  </div>
+
+                </form>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">OK</button>
+          <!--hastaaki -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal EDIT Groups -->
+  <div class="modal fade" id="editGroups" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">EDIT GROUPS</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <!-- Mio -->
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="row">
+              <div class="col">
+                <!-- GRUPOS -->
+                <form>
+                  <!-- Name-->
+                  <div class="form-group">
+                    <label for="-name" class="col-form-label">Name:</label>
+                    <input type="text" class="form-control" id="-name" placeholder="Grupo 1">
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <!-- Add Items-->
+                <div class="form-group">
+                  <label for="-ram" class="col-form-label">Add Items:</label>
+                  <input type="text" class="form-control" id="-ram" placeholder="...">
+                </div>
+                <form>
+                  <div class="card">
+                    <div class="vm-export">
+                      <img src="./images/greenVM.png" class="vm-icont" alt="Responsive image" id="img">
+                      <img src="./images/greenVM.png" class="vm-icont" alt="Responsive image">
+                      <img src="./images/yellowVM.png" class="vm-icont" alt="Responsive image">
+                      <img src="./images/redVM.png" class="vm-icont" alt="Responsive image">
+                      <img src="./images/folder.png" class="vm-icont" alt="Responsive image">
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+              <!-- Columna 2-->
+              <div class="col-sm-6">
+                <form>
+                  <!-- RemoveItems-->
+                  <div class="form-group">
+                    <label for="-name" class="col-form-label">Remove Items:</label>
+                    <input type="text" class="form-control" id="-name" placeholder="...">
+                  </div>
+                  <div class="card">
+                    <div class="vm-export">
+                      <img src="./images/greenVM.png" class="vm-icont" alt="Responsive image" id="img">
+                      <img src="./images/greenVM.png" class="vm-icont" alt="Responsive image">
+                      <img src="./images/yellowVM.png" class="vm-icont" alt="Responsive image">
+                      <img src="./images/redVM.png" class="vm-icont" alt="Responsive image">
+                      <img src="./images/folder.png" class="vm-icont" alt="Responsive image">
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">OK</button>
+          <!--hastaaki -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Import-->
+  <div class="modal fade" id="import" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+
+
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">IMPORT VIRTUAL MACHINE</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <!-- Mio -->
+        <div class="modal-content">
+          <div class="row">
+            <!-- GRUPOS -->
+            <!-- Columna 1-->
+            <div class="modal-body">
+              <form>
+                <!-- Name-->
+                <div class="form-group">
+                  <label for="-name" class="col-form-label">Name:</label>
+                  <input type="text" class="form-control" id="-name" placeholder="Name...">
+                </div>
+                <!-- Route-->
+                <div class="form-group">
+
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="inputGroupFileAddon01">Route:</span>
+                    </div>
+                    <div class="custom-file">
+                      <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                      <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                    </div>
+                  </div>
+
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+
+          <!--hastaaki -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Export-->
+  <div class="modal fade" id="export" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">EXPORT VIRTUAL MACHINE</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <!-- Mio -->
+        <div class="modal-content">
+          <div class="row">
+            <!-- GRUPOS -->
+            <!-- Columna 1-->
+            <div class="col-sm-10">
+              <div class="modal-body">
+                <form>
+                  <!-- Route-->
+                  <div class="form-group">
+
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroupFileAddon01">Route:</span>
+                      </div>
+                      <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                      </div>
+                    </div>
+
+                  </div>
+
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+
+          <!--hastaaki -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Confirmar -->
+  <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to delete this?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Confirm</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--AREA DE CONTENIDO-->
+  <div class="container">
+    <div class="row">
+      <!-- GRUPOS -->
+      <div class="col-sm-3">
+        <div class="card">
+          <div class="card-header">
+            <h2>Groups</h2>
+            <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#addGroups">Add</button>
+
+            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#confirm-delete">Remove</button>
+          </div>
+          <div class="card-body">
+            <div class="list-group" id="list-tab" role="tablist">
               <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="#" role="tab" aria-controls="">
                 Group 1
                 <span class="badge badge-primary badge-pill">5</span>
@@ -488,42 +495,42 @@
                 <span class="badge badge-primary badge-pill">2</span>
               </a>
             </div>
-         </div>
-         </div>
-       </div>
+          </div>
+        </div>
+      </div>
 
-       <!-- MAQUINAS VIRUALES -->
-       <div class="col-sm-9">
-           <div class="card">
-               <div class="card-header">
-             <h2>Virtual Machines</h2>
-           </div>
-           <div class="card-body">
-             <!-- LISTA DE VMS -->
-             <div class="card">
-               <div class="card-header">
-                 <h4>VMs</h4>
-                 <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#add">Add</button>
-                 <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#confirm-delete" >Remove</button>
-                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#confirm-delete" >Delete</button>
-               </div>
+      <!-- MAQUINAS VIRUALES -->
+      <div class="col-sm-9">
+        <div class="card">
+          <div class="card-header">
+            <h2>Virtual Machines</h2>
+          </div>
+          <div class="card-body">
+            <!-- LISTA DE VMS -->
+            <div class="card">
+              <div class="card-header">
+                <h4>VMs</h4>
+                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#add">Add</button>
+                <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#confirm-delete">Remove</button>
+                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#confirm-delete">Delete</button>
+              </div>
 
-               <div class="vm-icons">
-                     <img src="./images/greenVM.png" class="vm-icon" alt="Responsive image" id="img">
-                     <img src="./images/greenVM.png" class="vm-icon" alt="Responsive image">
-                     <img src="./images/yellowVM.png" class="vm-icon" alt="Responsive image">
-                     <img src="./images/redVM.png" class="vm-icon" alt="Responsive image">
-                     <img src="./images/folder.png" class="vm-icon" alt="Responsive image">
-                 </div>
+              <div class="vm-icons">
+                <img src="./images/greenVM.png" class="vm-icon" alt="Responsive image" id="img">
+                <img src="./images/greenVM.png" class="vm-icon" alt="Responsive image">
+                <img src="./images/yellowVM.png" class="vm-icon" alt="Responsive image">
+                <img src="./images/redVM.png" class="vm-icon" alt="Responsive image">
+                <img src="./images/folder.png" class="vm-icon" alt="Responsive image">
+              </div>
 
-           </div>
-      
-   
-    <!-- DETALLES BOTONES ENCENDER ETC-->
-         <div class="card">
-            <div class="card-header">
-              <h4>Details</h4>
-               <div class="btn-group btn-group-sm btn-group-toggle" data-toggle="buttons">
+            </div>
+
+
+            <!-- DETALLES BOTONES ENCENDER ETC-->
+            <div class="card">
+              <div class="card-header">
+                <h4>Details</h4>
+                <div class="btn-group btn-group-sm btn-group-toggle" data-toggle="buttons">
                   <label class="btn btn-secondary active">
                     <input type="radio" name="options" id="option1" autocomplete="off" checked> On
                   </label>
@@ -534,76 +541,75 @@
                     <input type="radio" name="options" id="option3" autocomplete="off"> Off
                   </label>
                 </div>
-            </div>
-             <!-- DETALLES PARTE ESCRITA -->
-            <div class="header-body">
-               <div class="modal-content-body">
-                   <div class="row">
+              </div>
+              <!-- DETALLES PARTE ESCRITA -->
+              <div class="header-body">
+                <div class="modal-content-body">
+                  <div class="row">
                     <!-- GRUPOS -->
                     <!-- Columna 1-->
                     <div class="col-sm-3">
-                     <form>
-                       <!-- RAM-->
-                       <div class="form-group">
-                         <label for="-ram" class="col-form-label">RAM (MB):</label>
-                         <input type="text" readonly class="form-control-plaintext" id="-ram" placeholder="512 MB">
-                       </div>
-                       <!-- NUM CORES-->
-                       <div class="form-group">
-                           <label for="-ram" class="col-form-label">NUM. CORES:</label>
-                           <input type="text" readonly class="form-control-plaintext" id="-ram" placeholder="4">
-                         </div>
-                     </form>
-                   </div>
-                   <!-- Columna 2-->
-                   <div class="col-sm-3">
-                     <form>
-                         <!-- CPU-->
+                      <form>
+                        <!-- RAM-->
                         <div class="form-group">
-                           <label for="-name" class="col-form-label">CPU (%):</label>
-                           <input type="text" readonly class="form-control-plaintext" id="-name" placeholder="30%">
-                         </div>
-                         <!-- ISO-->
-                           <div class="form-group">
-                               <label for="-ram" class="col-form-label">ISO (.ova):</label>
-                               <input type="text" readonly class="form-control-plaintext" id="-ram" placeholder="vm1.iso">
-                           </div>
-                     </form>
-                   </div>
-                   <!-- Columna 3-->
-                   <div class="col-sm-3">
-                       <form>
+                          <label for="-ram" class="col-form-label">RAM (MB):</label>
+                          <input type="text" readonly class="form-control-plaintext" id="-ram" placeholder="512 MB">
+                        </div>
+                        <!-- NUM CORES-->
+                        <div class="form-group">
+                          <label for="-ram" class="col-form-label">NUM. CORES:</label>
+                          <input type="text" readonly class="form-control-plaintext" id="-ram" placeholder="4">
+                        </div>
+                      </form>
+                    </div>
+                    <!-- Columna 2-->
+                    <div class="col-sm-3">
+                      <form>
+                        <!-- CPU-->
+                        <div class="form-group">
+                          <label for="-name" class="col-form-label">CPU (%):</label>
+                          <input type="text" readonly class="form-control-plaintext" id="-name" placeholder="30%">
+                        </div>
+                        <!-- ISO-->
+                        <div class="form-group">
+                          <label for="-ram" class="col-form-label">ISO (.ova):</label>
+                          <input type="text" readonly class="form-control-plaintext" id="-ram" placeholder="vm1.iso">
+                        </div>
+                      </form>
+                    </div>
+                    <!-- Columna 3-->
+                    <div class="col-sm-3">
+                      <form>
 
-                       <!-- IP-->
-                       <div class="form-group">
-                           <label for="-ram" class="col-form-label">IP:</label>
-                           <input type="text" readonly class="form-control-plaintext" id="-ram" placeholder="216.3.126.12">
-                         </div>
-                         <!-- HD SIZE-->
-                         <div class="form-group">
-                             <label for="-ram" class="col-form-label">HD Size (MB):</label>
-                             <input type="text" readonly class="form-control-plaintext" id="-ram" placeholder="512 MB">
-                           </div>
-                       </form>
-                     </div>
-                 </div>
+                        <!-- IP-->
+                        <div class="form-group">
+                          <label for="-ram" class="col-form-label">IP:</label>
+                          <input type="text" readonly class="form-control-plaintext" id="-ram" placeholder="216.3.126.12">
+                        </div>
+                        <!-- HD SIZE-->
+                        <div class="form-group">
+                          <label for="-ram" class="col-form-label">HD Size (MB):</label>
+                          <input type="text" readonly class="form-control-plaintext" id="-ram" placeholder="512 MB">
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        </div>
-    </div>
-  </div>
-</div>
-         
-  
-  
-  
-  
-   <!-- Optional JavaScript -->
-   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-   <script src="js/jquery-3.3.1.slim.min.js"></script>
-   <script src="js/popper.min.js"></script>
-   <script src="js/bootstrap.min.js"></script>
- </body>
+      </div>
+
+
+
+
+
+      <!-- Optional JavaScript -->
+      <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+      <script src="js/jquery-3.3.1.slim.min.js"></script>
+      <script src="js/popper.min.js"></script>
+      <script src="js/bootstrap.min.js"></script>
+</body>
+
 </html>
-
-
