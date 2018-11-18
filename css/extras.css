@@ -7,3 +7,6 @@
 .vm-icon {
     border: 7px solid transparent
 }
+.modal-content-body {
+    border-left: 15px solid transparent
+}
