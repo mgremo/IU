@@ -47,12 +47,13 @@
              <a class="dropdown-item" href="#">Group</a>
            </div>
          </li>
-         <li class="nav-item">
-           <a class="nav-link" href="#">Import</a>
+   		<li class="nav-item">
+           <a class="nav-link" href="#" role="button" data-toggle="modal" data-target="#import">Import</a>
          </li>
          <li class="nav-item">
-           <a class="nav-link" href="#">Export</a>
+           <a class="nav-link" href="#" role="button" data-toggle="modal" data-target="#export">Export</a>
          </li>
+
        </ul>
        <form class="form-inline my-2 my-lg-0">
          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
@@ -180,6 +181,107 @@
    </div>
  </div>
 </div>
+
+<!-- Modal Import-->
+<div class="modal fade" id="import" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+   <div class="modal-dialog modal-dialog-centered" role="document">
+     <div class="modal-content">
+       <div class="modal-header">
+         <h5 class="modal-title" id="exampleModalCenterTitle">IMPORT VIRTUAL MACHINE</h5>
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+         </button>
+       </div>
+       <!-- Mio -->
+       <div class="modal-content">
+      <div class="row">
+       <!-- GRUPOS -->
+       <!-- Columna 1-->
+       <div class="col-sm-10">
+       <div class="modal-body">
+        <form>
+          <!-- Name-->
+          <div class="form-group">
+            <label for="-name" class="col-form-label">Name:</label>
+            <input type="text" class="form-control" id="-name" placeholder="Name...">
+          </div>
+          <!-- Route-->
+          <div class="form-group">
+
+            <div class="input-group mb-3">
+  			<div class="input-group-prepend">
+   			 <span class="input-group-text" id="inputGroupFileAddon01">Route:</span>
+  			</div>
+ 			<div class="custom-file">
+   			 <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+    			<label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+  			</div>
+			</div>
+
+          </div>
+          
+        </form>
+      </div>
+      </div>
+    </div>
+       </div>
+       <div class="modal-footer">
+         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+         <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+
+         <!--hastaaki -->
+       </div>
+     </div>
+   </div>
+ </div>
+
+ <!-- Modal Export-->
+<div class="modal fade" id="export" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+   <div class="modal-dialog modal-dialog-centered" role="document">
+     <div class="modal-content">
+       <div class="modal-header">
+         <h5 class="modal-title" id="exampleModalCenterTitle">EXPORT VIRTUAL MACHINE</h5>
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+         </button>
+       </div>
+       <!-- Mio -->
+       <div class="modal-content">
+      <div class="row">
+       <!-- GRUPOS -->
+       <!-- Columna 1-->
+       <div class="col-sm-10">
+       <div class="modal-body">
+        <form>
+          <!-- Route-->
+          <div class="form-group">
+
+            <div class="input-group mb-3">
+  			<div class="input-group-prepend">
+   			 <span class="input-group-text" id="inputGroupFileAddon01">Route:</span>
+  			</div>
+ 			<div class="custom-file">
+   			 <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+    			<label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+  			</div>
+			</div>
+
+          </div>
+          
+        </form>
+      </div>
+      </div>
+    </div>
+       </div>
+       <div class="modal-footer">
+         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+         <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+
+         <!--hastaaki -->
+       </div>
+     </div>
+   </div>
+ </div>
 
 
    <!--AREA DE CONTENIDO-->
