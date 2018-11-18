@@ -1,134 +1,278 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+ <head>
+   <!-- Required meta tags -->
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/extras.css">
-  </head>
-  <body>
-    <!-- PRACTICA 6: tu contenido aqui -->
-    
-    <!-- Navegador de contenido -->
-    <nav class="navbar navbar-expand-lg navbar navbar-dark bg-primary">
-      <a class="navbar-brand" href="#">VMAX</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-    
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Add
+   <!-- Bootstrap CSS -->
+   <link rel="stylesheet" href="css/bootstrap.min.css">
+   <link rel="stylesheet" href="css/extras.css">
+ </head>
+ <body>
+   <!-- PRACTICA 6: tu contenido aqui -->
+  
+   <!-- Navegador de contenido -->
+   <nav class="navbar navbar-expand-lg navbar navbar-dark bg-primary">
+     <a class="navbar-brand" href="#">VMAX</a>
+     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+       <span class="navbar-toggler-icon"></span>
+     </button>
+  
+     <div class="collapse navbar-collapse" id="navbarSupportedContent">
+       <ul class="navbar-nav mr-auto">
+         <li class="nav-item active">
+           <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+         </li>
+         <li class="nav-item dropdown">
+           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+             Add
+           </a>
+           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="#" role="button" data-toggle="modal" data-target="#add">
+              Virtual Machine
             </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#" role="button" data-toggle="modal" data-target="#add">
-                Virtual Machine
-              </a>
-              <a class="dropdown-item" href="#">Group</a>
-            </div>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link disabled dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Edit
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Virtual Machine</a>
-              <a class="dropdown-item" href="#">Group</a>
-            </div>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Import</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Export</a>
-          </li>
-        </ul>
-        <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
-      </div>
-    </nav>
-
-  <!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          ...
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-    <!--AREA DE CONTENIDO-->
-    <div class="container noM">
-      <div class="row">
-        <div class="col">
-          <h2>Groups</h2>
-          <div class="list-group">
-              <a href="#" class="list-group-item list-group-item-action active">
-                Cras justo odio
-              </a>
-              <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
-              <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
-              <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
-              <a href="#" class="list-group-item list-group-item-action disabled">Vestibulum at eros</a>
-            </div>
-        </div>
-        <div class="col-10 sepleft">
-            <h2>Virtual Machines</h2>
-          VMs
-          <div class="row border">
-             <pre>
-               HOLA
-               HOLA
-               PARARA
-               PATATA
-               AAAAAAA
-             </pre>
+            <a class="dropdown-item" href="#" role="button" data-toggle="modal" data-target="#addGroups">
+             Group
+           </a>
           </div>
-        Details
-        <div class="row border">
-            <pre>
-                HOLA
-                HOLA
-                PARARA
-                PATATA
-                AAAAAAA
-              </pre>
-        </div>
+
+         </li>
+         <li class="nav-item dropdown">
+           <a class="nav-link disabled dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+             Edit
+           </a>
+           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+             <a class="dropdown-item" href="#">Virtual Machine</a>
+             <a class="dropdown-item" href="#">Group</a>
+           </div>
+         </li>
+         <li class="nav-item">
+           <a class="nav-link" href="#">Import</a>
+         </li>
+         <li class="nav-item">
+           <a class="nav-link" href="#">Export</a>
+         </li>
+       </ul>
+       <form class="form-inline my-2 my-lg-0">
+         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+       </form>
+     </div>
+   </nav>
+
+   <!-- Modal ADD Vms -->
+<div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">ADD VIRTUAL MACHINE</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <!-- Mio -->
+      <div class="modal-content">
+     <div class="row">
+      <!-- GRUPOS -->
+      <!-- Columna 1-->
+      <div class="col-sm-5">
+      <div class="modal-body">
+       <form>
+         <!-- Name-->
+         <div class="form-group">
+           <label for="-name" class="col-form-label">Name:</label>
+           <input type="text" class="form-control" id="-name" placeholder="Name...">
+         </div>
+         <!-- RAM-->
+         <div class="form-group">
+           <label for="-ram" class="col-form-label">RAM (MB):</label>
+           <input type="text" class="form-control" id="-ram" placeholder="RAM...">
+         </div>
+         <!-- HD SIZE-->
+         <div class="form-group">
+           <label for="-ram" class="col-form-label">HD Size (MB):</label>
+           <input type="text" class="form-control" id="-ram" placeholder="HD Size...">
+         </div>
+         <!-- ISO-->
+         <div class="form-group">
+           <label for="-ram" class="col-form-label">ISO (.ova):</label>
+           <input type="text" class="form-control" id="-ram" placeholder="ISO...">
+         </div>
+       </form>
+     </div>
+     </div>
+
+     <!-- Columna 2-->
+     <div class="col-sm-5">
+      <div class="modal-body">
+       <form>
+         <!-- Name-->
+         <div class="form-group">
+           <label for="-name" class="col-form-label">CPU (%):</label>
+           <input type="text" class="form-control" id="-name" placeholder="CPU...">
+         </div>
+         <!-- RAM-->
+         <div class="form-group">
+           <label for="-ram" class="col-form-label">NUM. CORES:</label>
+           <input type="text" class="form-control" id="-ram" placeholder="Number of cores...">
+         </div>
+         <!-- HD SIZE-->
+         <div class="form-group">
+           <label for="-ram" class="col-form-label">IP:</label>
+           <input type="text" class="form-control" id="-ram" placeholder="IP...">
+         </div>
+   
+       </form>
+     </div>
+     </div>
+
+   </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">OK</button>
+        <!--hastaaki -->
       </div>
     </div>
   </div>
-     
-           
-    
-    
-    
-    
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="js/jquery-3.3.1.slim.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-  </body>
+</div>
+
+  <!-- Modal ADD Groups -->
+<div class="modal fade" id="addGroups" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+ <div class="modal-dialog modal-dialog-centered" role="document">
+   <div class="modal-content">
+     <div class="modal-header">
+       <h5 class="modal-title" id="exampleModalCenterTitle">ADD VIRTUAL MACHINE</h5>
+       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+         <span aria-hidden="true">&times;</span>
+       </button>
+     </div>
+     <!-- Mio -->
+     <div class="modal-content">
+    <div class="row">
+     <!-- GRUPOS -->
+     <!-- Columna 1-->
+     <div class="col-sm-8">
+     <div class="modal-body">
+      <form>
+        <!-- Name-->
+        <div class="form-group">
+          <label for="-name" class="col-form-label">Name:</label>
+          <input type="text" class="form-control" id="-name" placeholder="Name...">
+        </div>
+       <!-- Add VMs-->
+       <div class="form-group">
+         <label for="-ram" class="col-form-label">Add VMs:</label>
+         <input type="text" class="form-control" id="-ram" placeholder="VMs...">
+       </div>
+
+      </form>
+    </div>
+    </div>
+  </div>
+     </div>
+     <div class="modal-footer">
+       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+       <button type="button" class="btn btn-primary">OK</button>
+       <!--hastaaki -->
+     </div>
+   </div>
+ </div>
+</div>
+
+
+   <!--AREA DE CONTENIDO-->
+   <div class="container noM">
+     <div class="row">
+       <!-- GRUPOS -->
+       <div class="col-sm-3">
+         <div class="card">
+           <div class="card-header">
+         <h2>Groups</h2>
+         <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#addGroups">Add</button>
+
+         <button type="button" class="btn btn-danger btn-sm" disabled>Remove</button>
+       </div>
+       <div class="card-body">
+         <div class="list-group">
+             <a href="#" class="list-group-item list-group-item-action active">
+               Group 1
+             </a>
+             <a href="#" class="list-group-item list-group-item-action">Group 2</a>
+             <a href="#" class="list-group-item list-group-item-action">Group 3</a>
+             <a href="#" class="list-group-item list-group-item-action">Group 4</a>
+             <a href="#" class="list-group-item list-group-item-action disabled">Group 5</a>
+           </div>
+         </div>
+         </div>
+       </div>
+
+       <!-- MAQUINAS VIRUALES -->
+       <div class="col-sm-9">
+           <div class="card">
+               <div class="card-header">
+             <h2>Virtual Machines</h2>
+           </div>
+           <div class="card-body">
+             <!-- LISTA DE VMS -->
+             <div class="card">
+               <div class="card-header">
+                 <h4>VMs</h4>
+                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#add">Add</button>
+                 <button type="button" class="btn btn-warning btn-sm" disabled>Remove</button>
+                 <button type="button" class="btn btn-danger btn-sm" disabled>Delete</button>
+               </div>
+
+               <div class="vm-icons">
+                     <img src="./images/greenVM.png" class="vm-icon" alt="Responsive image" id="img">
+                     <img src="./images/greenVM.png" class="vm-icon" alt="Responsive image">
+                     <img src="./images/yellowVM.png" class="vm-icon" alt="Responsive image">
+                     <img src="./images/redVM.png" class="vm-icon" alt="Responsive image">
+                     <img src="./images/folder.png" class="vm-icon" alt="Responsive image">
+                 </div>
+
+           </div>
+          <!-- DETALLES -->
+          <div class="card">
+             <div class="card-header">
+               <h4>Details</h4>
+<div class="btn-group btn-group-sm btn-group-toggle" data-toggle="buttons">
+                   <label class="btn btn-secondary active">
+                     <input type="radio" name="options" id="option1" autocomplete="off" checked> On
+                   </label>
+                   <label class="btn btn-secondary">
+                     <input type="radio" name="options" id="option2" autocomplete="off"> Sleep
+                   </label>
+                   <label class="btn btn-secondary">
+                     <input type="radio" name="options" id="option3" autocomplete="off"> Off
+                   </label>
+                 </div>
+
+             </div>
+             <div class="header-body">
+             <pre>
+               DETALLES
+               Qué bonitos los DETALLES
+             </pre>
+           </div>
+         </div>
+         </div>
+     </div>
+   </div>
+ </div>
+   
+         
+  
+  
+  
+  
+   <!-- Optional JavaScript -->
+   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+   <script src="js/jquery-3.3.1.slim.min.js"></script>
+   <script src="js/popper.min.js"></script>
+   <script src="js/bootstrap.min.js"></script>
+ </body>
 </html>
+
+
