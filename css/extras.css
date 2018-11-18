@@ -5,7 +5,9 @@
     margin: 0px;
 }
 .vm-icon {
-    border: 7px solid transparent
+    border-left: 40px solid transparent;
+    margin-bottom: 80px;
+    margin-top: 15px;
 }
 .modal-content-body {
     border-left: 15px solid transparent
