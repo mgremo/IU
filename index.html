@@ -248,11 +248,6 @@
                     <label for="-ram" class="col-form-label">HD Size (MB):</label>
                     <input type="text" class="form-control" id="-ram" placeholder="512 MB">
                   </div>
-                  <!-- ISO-->
-                  <div class="form-group">
-                    <label for="-ram" class="col-form-label">ISO (.ova):</label>
-                    <input type="text" class="form-control" id="-ram" placeholder="iu.iso">
-                  </div>
                 </form>
               </div>
             </div>
@@ -280,9 +275,36 @@
                 </form>
               </div>
             </div>
+          </div>
+       
 
+        <div class="row">
+          <!-- ISO-->
+          <!-- Route-->
+          <div class="col-sm-10">
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <label for="-ram" class="col-form-label">ISO (.ova):</label>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="inputGroupFileAddon01">Route:</span>
+                    </div>
+                    <div class="custom-file">
+                      <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                      <label class="custom-file-label" for="inputGroupFile01">Choose Iso...</label>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            </form>
           </div>
         </div>
+      </div>
+        
+
+
+
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
