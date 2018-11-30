@@ -37,20 +37,25 @@ let data = {
   };
 
 
+  //Crea un elemento activo
   function creaActElem(elem) {
-    return "<a class= 'list-group-item list-group-item-action active' >" + elem;  // se puede poner el active
+    return "<g-list class= 'list-group-item list-group-item-action active data-toggle='list' href='#' role='tab'>" + elem.name
+    + "<span class='badge badge-primary badge-pill'>" + elem.members.length + "</span>"+"</g-list>";
   };
 
+  //Crea un elemento y lo añade a la lista de grupos
   function creaElem(elem) {
-    return "<a class= 'list-group-item list-group-item-action'>" + elem;  // se puede poner el active
-  };
+    return "<g-list class= 'list-group-item list-group-item-action data-toggle='list' href='#' role='tab'>" + elem.name
+    + "<span class='badge badge-primary badge-pill'>" + elem.members.length + "</span>"+"</g-list>";
+};
 
   //Carga la lista de grupos al iniciar la pagina
   $(document).ready(function(){
     $("#group-list").empty();
-    $("#group-list").append(creaActElem(data.groups[0].name));
-    for(i = 1; i < data.groups.length; i++){
-        $("#group-list").append(creaElem(data.groups[i].name));
+    $("#group-list").append(creaActElem(data.groups[0]));
+
+    for(let i = 1; i < data.groups.length; i++){
+        $("#group-list").append(creaElem(data.groups[i]));
     }
     console.log("UN METWO SHINY");
   });
@@ -62,7 +67,7 @@ let data = {
         console.log('Nuevo Grupo'); 
         data.groups.push({name :'Group', members: ['VM 1', 'VM 2']});
         //Refrescar lista
-        $("#group-list").append(creaElem(data.groups[data.groups.length-1].name));
+        $("#group-list").append(creaElem(data.groups[data.groups.length-1]));
       });
 
 
