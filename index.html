@@ -9,6 +9,11 @@
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/extras.css">
+  
+  <!-- Scripts js-->
+  <script src="js/jquery-3.3.1.slim.min.js"></script>
+  <script src="js/script.js"></script>
+
 </head>
 
 <body>
@@ -55,9 +60,6 @@
           </div>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#" role="button" data-toggle="modal" data-target="#import">Import</a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link" href="#" role="button" data-toggle="modal" data-target="#export">Export</a>
         </li>
 
@@ -74,12 +76,11 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalCenterTitle">ADD VIRTUAL MACHINE</h5>
+          <h5 class="modal-title" id="exampleModalCenterTitle">Add Virtual Machines</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <!-- Mio -->
         <div class="modal-content">
           <div class="row">
             <!-- GRUPOS -->
@@ -102,11 +103,6 @@
                     <label for="-ram" class="col-form-label">HD Size (MB):</label>
                     <input type="text" class="form-control" id="-ram" placeholder="HD Size...">
                   </div>
-                  <!-- ISO-->
-                  <div class="form-group">
-                    <label for="-ram" class="col-form-label">ISO (.ova):</label>
-                    <input type="text" class="form-control" id="-ram" placeholder="ISO...">
-                  </div>
                 </form>
               </div>
             </div>
@@ -122,7 +118,7 @@
                   </div>
                   <!-- RAM-->
                   <div class="form-group">
-                    <label for="-ram" class="col-form-label">NUM. CORES:</label>
+                    <label for="-ram" class="col-form-label">Num. Cores:</label>
                     <input type="text" class="form-control" id="-ram" placeholder="Number of cores...">
                   </div>
                   <!-- HD SIZE-->
@@ -136,10 +132,33 @@
             </div>
 
           </div>
+          <div class="row">
+            <!-- ISO-->
+            <!-- Route-->
+            <div class="col-sm-10">
+              <div class="modal-body">
+                <form>
+                  <div class="form-group">
+                    <label for="-ram" class="col-form-label">ISO (.ova):</label>
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroupFileAddon01">Route:</span>
+                      </div>
+                      <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                        <label class="custom-file-label" for="inputGroupFile01">Choose Iso...</label>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              </form>
+            </div>
+          </div>
         </div>
         <div class="modal-footer">
+          <button type="button"class="btn btn-secondary" href="#" role="button" data-dismiss="modal" data-toggle="modal" data-target="#import">Import</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">OK</button>
+          <button id="addVM" type="button" class="btn btn-primary">Add</button>
           <!--hastaaki -->
         </div>
       </div>
@@ -151,7 +170,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalCenterTitle">ADD GROUP</h5>
+          <h5 class="modal-title" id="exampleModalCenterTitle">Add Group</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -177,21 +196,21 @@
 
                 </form>
                 <div class="card">
-         	 	<div class="vm-export">
-                        <img src="./images/back.png" class="vm-icon" alt="Responsive image" id="img">
-                         <img src="./images/blackVM.png" class="vm-icon" alt="Responsive image">
-                         <img src="./images/blackVM.png" class="vm-icon" alt="Responsive image">
-                         <img src="./images/blackVM.png" class="vm-icon" alt="Responsive image">
-                         <img src="./images/folder.png" class="vm-icon" alt="Responsive image">
-               </div>
-              </div>
+                  <div class="vm-export">
+                    <img src="./images/back.png" class="vm-icon" alt="Responsive image" id="img">
+                    <img src="./images/blackVM.png" class="vm-icon" alt="Responsive image">
+                    <img src="./images/blackVM.png" class="vm-icon" alt="Responsive image">
+                    <img src="./images/blackVM.png" class="vm-icon" alt="Responsive image">
+                    <img src="./images/folder.png" class="vm-icon" alt="Responsive image">
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">OK</button>
+          <button type="button"  class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Add</button>
           <!--hastaaki -->
         </div>
       </div>
@@ -203,7 +222,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalCenterTitle">EDIT VIRTUAL MACHINE</h5>
+          <h5 class="modal-title" id="exampleModalCenterTitle">Edit Virtual Machines</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -231,11 +250,6 @@
                     <label for="-ram" class="col-form-label">HD Size (MB):</label>
                     <input type="text" class="form-control" id="-ram" placeholder="512 MB">
                   </div>
-                  <!-- ISO-->
-                  <div class="form-group">
-                    <label for="-ram" class="col-form-label">ISO (.ova):</label>
-                    <input type="text" class="form-control" id="-ram" placeholder="iu.iso">
-                  </div>
                 </form>
               </div>
             </div>
@@ -251,7 +265,7 @@
                   </div>
                   <!-- NumCores-->
                   <div class="form-group">
-                    <label for="-ram" class="col-form-label">NUM. CORES:</label>
+                    <label for="-ram" class="col-form-label">Num. Cores:</label>
                     <input type="text" class="form-control" id="-ram" placeholder="4">
                   </div>
                   <!-- IP-->
@@ -263,12 +277,39 @@
                 </form>
               </div>
             </div>
+          </div>
+       
 
+        <div class="row">
+          <!-- ISO-->
+          <!-- Route-->
+          <div class="col-sm-10">
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <label for="-ram" class="col-form-label">ISO (.ova):</label>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="inputGroupFileAddon01">Route:</span>
+                    </div>
+                    <div class="custom-file">
+                      <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                      <label class="custom-file-label" for="inputGroupFile01">Choose Iso...</label>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            </form>
           </div>
         </div>
+      </div>
+        
+
+
+
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">OK</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Edit</button>
           <!--hastaaki -->
         </div>
       </div>
@@ -280,7 +321,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalCenterTitle">EDIT GROUPS</h5>
+          <h5 class="modal-title" id="exampleModalCenterTitle">Edit Groups</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -344,7 +385,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">OK</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Edit</button>
           <!--hastaaki -->
         </div>
       </div>
@@ -358,7 +399,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalCenterTitle">IMPORT VIRTUAL MACHINE</h5>
+          <h5 class="modal-title" id="exampleModalCenterTitle">Import Virtual Machine</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -366,6 +407,7 @@
         <!-- Mio -->
         <div class="modal-content">
           <div class="row">
+            <div class="col">
             <!-- GRUPOS -->
             <!-- Columna 1-->
             <div class="modal-body">
@@ -393,10 +435,11 @@
               </form>
             </div>
           </div>
+          </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" data-toggle="modal" data-target="#add">Back</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Import</button>
 
           <!--hastaaki -->
         </div>
@@ -409,7 +452,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalCenterTitle">EXPORT VIRTUAL MACHINE</h5>
+          <h5 class="modal-title" id="exampleModalCenterTitle">Export Virtual Machine</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -440,19 +483,9 @@
                 </form>
 
                 <form>
-                  <!-- Route-->
                   <div class="form-group">
-
-                    <div class="input-group mb-3">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroupFileAddon01">Route:</span>
-                      </div>
-                      <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-                        <label class="custom-file-label" for="inputGroupFile01">Choose VMs</label>
-                      </div>
-                    </div>
-
+                    <label for="-name" class="col-form-label">Choose VM:</label>
+                    <input type="text" class="form-control" id="-name" placeholder="Name...">
                   </div>
 
                 </form>
@@ -463,18 +496,18 @@
         </div>
         <div class="card">
           <div class="vm-export">
-                         <img src="./images/back.png" class="vm-icon" alt="Responsive image" id="img">
-                         <img src="./images/blackVM.png" class="vm-icon" alt="Responsive image">
-                         <img src="./images/blackVM.png" class="vm-icon" alt="Responsive image">
-                         <img src="./images/blackVM.png" class="vm-icon" alt="Responsive image">
-                         <img src="./images/folder.png" class="vm-icon" alt="Responsive image">
-               </div>
-              </div>
+            <img src="./images/back.png" class="vm-icon" alt="Responsive image" id="img">
+            <img src="./images/blackVM.png" class="vm-icon" alt="Responsive image">
+            <img src="./images/blackVM.png" class="vm-icon" alt="Responsive image">
+            <img src="./images/blackVM.png" class="vm-icon" alt="Responsive image">
+            <img src="./images/folder.png" class="vm-icon" alt="Responsive image">
+          </div>
+        </div>
 
 
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Export</button>
 
           <!--hastaaki -->
         </div>
@@ -487,7 +520,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -513,23 +546,23 @@
             <h2>Groups</h2>
             <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#addGroups">Add</button>
 
-            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#confirm-delete">Remove</button>
+            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#confirm-delete">Delete</button>
           </div>
           <div class="card-body">
-            <div class="list-group" id="list-tab" role="tablist">
-              <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="#" role="tab" aria-controls="">
+            <div class="list-group" id="group-list" role="tablist">
+              <a class="list-group-item list-group-item-action active" data-toggle="list" href="#" role="tab" aria-controls="">
                 All
                 <span class="badge badge-primary badge-pill">10</span>
               </a>
-              <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#" role="tab" aria-controls="">
+              <a class="list-group-item list-group-item-action" data-toggle="list" href="#" role="tab" aria-controls="">
                 Group 1
                 <span class="badge badge-primary badge-pill">5</span>
               </a>
-              <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list" href="#" role="tab" aria-controls="">
+              <a class="list-group-item list-group-item-action"data-toggle="list" href="#" role="tab" aria-controls="">
                 Group 2
                 <span class="badge badge-primary badge-pill">3</span>
               </a>
-              <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#" role="tab" aria-controls="">
+              <a class="list-group-item list-group-item-action" data-toggle="list" href="#" role="tab" aria-controls="">
                 Group 3
                 <span class="badge badge-primary badge-pill">2</span>
               </a>
@@ -549,7 +582,7 @@
             <div class="card">
               <div class="card-header">
                 <h4>VMs</h4>
-                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#add">Add</button>
+                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#add"> </button>
                 <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#confirm-delete">Remove</button>
                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#confirm-delete">Delete</button>
               </div>
@@ -570,15 +603,15 @@
               <div class="card-header">
                 <h4>Details</h4>
                 <div class="btn-group btn-group-sm btn-group-toggle" data-toggle="buttons">
-                  <label class="btn btn-secondary active">
-                    <input type="radio" name="options" id="option1" autocomplete="off" checked> On
-                  </label>
-                  <label class="btn btn-secondary">
-                    <input type="radio" name="options" id="option2" autocomplete="off"> Sleep
-                  </label>
-                  <label class="btn btn-secondary">
-                    <input type="radio" name="options" id="option3" autocomplete="off"> Off
-                  </label>
+                    <label class="btn btn-secondary active">
+                      <input type="radio" name="options" id="option1" autocomplete="off" checked> On
+                    </label>
+                    <label class="btn btn-secondary">
+                      <input type="radio" name="options" id="option2" autocomplete="off"> Sleep
+                    </label>
+                    <label class="btn btn-secondary">
+                      <input type="radio" name="options" id="option3" autocomplete="off"> Off
+                    </label>
                 </div>
               </div>
               <!-- DETALLES PARTE ESCRITA -->
@@ -596,7 +629,7 @@
                         </div>
                         <!-- NUM CORES-->
                         <div class="form-group">
-                          <label for="-ram" class="col-form-label">NUM. CORES:</label>
+                          <label for="-ram" class="col-form-label">Num. Cores:</label>
                           <input type="text" readonly class="form-control-plaintext" id="-ram" placeholder="4">
                         </div>
                       </form>
