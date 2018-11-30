@@ -26,7 +26,7 @@ let data = {
     ],
     groups: [
         {
-            name: 'Linuxen', 
+            name: 'Linux', 
             members: ['Linux1', 'Linux2', 'Linux3']
         }
     ]
@@ -39,18 +39,25 @@ let data = {
   //Carga la lista de grupos al iniciar la pagina
   $(document).ready(function(){
     $("#group-list").empty();
-    data.vms.forEach( m => $("#group-list").append(creaLista(m.name)));
+    data.groups.forEach( m => $("#group-list").append(creaLista(m.name)));
     console.log("UN METWO SHINY");
   });
 
 
   //Al pulsar ADD VM, crea una y refresca
   $(document).ready(function(){
-    $("#addVM").click(function() {
-        console.log('porongota'); 
-        data.vms.push({name :'NuevaVM', ram : 1, hdd: 2 , cpu: 3 , cores: 4});
+    $("#add-group").click(function() {
+        console.log('Nuevo Grupo'); 
+        data.groups.push({name :'Group', members: ['VM 1', 'VM 2']});
         //Refrescar lista
         $("#group-list").empty();
-        data.vms.forEach( m => $("#group-list").append(creaLista(m.name)));
+        data.groups.forEach( m => $("#group-list").append(creaLista(m.name)));
       });
+    $("#add-vm").click(function() {
+    console.log('Nueva VM'); 
+    data.vms.push({name :'NuevaVM', ram : 1, hdd: 2 , cpu: 3 , cores: 4});
+    //Refrescar lista
+    $("#group-list").empty();
+    data.vms.forEach( m => $("#group-list").append(creaLista(m.name)));
+    });
 });
