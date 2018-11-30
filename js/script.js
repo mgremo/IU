@@ -4,6 +4,7 @@ let data = {
     vms: [
         {
             name: "Linux1",
+            state: "off",
             ram: 2048,
             hdd: 20480,
             cpu: 100,
@@ -11,6 +12,7 @@ let data = {
         },
         {
             name: "Linux2",
+            state: "on",
             ram: 2048,
             hdd: 20480,
             cpu: 100,
@@ -18,6 +20,7 @@ let data = {
         },
         {
             name: "Linux3",
+            state: "sleep",
             ram: 2048,
             hdd: 20480,
             cpu: 100,
@@ -26,56 +29,116 @@ let data = {
     ],
     groups: [
         {
-            name: 'All',
-            members: ['Linux1','Linux2','Linux3']
+            name: 'All', 
+            members: ['Linux1', 'Linux2', 'Linux3'],
+            groupMembers: ['Linux']
         },
         {
             name: 'Linux', 
-            members: ['Linux1', 'Linux2', 'Linux3']
+            members: ['Linux1', 'Linux2', 'Linux3'],
+            groupMembers: ['GroupMembers1', 'GM2', 'GM3'],
+            father: 'All',
         }
     ]
   };
 
-
-  //Crea un elemento activo
-  function creaActElem(elem) {
-    return "<g-list class= 'list-group-item list-group-item-action active data-toggle='list' href='#' role='tab'>" + elem.name
-    + "<span class='badge badge-primary badge-pill'>" + elem.members.length + "</span>"+"</g-list>";
+  function createGroupItem(group, active) {
+    const html = [
+        '<li id="grp_',
+        group.name,
+        '" ',
+        'class= "',
+        'list-group-item ',
+        active,
+        ' d-flex justify-content-between align-items-center list-group-item-action" ',
+        ' data-toggle="list" role="tab" aria-controls="" ',
+        ' ">',
+        group.name,
+        '<span class="badge badge-primary badge-pill" title=',
+        group.members.join(' '),
+        '>',
+        group.members.length,
+        '</span>',
+        '</li>'
+    ];
+    return $(html.join(''));
+    }
+    
+  function findVmsById(id){
+    for(let i = 0; i < data.vms.length; i++){
+        if(data.vms[i].name === id) return data.vms[i];
+    }
   };
-
-  //Crea un elemento y lo añade a la lista de grupos
-  function creaElem(elem) {
-    return "<g-list class= 'list-group-item list-group-item-action data-toggle='list' href='#' role='tab'>" + elem.name
-    + "<span class='badge badge-primary badge-pill'>" + elem.members.length + "</span>"+"</g-list>";
-};
 
   //Carga la lista de grupos al iniciar la pagina
   $(document).ready(function(){
     $("#group-list").empty();
-    $("#group-list").append(creaActElem(data.groups[0]));
+    $("#group-list").append(createGroupItem(data.groups[0],'active'));
 
     for(let i = 1; i < data.groups.length; i++){
-        $("#group-list").append(creaElem(data.groups[i]));
+        $("#group-list").append(createGroupItem(data.groups[i],""));
     }
     console.log("UN METWO SHINY");
   });
 
+  $(document).ready(function(){
+    data.groups.forEach( m =>$("#group-list").click(function() {
+
+        $("#vm-icons").empty();
+        
+        let back = document.createElement("img");
+        back.setAttribute("class", "vm-icon");
+        (document).getElementById("vm-icons").appendChild(back);
+
+        back.src = './images/back.png'; 
+        m.members.forEach(function(element){
+            let vm = findVmsById(element);
+            console.log(vm.name);
+            let elem = document.createElement("img");
+
+            if(vm.state === "on")  elem.src = './images/greenVM.png'; 
+            else if(vm.state === "off")  elem.src = './images/redVM.png'; 
+            else if(vm.state === "sleep") elem.src = './images/yellowVM.png'; 
+
+            elem.setAttribute("class", "vm-icon");
+            (document).getElementById("vm-icons").appendChild(elem);
+        })
+    }));
+  });
 
   //Al pulsar ADD VM, crea una y refresca
   $(document).ready(function(){
+    //ADD GRUPO
     $("#add-group").click(function() {
         console.log('Nuevo Grupo'); 
-        data.groups.push({name :'Group', members: ['VM 1', 'VM 2']});
+
+        let inputName = document.getElementById("add-group-name").value;
+
+        data.groups.push({name : inputName, members: ['VM 1', 'VM 2']});
         //Refrescar lista
-        $("#group-list").append(creaElem(data.groups[data.groups.length-1]));
+        $("#group-list").append(createGroupItem(data.groups[data.groups.length - 1],""));
       });
 
-
+    //ADD VM
     $("#add-vm").click(function() {
     console.log('Nueva VM'); 
-    data.vms.push({name :'NuevaVM', ram : 1, hdd: 2 , cpu: 3 , cores: 4});
-    //Refrescar lista
-    $("#group-list").empty();
-    data.vms.forEach( m => $("#group-list").append(creaLista(m.name)));
+
+    let inputName = document.getElementById("add-vm-name").value;
+    let inputRam = document.getElementById("add-vm-ram").value;
+    let inputHDD = document.getElementById("add-vm-hd").value;
+    let inputCPU = document.getElementById("add-vm-cpu").value;
+    let inputCores = document.getElementById("add-vm-cores").value;
+    //let inputIP = document.getElementById("add-vm-ip").value;
+
+    data.vms.push({name :inputName, ram :inputRam, hdd:inputHDD , cpu:inputCPU , cores: inputCores});
     });
+
+
+
+
+
+
+
+
+
 });

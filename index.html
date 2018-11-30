@@ -91,17 +91,17 @@
                   <!-- Name-->
                   <div class="form-group">
                     <label for="-name" class="col-form-label">Name:</label>
-                    <input type="text" class="form-control" id="-name" placeholder="Name...">
+                    <input type="text" class="form-control" id="add-vm-name" placeholder="Name...">
                   </div>
                   <!-- RAM-->
                   <div class="form-group">
                     <label for="-ram" class="col-form-label">RAM (MB):</label>
-                    <input type="text" class="form-control" id="-ram" placeholder="RAM...">
+                    <input type="text" class="form-control" id="add-vm-ram" placeholder="RAM...">
                   </div>
                   <!-- HD SIZE-->
                   <div class="form-group">
                     <label for="-ram" class="col-form-label">HD Size (MB):</label>
-                    <input type="text" class="form-control" id="-ram" placeholder="HD Size...">
+                    <input type="text" class="form-control" id="add-vm-hd" placeholder="HD Size...">
                   </div>
                 </form>
               </div>
@@ -114,17 +114,17 @@
                   <!-- Name-->
                   <div class="form-group">
                     <label for="-name" class="col-form-label">CPU (%):</label>
-                    <input type="text" class="form-control" id="-name" placeholder="CPU...">
+                    <input type="text" class="form-control" id="add-vm-cpu" placeholder="CPU...">
                   </div>
                   <!-- RAM-->
                   <div class="form-group">
                     <label for="-ram" class="col-form-label">Num. Cores:</label>
-                    <input type="text" class="form-control" id="-ram" placeholder="Number of cores...">
+                    <input type="text" class="form-control" id="add-vm-cores" placeholder="Number of cores...">
                   </div>
                   <!-- HD SIZE-->
                   <div class="form-group">
                     <label for="-ram" class="col-form-label">IP:</label>
-                    <input type="text" class="form-control" id="-ram" placeholder="IP...">
+                    <input type="text" class="form-control" id="add-vm-ip" placeholder="IP...">
                   </div>
 
                 </form>
@@ -158,7 +158,7 @@
         <div class="modal-footer">
           <button type="button"class="btn btn-secondary" href="#" role="button" data-dismiss="modal" data-toggle="modal" data-target="#import">Import</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button id="addVM" type="button" class="btn btn-primary">Add</button>
+          <button type="button" id="add-vm" class="btn btn-primary" data-dismiss="modal">Add</button>
           <!--hastaaki -->
         </div>
       </div>
@@ -186,12 +186,12 @@
                   <!-- Name-->
                   <div class="form-group">
                     <label for="-name" class="col-form-label">Name:</label>
-                    <input type="text" class="form-control" id="-name" placeholder="Name...">
+                    <input type="text" class="form-control" id="add-group-name" placeholder="Name...">
                   </div>
                   <!-- Add VMs-->
                   <div class="form-group">
                     <label for="-ram" class="col-form-label">Add VMs:</label>
-                    <input type="text" class="form-control" id="-ram" placeholder="VMs...">
+                    <input type="text" class="form-control" id="add-groups-vm" placeholder="VMs...">
                   </div>
 
                 </form>
@@ -238,17 +238,17 @@
                   <!-- Name-->
                   <div class="form-group">
                     <label for="-name" class="col-form-label">Name:</label>
-                    <input type="text" class="form-control" id="-name" placeholder="VM 1">
+                    <input type="text" class="form-control" id="edit-vm-name" placeholder="VM 1">
                   </div>
                   <!-- RAM-->
                   <div class="form-group">
                     <label for="-ram" class="col-form-label">RAM (MB):</label>
-                    <input type="text" class="form-control" id="-ram" placeholder="512 MB">
+                    <input type="text" class="form-control" id="edit-vm-ram" placeholder="512 MB">
                   </div>
                   <!-- HD SIZE-->
                   <div class="form-group">
                     <label for="-ram" class="col-form-label">HD Size (MB):</label>
-                    <input type="text" class="form-control" id="-ram" placeholder="512 MB">
+                    <input type="text" class="form-control" id="edit-vm-hd" placeholder="512 MB">
                   </div>
                 </form>
               </div>
@@ -261,17 +261,17 @@
                   <!-- CPU-->
                   <div class="form-group">
                     <label for="-name" class="col-form-label">CPU (%):</label>
-                    <input type="text" class="form-control" id="-name" placeholder="30%">
+                    <input type="text" class="form-control" id="edit-vm-cpu" placeholder="30%">
                   </div>
                   <!-- NumCores-->
                   <div class="form-group">
                     <label for="-ram" class="col-form-label">Num. Cores:</label>
-                    <input type="text" class="form-control" id="-ram" placeholder="4">
+                    <input type="text" class="form-control" id="edit-vm-cores" placeholder="4">
                   </div>
                   <!-- IP-->
                   <div class="form-group">
                     <label for="-ram" class="col-form-label">IP:</label>
-                    <input type="text" class="form-control" id="-ram" placeholder="216.3.128.12">
+                    <input type="text" class="form-control" id="edit-vm-ip" placeholder="216.3.128.12">
                   </div>
 
                 </form>
@@ -336,7 +336,7 @@
                   <!-- Name-->
                   <div class="form-group">
                     <label for="-name" class="col-form-label">Name:</label>
-                    <input type="text" class="form-control" id="-name" placeholder="Grupo 1">
+                    <input type="text" class="form-control" id="edit-group-name" placeholder="Grupo 1">
                   </div>
                 </form>
               </div>
@@ -346,7 +346,7 @@
                 <!-- Add Items-->
                 <div class="form-group">
                   <label for="-ram" class="col-form-label">Add Items:</label>
-                  <input type="text" class="form-control" id="-ram" placeholder="...">
+                  <input type="text" class="form-control" id="edit-group-items" placeholder="...">
                 </div>
                 <form>
                   <div class="card">
@@ -367,7 +367,7 @@
                   <!-- RemoveItems-->
                   <div class="form-group">
                     <label for="-name" class="col-form-label">Remove Items:</label>
-                    <input type="text" class="form-control" id="-name" placeholder="...">
+                    <input type="text" class="form-control" id="delete-group-items" placeholder="...">
                   </div>
                   <div class="card">
                     <div class="vm-export">
@@ -415,7 +415,7 @@
                 <!-- Name-->
                 <div class="form-group">
                   <label for="-name" class="col-form-label">Name:</label>
-                  <input type="text" class="form-control" id="-name" placeholder="Name...">
+                  <input type="text" class="form-control" id="import-iso" placeholder="Name...">
                 </div>
                 <!-- Route-->
                 <div class="form-group">
@@ -485,7 +485,7 @@
                 <form>
                   <div class="form-group">
                     <label for="-name" class="col-form-label">Choose VM:</label>
-                    <input type="text" class="form-control" id="-name" placeholder="Name...">
+                    <input type="text" class="form-control" id="export-iso" placeholder="Name...">
                   </div>
 
                 </form>
@@ -587,12 +587,7 @@
                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#confirm-delete">Delete</button>
               </div>
 
-              <div class="vm-icons">
-                <img src="./images/back.png" class="vm-icon" alt="Responsive image" id="img">
-                <img src="./images/greenVM.png" class="vm-icon" alt="Responsive image">
-                <img src="./images/yellowVM.png" class="vm-icon" alt="Responsive image">
-                <img src="./images/redVM.png" class="vm-icon" alt="Responsive image">
-                <img src="./images/folder.png" class="vm-icon" alt="Responsive image">
+              <div id="vm-icons" class="vm-icons">
               </div>
 
             </div>
@@ -625,12 +620,12 @@
                         <!-- RAM-->
                         <div class="form-group">
                           <label for="-ram" class="col-form-label">RAM (MB):</label>
-                          <input type="text" readonly class="form-control-plaintext" id="-ram" placeholder="512 MB">
+                          <input type="text" readonly class="form-control-plaintext" id="details-vm-ram" placeholder="512 MB">
                         </div>
                         <!-- NUM CORES-->
                         <div class="form-group">
                           <label for="-ram" class="col-form-label">Num. Cores:</label>
-                          <input type="text" readonly class="form-control-plaintext" id="-ram" placeholder="4">
+                          <input type="text" readonly class="form-control-plaintext" id="details-vm-cores" placeholder="4">
                         </div>
                       </form>
                     </div>
@@ -640,12 +635,12 @@
                         <!-- CPU-->
                         <div class="form-group">
                           <label for="-name" class="col-form-label">CPU (%):</label>
-                          <input type="text" readonly class="form-control-plaintext" id="-name" placeholder="30%">
+                          <input type="text" readonly class="form-control-plaintext" id="details-vm-cpu" placeholder="30%">
                         </div>
                         <!-- ISO-->
                         <div class="form-group">
                           <label for="-ram" class="col-form-label">ISO (.ova):</label>
-                          <input type="text" readonly class="form-control-plaintext" id="-ram" placeholder="vm1.iso">
+                          <input type="text" readonly class="form-control-plaintext" id="details-vm-iso" placeholder="vm1.iso">
                         </div>
                       </form>
                     </div>
@@ -656,12 +651,12 @@
                         <!-- IP-->
                         <div class="form-group">
                           <label for="-ram" class="col-form-label">IP:</label>
-                          <input type="text" readonly class="form-control-plaintext" id="-ram" placeholder="216.3.126.12">
+                          <input type="text" readonly class="form-control-plaintext" id="details-vm-ip" placeholder="216.3.126.12">
                         </div>
                         <!-- HD SIZE-->
                         <div class="form-group">
                           <label for="-ram" class="col-form-label">HD Size (MB):</label>
-                          <input type="text" readonly class="form-control-plaintext" id="-ram" placeholder="512 MB">
+                          <input type="text" readonly class="form-control-plaintext" id="details-vm-hd" placeholder="512 MB">
                         </div>
                       </form>
                     </div>
