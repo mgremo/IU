@@ -45,13 +45,14 @@ let data = {
     ]
 };
 
+//Crea la cuenta de los elementos del grupo
 function createBadge(group){
     let badge = [
     group.name,
     '<span class="badge badge-primary badge-pill" title=',
     group.members.join(' '),
     '>',
-    group.members.length,
+    group.members.length + group.childGroups.length,
     '</span>'
     ];
     return badge.join('');
@@ -72,6 +73,19 @@ function createGroupItem(group, active) {
         '</li>'
     ];
     return $(html.join(''));
+}
+
+function updateHTMLGroups(){
+    for (var grp of data.groups) {
+        console.log(grp);
+        updateHTMLGroup($("#grp_" + grp.name)[0],grp);
+    }
+}
+
+//Actualiza el elemento HTML de un grupo
+function updateHTMLGroup(grp_dom, grp_data){
+    grp_dom.innerHTML = createBadge(grp_data);
+    grp_dom.id = "grp_" + grp_data.name;
 }
 
 //Devuelve el index y el grupo con nombre "name"
@@ -142,10 +156,39 @@ function changeGroupName(grp_name,grp_data){
     for(let child_name of grp_data.childGroups){
         let child_group = findGroup(child_name);
         let parent_grp = findParentGroup(old_name, child_group.o);
-        child_group.o.childGroups[parent_grp.index] = grp_name;
+        child_group.o.parents[parent_grp.index] = grp_name;
     }
     grp_data.name = grp_name;
     
+}
+function removeGroup(grp_name,grp_data){
+    //Primero borramos el grupo de los registros padre
+    for(let parent_name of grp_data.parents){
+        let parent_grp = findGroup(parent_name);
+        let child_grp = findChildGroup(old_name,parent_grp.o);
+        parent_grp.o.childGroups.slice(child_grp.index,1);
+    }
+    //Tambien hay que cambiar el nombre en el registro de los hijos
+    for(let child_name of grp_data.childGroups){
+        let child_grp = findGroup(child_name);
+        let parent_grp = findParentGroup(old_name, child_grp.o);
+        child_grp.o.parents.slice(parent_grp.index,1);
+    }
+
+    //Finalmente borramos el grupo de los datos
+    data.groups.slice(data_grp.index, 1);
+}
+function removeChildGroup(grp_data,grp_name){
+    let index = 0;
+    for(let child_name of grp_data.childGroups){
+        if(child_name == grp_name){
+            grp_data.childGroups.slice(index,1);
+        }
+        index++;
+    }
+}
+function addChildGroup(grp_data,grp_name){
+    grp_data.childGroups.push(grp_name);
 }
 
 //Para activar / desactivar los botones si no hay ninguno seleccionado
@@ -253,6 +296,7 @@ $(document).ready(function () {
         let o = (document).getElementById(g[0].id);
         o.onclick = images;
         getActiveGroup();
+        updateHTMLGroups();
     });
 
     //ADD VM
@@ -267,6 +311,8 @@ $(document).ready(function () {
         //let inputIP = document.getElementById("add-vm-ip").value;
 
         data.vms.push({ name: inputName, ram: inputRam, hdd: inputHDD, cpu: inputCPU, cores: inputCores });
+        data.groups[0].members.push(inputName);
+        updateHTMLGroups();
     });
 
 
@@ -290,18 +336,8 @@ $(document).ready(function () {
 
         //Finalmente se borra el grupo de data, borrando la entrada de todos sitios (Registro general, all y sus padre)
 
-        //Primero hay que borrar la entrada de todos los grupos que lo tuvieran como padre
-        if (data_grp.o.parents.length > 0) {
-            //Vamos a todos los padres del grupo a borrar
-            for (var p_group_name of data_grp.o.parents) {
-                //Y borramos la entrada en los datos del padre
-                let p_group = findGroup(p_group_name);
-                let child_group = findChildGroup(grp_name, p_group.o);
-                p_group.o.childGroups.slice(child_group.index, 1);
-            }
-        }
-        //Finalmente borramos el grupo de los datos
-        data.groups.slice(data_grp.index, 1);
+        removeGroup(grp_name,grp_data.o);
+        updateHTMLGroups();
     });
 
 
@@ -320,9 +356,22 @@ $(document).ready(function () {
         let inputName = document.getElementById("edit-group-name").value;
         
         changeGroupName(inputName,grp_data.o);
-        $(g.object)[0].innerHTML = createBadge(grp_data.o);
-        $(g.object)[0].id = "grp_" + inputName;
 
+        //Despues borramos los elementos
+        let remove_grps = document.getElementById("delete-group-items").value;
+        //Para cada grupo, hay que borrarlo de la lista de hijos de este grupo
+        for(var remove_item of remove_grps){
+            removeChildGroup(grp_data.o,remove_item);
+        }
+
+        //Despues añadimos los grupos
+        let add_grps = document.getElementById("edit-group-items").value;
+        for(var add_item of add_grps){
+            addChildGroup(grp_data.o,add_item);
+        }
+
+        //Finalmente actualizamos el html
+        updateHTMLGroup($(g.object),grp_data.o);
     });
 
 });
