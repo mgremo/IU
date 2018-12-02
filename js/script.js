@@ -29,20 +29,23 @@ let data = {
     ],
     groups: [
         {
-            name: 'All', 
+            name: 'All',
             members: ['Linux1', 'Linux2', 'Linux3'],
-            groupMembers: ['Linux']
+            groupMembers: ['Linux'],
+            parents: [],
+            childGroups: ['Linux']
         },
         {
-            name: 'Linux', 
+            name: 'Linux',
             members: ['Linux1', 'Linux2', 'Linux3'],
             groupMembers: ['GroupMembers1', 'GM2', 'GM3'],
-            father: 'All',
+            parents: ['All'],
+            childGroups: [],
         }
     ]
-  };
+};
 
-  function createGroupItem(group, active) {
+function createGroupItem(group, active) {
     const html = [
         '<li id="grp_',
         group.name,
@@ -62,123 +65,156 @@ let data = {
         '</li>'
     ];
     return $(html.join(''));
+}
+
+//Devuelve el index y el grupo con nombre "name"
+function findGroup(name) {
+    let i = 0;
+    for (var g of data.groups) {
+        if (g.name === name)
+            return { o: g, index: i };
+        i++;
     }
-    
-    function findGroupById(id){
-        let i = 0;
-        for(var g of data.groups){
-            if(g.name === id)
-                return {o: g,index: i};
-            i++;
-        }
+};
+
+//Devuelve el indice del grupo hijo(name) en el grupo padre(parent)
+//Coste(O(n) siendo n el numero de hijos del padre)
+function findChildGroup(name, parent) {
+    let i = 0;
+    for (var child_name of parent.childGroups) {
+        if (child_name === name)
+            return { o: child_name, index: i };
+        i++;
     }
-    function getGroupName(list_name){
-        //Hay que borrar los 4 primeros caracteres (grp_)
-        return list_name.slice(3);
+}
+
+//Devuelve el nombre del grupo respecto al nombre de la lista html (grp_All -> All)
+function getGroupName(list_name) {
+    //Hay que borrar los 4 primeros caracteres (grp_)
+    return list_name.slice(4);
+};
+
+function findVmsById(id) {
+    for (let i = 0; i < data.vms.length; i++) {
+        if (data.vms[i].name === id) return data.vms[i];
     }
-  function findVmsById(id){
-    for(let i = 0; i < data.vms.length; i++){
-        if(data.vms[i].name === id) return data.vms[i];
-    }
-  };
-  function getActiveGroup(){
+};
+
+//Devuelve el index en la lista del grupo activo y su elemento html
+function getActiveGroup() {
     let group = $("#group-list");
     let i = 0;
-    for(var g of group[0].childNodes){
-        if($(g).hasClass("active")){
+    for (var g of group[0].childNodes) {
+        if ($(g).hasClass("active")) {
             console.log(g);
-            return {object: g,index: i};
+            return { object: g, index: i };
         }
         i++;
     }
-  }
+}
 
-  function createHTMLGroupList(){
 
-  }
-
-  //Carga la lista de grupos al iniciar la pagina
-  $(document).ready(function(){
+//Carga la lista de grupos al iniciar la pagina
+$(document).ready(function () {
     $("#group-list").empty();
-    $("#group-list").append(createGroupItem(data.groups[0],'active'));
+    $("#group-list").append(createGroupItem(data.groups[0], 'active'));
 
-    for(let i = 1; i < data.groups.length; i++){
-        $("#group-list").append(createGroupItem(data.groups[i],""));
+    for (let i = 1; i < data.groups.length; i++) {
+        $("#group-list").append(createGroupItem(data.groups[i], ""));
     }
     console.log("UN METWO SHINY");
-  });
+});
 
-  $(document).ready(function(){
-    data.groups.forEach( m =>$("#group-list").click(function() {
+$(document).ready(function () {
+    data.groups.forEach(m => $("#group-list").click(function () {
 
         $("#vm-icons").empty();
-        
+
         let back = document.createElement("img");
         back.setAttribute("class", "vm-icon");
         (document).getElementById("vm-icons").appendChild(back);
 
-        back.src = './images/back.png'; 
-        m.members.forEach(function(element){
+        back.src = './images/back.png';
+        m.members.forEach(function (element) {
             let vm = findVmsById(element);
             console.log(vm.name);
             let elem = document.createElement("img");
 
-            if(vm.state === "on")  elem.src = './images/greenVM.png'; 
-            else if(vm.state === "off")  elem.src = './images/redVM.png'; 
-            else if(vm.state === "sleep") elem.src = './images/yellowVM.png'; 
+            if (vm.state === "on") elem.src = './images/greenVM.png';
+            else if (vm.state === "off") elem.src = './images/redVM.png';
+            else if (vm.state === "sleep") elem.src = './images/yellowVM.png';
 
             elem.setAttribute("class", "vm-icon");
             (document).getElementById("vm-icons").appendChild(elem);
         })
     }));
-  });
+});
 
-  
 
-  //Al pulsar ADD VM, crea una y refresca
-  $(document).ready(function(){
+
+//Al pulsar ADD VM, crea una y refresca
+$(document).ready(function () {
+
     //ADD GRUPO
-    $("#add-group").click(function() {
-        console.log('Nuevo Grupo'); 
+    $("#add-group").click(function () {
+        console.log('Nuevo Grupo');
 
         let inputName = document.getElementById("add-group-name").value;
 
-        data.groups.push({name : inputName, members: ['VM 1', 'VM 2']});
+        data.groups.push({ name: inputName, members: ['VM 1', 'VM 2'], parents: ['All'],childGroups: [] });
+        data.groups[0].childGroups.push(inputName);
         //Refrescar lista
-        $("#group-list").append(createGroupItem(data.groups[data.groups.length - 1],""));
+        $("#group-list").append(createGroupItem(data.groups[data.groups.length - 1], ""));
         getActiveGroup();
-      });
-
-    //ADD VM
-    $("#add-vm").click(function() {
-    console.log('Nueva VM'); 
-
-    let inputName = document.getElementById("add-vm-name").value;
-    let inputRam = document.getElementById("add-vm-ram").value;
-    let inputHDD = document.getElementById("add-vm-hd").value;
-    let inputCPU = document.getElementById("add-vm-cpu").value;
-    let inputCores = document.getElementById("add-vm-cores").value;
-    //let inputIP = document.getElementById("add-vm-ip").value;
-
-    data.vms.push({name :inputName, ram :inputRam, hdd:inputHDD , cpu:inputCPU , cores: inputCores});
     });
 
-    $("#delete-group").click(function() {
+    //ADD VM
+    $("#add-vm").click(function () {
+        console.log('Nueva VM');
+
+        let inputName = document.getElementById("add-vm-name").value;
+        let inputRam = document.getElementById("add-vm-ram").value;
+        let inputHDD = document.getElementById("add-vm-hd").value;
+        let inputCPU = document.getElementById("add-vm-cpu").value;
+        let inputCores = document.getElementById("add-vm-cores").value;
+        //let inputIP = document.getElementById("add-vm-ip").value;
+
+        data.vms.push({ name: inputName, ram: inputRam, hdd: inputHDD, cpu: inputCPU, cores: inputCores });
+    });
+
+
+    //BORRAR GRUPO
+    $("#delete-group").click(function () {
         //Primero obtenemos el grupo que esta activo y guardamos sus datos
         //(Tanto los del DOM como los de data)
         let g = getActiveGroup(); //Grupo en el DOM
-        let data_grp = findGroupById(getGroupName(g.object.id)); //Grupo en data
-        
+        let grp_name = getGroupName(g.object.id);
+        let data_grp = findGroup(grp_name); //Grupo en data
+        console.log("Group to delete: " + grp_name);
         //Si es all no hacemos nada (No se puede borrar all)
-        if(g.index == 0){
+        if (g.index == 0) {
             alert("Cannot delete \"All\" ");
-            return;}
+            return;
+        }
         //Luego borramos el elemento del DOM (Y ponemos el grupo activo en all)
         $("#group-list")[0].removeChild(g.object);
         $("#grp_All").addClass("active");
 
         //Finalmente se borra el grupo de data, borrando la entrada de todos sitios (Registro general, all y sus padre)
-        
+
+        //Primero hay que borrar la entrada de todos los grupos que lo tuvieran como padre
+        if (data_grp.o.parents.length > 0) {
+            //Vamos a todos los padres del grupo a borrar
+            for (var p_group_name of data_grp.o.parents) {
+                //Y borramos la entrada en los datos del padre
+                let p_group = findGroup(p_group_name);
+                let child_group = findChildGroup(grp_name,p_group.o); 
+                p_group.o.childGroups.slice(child_group.index,1);
+            }
+        }
+        //Finalmente borramos el grupo de los datos
+        data.groups.slice(data_grp.index, 1);
+
 
     });
 });
