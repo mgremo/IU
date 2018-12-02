@@ -64,6 +64,18 @@ let data = {
     return $(html.join(''));
     }
     
+    function findGroupById(id){
+        let i = 0;
+        for(var g of data.groups){
+            if(g.name === id)
+                return {o: g,index: i};
+            i++;
+        }
+    }
+    function getGroupName(list_name){
+        //Hay que borrar los 4 primeros caracteres (grp_)
+        return list_name.slice(3);
+    }
   function findVmsById(id){
     for(let i = 0; i < data.vms.length; i++){
         if(data.vms[i].name === id) return data.vms[i];
@@ -152,10 +164,21 @@ let data = {
     });
 
     $("#delete-group").click(function() {
-        let g = getActiveGroup();
-        if(g.index == 0)
-            return;
+        //Primero obtenemos el grupo que esta activo y guardamos sus datos
+        //(Tanto los del DOM como los de data)
+        let g = getActiveGroup(); //Grupo en el DOM
+        let data_grp = findGroupById(getGroupName(g.object.id)); //Grupo en data
+        
+        //Si es all no hacemos nada (No se puede borrar all)
+        if(g.index == 0){
+            alert("Cannot delete \"All\" ");
+            return;}
+        //Luego borramos el elemento del DOM (Y ponemos el grupo activo en all)
         $("#group-list")[0].removeChild(g.object);
         $("#grp_All").addClass("active");
+
+        //Finalmente se borra el grupo de data, borrando la entrada de todos sitios (Registro general, all y sus padre)
+        
+
     });
 });
