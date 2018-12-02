@@ -69,6 +69,21 @@ let data = {
         if(data.vms[i].name === id) return data.vms[i];
     }
   };
+  function getActiveGroup(){
+    let group = $("#group-list");
+    let i = 0;
+    for(var g of group[0].childNodes){
+        if($(g).hasClass("active")){
+            console.log(g);
+            return {object: g,index: i};
+        }
+        i++;
+    }
+  }
+
+  function createHTMLGroupList(){
+
+  }
 
   //Carga la lista de grupos al iniciar la pagina
   $(document).ready(function(){
@@ -106,6 +121,8 @@ let data = {
     }));
   });
 
+  
+
   //Al pulsar ADD VM, crea una y refresca
   $(document).ready(function(){
     //ADD GRUPO
@@ -117,6 +134,7 @@ let data = {
         data.groups.push({name : inputName, members: ['VM 1', 'VM 2']});
         //Refrescar lista
         $("#group-list").append(createGroupItem(data.groups[data.groups.length - 1],""));
+        getActiveGroup();
       });
 
     //ADD VM
@@ -133,12 +151,11 @@ let data = {
     data.vms.push({name :inputName, ram :inputRam, hdd:inputHDD , cpu:inputCPU , cores: inputCores});
     });
 
-
-
-
-
-
-
-
-
+    $("#delete-group").click(function() {
+        let g = getActiveGroup();
+        if(g.index == 0)
+            return;
+        $("#group-list")[0].removeChild(g.object);
+        $("#grp_All").addClass("active");
+    });
 });
