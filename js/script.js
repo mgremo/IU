@@ -275,23 +275,23 @@ function images() {
             if (vm.state === "on") elem.src = './images/greenVM.png';
             else if (vm.state === "off") elem.src = './images/redVM.png';
             else if (vm.state === "sleep") elem.src = './images/yellowVM.png';
+            vm.elem = elem;
+            var box = document.createElement("input");
+            box.value = vm.name;
+            box.readOnly = true;
+            box.setAttribute("class", "img-with-text");
+    
+            elem.onclick = function() { let vm = findVmsById(this.name); showDetails(vm); selectImage(vm); };
+            
+            elem.setAttribute("name", element);
+            elem.setAttribute("class", "vm-icon");
+            elem.setAttribute("id", "detail_button");
+            
+            (document).getElementById("vm-icons").appendChild(elem);
+            (document).getElementById("vm-icons").appendChild(box);
         }
         
-        vm.elem = elem;
 
-        var box = document.createElement("input");
-        box.value = vm.name;
-        box.readOnly = true;
-        box.setAttribute("class", "img-with-text");
-
-        elem.onclick = function() { let vm = findVmsById(this.name); showDetails(vm); selectImage(vm); };
-        
-        elem.setAttribute("name", element);
-        elem.setAttribute("class", "vm-icon");
-        elem.setAttribute("id", "detail_button");
-        
-        (document).getElementById("vm-icons").appendChild(elem);
-        (document).getElementById("vm-icons").appendChild(box);
     });
 }
 
