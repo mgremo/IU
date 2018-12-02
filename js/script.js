@@ -45,6 +45,18 @@ let data = {
     ]
 };
 
+function createBadge(group){
+    let badge = [
+    group.name,
+    '<span class="badge badge-primary badge-pill" title=',
+    group.members.join(' '),
+    '>',
+    group.members.length,
+    '</span>'
+    ];
+    return badge.join('');
+}
+
 function createGroupItem(group, active) {
     const html = [
         '<li id="grp_',
@@ -56,12 +68,7 @@ function createGroupItem(group, active) {
         ' d-flex justify-content-between align-items-center list-group-item-action" ',
         ' data-toggle="list" role="tab" aria-controls="" ',
         ' ">',
-        group.name,
-        '<span class="badge badge-primary badge-pill" title=',
-        group.members.join(' '),
-        '>',
-        group.members.length,
-        '</span>',
+        createBadge(group),
         '</li>'
     ];
     return $(html.join(''));
@@ -84,6 +91,16 @@ function findChildGroup(name, parent) {
     for (var child_name of parent.childGroups) {
         if (child_name === name)
             return { o: child_name, index: i };
+        i++;
+    }
+}
+//Devuelve el indice del grupo padre(name) en el grupo hijp(parent)
+//Coste(O(n) siendo n el numero de hijos del padre)
+function findParentGroup(name, childs) {
+    let i = 0;
+    for (var parent_name of childs.parents) {
+        if (parent_name === name)
+            return { o: parent_name, index: i };
         i++;
     }
 }
@@ -113,13 +130,31 @@ function getActiveGroup() {
     }
 }
 
-//Para activar / desactivar los botones si no hay ninguno seleccionado
-function toggleGroupButtons(disabled){
+function changeGroupName(grp_name,grp_data){
+    //Hay que cambiar el nombre del registro de los padres
+    let old_name = grp_data.name;
+    for(let parent_name of grp_data.parents){
+        let parent_grp = findGroup(parent_name);
+        let child_grp = findChildGroup(old_name,parent_grp.o);
+        parent_grp.o.childGroups[child_grp.index] = grp_name;
+    }
+    //Tambien hay que cambiar el nombre en el registro de los hijos
+    for(let child_name of grp_data.childGroups){
+        let child_group = findGroup(child_name);
+        let parent_grp = findParentGroup(old_name, child_group.o);
+        child_group.o.childGroups[parent_grp.index] = grp_name;
+    }
+    grp_data.name = grp_name;
     
+}
+
+//Para activar / desactivar los botones si no hay ninguno seleccionado
+function toggleGroupButtons(disabled) {
+
     $("#edit-group").prop("disabled", disabled);
     $("#delete-group").prop("disabled", disabled);
-    $("#delete-group")[0].setAttribute("aria-disabled",disabled);
-    $("#edit-group")[0].setAttribute("aria-disabled",disabled);
+    $("#delete-group")[0].setAttribute("aria-disabled", disabled);
+    $("#edit-group")[0].setAttribute("aria-disabled", disabled);
 }
 
 function images() {
@@ -210,10 +245,10 @@ $(document).ready(function () {
 
         let inputName = document.getElementById("add-group-name").value;
 
-        data.groups.push({ name: inputName, members: ['VM 1', 'VM 2'], parents: ['All'],childGroups: [] });
+        data.groups.push({ name: inputName, members: ['VM 1', 'VM 2'], parents: ['All'], childGroups: [] });
         data.groups[0].childGroups.push(inputName);
         //Refrescar lista
-        let g = createGroupItem(data.groups[data.groups.length-1], "");
+        let g = createGroupItem(data.groups[data.groups.length - 1], "");
         $("#group-list").append(g);
         let o = (document).getElementById(g[0].id);
         o.onclick = images;
@@ -261,13 +296,33 @@ $(document).ready(function () {
             for (var p_group_name of data_grp.o.parents) {
                 //Y borramos la entrada en los datos del padre
                 let p_group = findGroup(p_group_name);
-                let child_group = findChildGroup(grp_name,p_group.o); 
-                p_group.o.childGroups.slice(child_group.index,1);
+                let child_group = findChildGroup(grp_name, p_group.o);
+                p_group.o.childGroups.slice(child_group.index, 1);
             }
         }
         //Finalmente borramos el grupo de los datos
         data.groups.slice(data_grp.index, 1);
+    });
 
+
+    $("#confirm-edit-group").click(function () {
+        console.log("Editar Grupos");
+        //Primero obtenemos el grupo que esta activo y guardamos sus datos
+        //(Tanto los del DOM como los de data)
+        let g = getActiveGroup(); //Grupo en el DOM
+        let grp_name = getGroupName(g.object.id);
+        let grp_data = findGroup(grp_name); //Grupo en data
+        console.log("Group to edit: " + grp_name);
+
+        //Cambios:
+
+        //Primero se cambia el nombre
+        let inputName = document.getElementById("edit-group-name").value;
+        
+        changeGroupName(inputName,grp_data.o);
+        $(g.object)[0].innerHTML = createBadge(grp_data.o);
+        $(g.object)[0].id = "grp_" + inputName;
 
     });
+
 });
