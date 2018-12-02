@@ -5,10 +5,12 @@ let data = {
         {
             name: "Linux1",
             state: "off",
-            ram: 2048,
-            hdd: 20480,
-            cpu: 100,
-            cores: 1
+            ram: 20,
+            hdd: 204,
+            cpu: 98,
+            cores: 2,
+            ip: "216.3.126.12",
+            iso: "vm1.iso"
         },
         {
             name: "Linux2",
@@ -16,15 +18,19 @@ let data = {
             ram: 2048,
             hdd: 20480,
             cpu: 100,
-            cores: 1
+            cores: 1,
+            ip: "216.3.126.10",
+            iso: "vm2.iso"
         },
         {
             name: "Linux3",
             state: "sleep",
-            ram: 2048,
+            ram: 3000,
             hdd: 20480,
-            cpu: 100,
-            cores: 1
+            cpu: 50,
+            cores: 20,
+            ip: "216.3.888.12",
+            iso: "vm3.iso"
         },
     ],
     groups: [
@@ -111,7 +117,48 @@ function getActiveGroup() {
         }
         i++;
     }
-}
+};
+
+function showDetails(vm){
+    let ram = document.getElementById("details-vm-ram");
+    ram.placeholder = vm.ram;
+    let cpu = document.getElementById("details-vm-cpu");
+    cpu.placeholder = vm.cpu;
+    let ip = document.getElementById("details-vm-ip");
+    ip.placeholder = vm.ip;
+    let cores = document.getElementById("details-vm-cores");
+    cores.placeholder = vm.cores;
+    let iso = document.getElementById("details-vm-iso");
+    iso.placeholder = vm.iso;
+    let hdSize = document.getElementById("details-vm-hd");
+    hdSize.placeholder = vm.hdd;
+};
+
+function selectImage(vm){
+
+    let g = getActiveGroup();
+
+    let name = getGroupName(g.object.id);
+
+    let o = findGroup(name);
+
+    o.o.members.forEach(function(element){
+        let vm = findVmsById(element);
+        if (vm != undefined) {
+            if (vm.state === "on") vm.elem.src = './images/greenVM.png';
+            else if (vm.state === "off") vm.elem.src = './images/redVM.png';
+            else if (vm.state === "sleep") vm.elem.src = './images/yellowVM.png';
+        }
+    });
+
+    let vm_ = findVmsById(vm.name);
+
+    if (vm_ != undefined) {
+        if (vm_.state === "on") vm_.elem.src = './images/selectedGreenVM.png';
+        else if (vm_.state === "off") vm_.elem.src = './images/selectedRedVM.png';
+        else if (vm_.state === "sleep") vm_.elem.src = './images/selectedYellowVM.png';
+    }
+};
 
 function images() {
 
@@ -139,9 +186,22 @@ function images() {
             else if (vm.state === "off") elem.src = './images/redVM.png';
             else if (vm.state === "sleep") elem.src = './images/yellowVM.png';
         }
+        
+        vm.elem = elem;
 
+        var box = document.createElement("input");
+        box.value = vm.name;
+        box.readOnly = true;
+        box.setAttribute("class", "img-with-text");
+
+        elem.onclick = function() { let vm = findVmsById(this.name); showDetails(vm); selectImage(vm); };
+        
+        elem.setAttribute("name", element);
         elem.setAttribute("class", "vm-icon");
+        elem.setAttribute("id", "detail_button");
+        
         (document).getElementById("vm-icons").appendChild(elem);
+        (document).getElementById("vm-icons").appendChild(box);
     });
 }
 
