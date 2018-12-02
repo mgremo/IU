@@ -97,13 +97,48 @@ let data = {
 
   }
 
+  function images(){
+
+            let name = getGroupName(this.id);
+
+            let g = findGroupById(name);
+            console.log(g);
+
+            $("#vm-icons").empty();
+        
+            let back = document.createElement("img");
+            back.setAttribute("class", "vm-icon");
+            (document).getElementById("vm-icons").appendChild(back);
+
+            back.src = './images/back.png'; 
+            g.o.members.forEach(function(element){
+
+            let vm = findVmsById(element);
+            console.log(vm);
+
+            let elem = document.createElement("img");
+
+            if(vm != undefined){
+                if(vm.state === "on")  elem.src = './images/greenVM.png'; 
+                else if(vm.state === "off")  elem.src = './images/redVM.png'; 
+                else if(vm.state === "sleep") elem.src = './images/yellowVM.png'; 
+            }
+
+            elem.setAttribute("class", "vm-icon");
+            (document).getElementById("vm-icons").appendChild(elem);
+        });
+  }
+
   //Carga la lista de grupos al iniciar la pagina
   $(document).ready(function(){
     $("#group-list").empty();
     $("#group-list").append(createGroupItem(data.groups[0],'active'));
 
     for(let i = 1; i < data.groups.length; i++){
-        $("#group-list").append(createGroupItem(data.groups[i],""));
+        let g = createGroupItem(data.groups[i],"");
+        $("#group-list").append(g);
+        let o = (document).getElementById(g[0].id);
+        o.onclick = images;
     }
     console.log("UN METWO SHINY");
   });
@@ -148,36 +183,7 @@ let data = {
         //Refrescar lista
         $("#group-list").append(g);
         let o = (document).getElementById(g[0].id);
-        o.onclick = function() {
-            let name = getGroupName(this.id);
-
-            let g = findGroupById(name);
-            console.log(g);
-
-            $("#vm-icons").empty();
-        
-            let back = document.createElement("img");
-            back.setAttribute("class", "vm-icon");
-            (document).getElementById("vm-icons").appendChild(back);
-
-            back.src = './images/back.png'; 
-            g.o.members.forEach(function(element){
-
-            let vm = findVmsById(element);
-            console.log(vm);
-
-            let elem = document.createElement("img");
-
-            if(vm != undefined){
-                if(vm.state === "on")  elem.src = './images/greenVM.png'; 
-                else if(vm.state === "off")  elem.src = './images/redVM.png'; 
-                else if(vm.state === "sleep") elem.src = './images/yellowVM.png'; 
-            }
-
-            elem.setAttribute("class", "vm-icon");
-            (document).getElementById("vm-icons").appendChild(elem);
-        });
-    };
+        o.onclick = images;
         getActiveGroup();
       });
 
