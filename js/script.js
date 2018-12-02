@@ -113,6 +113,37 @@ function getActiveGroup() {
     }
 }
 
+function images() {
+
+    let name = getGroupName(this.id);
+
+    let g = findGroup(name);
+    console.log(g);
+
+    $("#vm-icons").empty();
+
+    let back = document.createElement("img");
+    back.setAttribute("class", "vm-icon");
+    (document).getElementById("vm-icons").appendChild(back);
+
+    back.src = './images/back.png';
+    g.o.members.forEach(function (element) {
+
+        let vm = findVmsById(element);
+        console.log(vm);
+
+        let elem = document.createElement("img");
+
+        if (vm != undefined) {
+            if (vm.state === "on") elem.src = './images/greenVM.png';
+            else if (vm.state === "off") elem.src = './images/redVM.png';
+            else if (vm.state === "sleep") elem.src = './images/yellowVM.png';
+        }
+
+        elem.setAttribute("class", "vm-icon");
+        (document).getElementById("vm-icons").appendChild(elem);
+    });
+}
 
 //Carga la lista de grupos al iniciar la pagina
 $(document).ready(function () {
@@ -120,41 +151,43 @@ $(document).ready(function () {
     $("#group-list").append(createGroupItem(data.groups[0], 'active'));
 
     for (let i = 1; i < data.groups.length; i++) {
-        $("#group-list").append(createGroupItem(data.groups[i], ""));
+        let g = createGroupItem(data.groups[i], "");
+        $("#group-list").append(g);
+        let o = (document).getElementById(g[0].id);
+        o.onclick = images;
     }
     console.log("UN METWO SHINY");
 });
 
-$(document).ready(function () {
-    data.groups.forEach(m => $("#group-list").click(function () {
+/*$(document).ready(function(){
+  data.groups.forEach( m =>$("#group-list").click(function() {
 
-        $("#vm-icons").empty();
+      $("#vm-icons").empty();
+      
+      let back = document.createElement("img");
+      back.setAttribute("class", "vm-icon");
+      (document).getElementById("vm-icons").appendChild(back);
 
-        let back = document.createElement("img");
-        back.setAttribute("class", "vm-icon");
-        (document).getElementById("vm-icons").appendChild(back);
+      back.src = './images/back.png'; 
+      m.members.forEach(function(element){
+          let vm = findVmsById(element);
+          console.log(vm.name);
+          let elem = document.createElement("img");
 
-        back.src = './images/back.png';
-        m.members.forEach(function (element) {
-            let vm = findVmsById(element);
-            console.log(vm.name);
-            let elem = document.createElement("img");
+          if(vm.state === "on")  elem.src = './images/greenVM.png'; 
+          else if(vm.state === "off")  elem.src = './images/redVM.png'; 
+          else if(vm.state === "sleep") elem.src = './images/yellowVM.png'; 
 
-            if (vm.state === "on") elem.src = './images/greenVM.png';
-            else if (vm.state === "off") elem.src = './images/redVM.png';
-            else if (vm.state === "sleep") elem.src = './images/yellowVM.png';
-
-            elem.setAttribute("class", "vm-icon");
-            (document).getElementById("vm-icons").appendChild(elem);
-        })
-    }));
-});
+          elem.setAttribute("class", "vm-icon");
+          (document).getElementById("vm-icons").appendChild(elem);
+      })
+  }));
+});*/
 
 
 
 //Al pulsar ADD VM, crea una y refresca
 $(document).ready(function () {
-
     //ADD GRUPO
     $("#add-group").click(function () {
         console.log('Nuevo Grupo');
@@ -164,7 +197,10 @@ $(document).ready(function () {
         data.groups.push({ name: inputName, members: ['VM 1', 'VM 2'], parents: ['All'],childGroups: [] });
         data.groups[0].childGroups.push(inputName);
         //Refrescar lista
-        $("#group-list").append(createGroupItem(data.groups[data.groups.length - 1], ""));
+        let g = createGroupItem(data.groups[data.groups.length-1], "");
+        $("#group-list").append(g);
+        let o = (document).getElementById(g[0].id);
+        o.onclick = images;
         getActiveGroup();
     });
 
