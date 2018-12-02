@@ -85,6 +85,7 @@ function updateHTMLGroups(){
 //Actualiza el elemento HTML de un grupo
 function updateHTMLGroup(grp_dom, grp_data){
     grp_dom.innerHTML = createBadge(grp_data);
+    console.log("Nuevo nombre: " + grp_data.name);
     grp_dom.id = "grp_" + grp_data.name;
 }
 
@@ -165,24 +166,26 @@ function removeGroup(grp_name,grp_data){
     //Primero borramos el grupo de los registros padre
     for(let parent_name of grp_data.parents){
         let parent_grp = findGroup(parent_name);
-        let child_grp = findChildGroup(old_name,parent_grp.o);
-        parent_grp.o.childGroups.slice(child_grp.index,1);
+        let child_grp = findChildGroup(grp_name,parent_grp.o);
+        parent_grp.o.childGroups.splice(child_grp.index,1);
     }
     //Tambien hay que cambiar el nombre en el registro de los hijos
     for(let child_name of grp_data.childGroups){
         let child_grp = findGroup(child_name);
-        let parent_grp = findParentGroup(old_name, child_grp.o);
-        child_grp.o.parents.slice(parent_grp.index,1);
+        let parent_grp = findParentGroup(grp_name, child_grp.o);
+        child_grp.o.parents.splice(parent_grp.index,1);
     }
 
     //Finalmente borramos el grupo de los datos
-    data.groups.slice(data_grp.index, 1);
+    let index = findGroup(grp_data.name).index;
+    data.groups.splice(index, 1);
 }
 function removeChildGroup(grp_data,grp_name){
     let index = 0;
     for(let child_name of grp_data.childGroups){
         if(child_name == grp_name){
-            grp_data.childGroups.slice(index,1);
+            console.log("Borrando " + child_name);
+            grp_data.childGroups.splice(index,1);
         }
         index++;
     }
@@ -322,7 +325,7 @@ $(document).ready(function () {
         //(Tanto los del DOM como los de data)
         let g = getActiveGroup(); //Grupo en el DOM
         let grp_name = getGroupName(g.object.id);
-        let data_grp = findGroup(grp_name); //Grupo en data
+        let grp_data = findGroup(grp_name); //Grupo en data
         console.log("Group to delete: " + grp_name);
         //Si es all no hacemos nada (No se puede borrar all)
         if (g.index == 0) {
@@ -335,8 +338,8 @@ $(document).ready(function () {
         toggleGroupButtons(true);
 
         //Finalmente se borra el grupo de data, borrando la entrada de todos sitios (Registro general, all y sus padre)
-
         removeGroup(grp_name,grp_data.o);
+
         updateHTMLGroups();
     });
 
@@ -355,7 +358,8 @@ $(document).ready(function () {
         //Primero se cambia el nombre
         let inputName = document.getElementById("edit-group-name").value;
         
-        changeGroupName(inputName,grp_data.o);
+        if(inputName !== grp_data.o.name){
+            changeGroupName(inputName,grp_data.o);}
 
         //Despues borramos los elementos
         let remove_grps = document.getElementById("delete-group-items").value;
@@ -370,8 +374,9 @@ $(document).ready(function () {
             addChildGroup(grp_data.o,add_item);
         }
 
+        console.log("Elementos del grupo: " + grp_data.o.childGroups.join(' ') + ' ' + grp_data.o.members.join(' ') );
         //Finalmente actualizamos el html
-        updateHTMLGroup($(g.object),grp_data.o);
+        updateHTMLGroup($(g.object)[0],grp_data.o);
     });
 
 });
