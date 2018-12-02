@@ -113,11 +113,23 @@ function getActiveGroup() {
     }
 }
 
+//Para activar / desactivar los botones si no hay ninguno seleccionado
+function toggleGroupButtons(disabled){
+    
+    $("#edit-group").prop("disabled", disabled);
+    $("#delete-group").prop("disabled", disabled);
+    $("#delete-group")[0].setAttribute("aria-disabled",disabled);
+    $("#edit-group")[0].setAttribute("aria-disabled",disabled);
+}
+
 function images() {
 
     let name = getGroupName(this.id);
 
     let g = findGroup(name);
+
+    //En caso de que sea "All" hay que desactivar las cosas
+    toggleGroupButtons((g.index === 0));
     console.log(g);
 
     $("#vm-icons").empty();
@@ -148,7 +160,10 @@ function images() {
 //Carga la lista de grupos al iniciar la pagina
 $(document).ready(function () {
     $("#group-list").empty();
-    $("#group-list").append(createGroupItem(data.groups[0], 'active'));
+    let all = createGroupItem(data.groups[0], 'active')
+    $("#group-list").append(all);
+    let allO = (document).getElementById(all[0].id);
+    allO.onclick = images;
 
     for (let i = 1; i < data.groups.length; i++) {
         let g = createGroupItem(data.groups[i], "");
@@ -156,6 +171,7 @@ $(document).ready(function () {
         let o = (document).getElementById(g[0].id);
         o.onclick = images;
     }
+    toggleGroupButtons(true);
     console.log("UN METWO SHINY");
 });
 
@@ -220,7 +236,7 @@ $(document).ready(function () {
 
 
     //BORRAR GRUPO
-    $("#delete-group").click(function () {
+    $("#confirm-delete-group").click(function () {
         //Primero obtenemos el grupo que esta activo y guardamos sus datos
         //(Tanto los del DOM como los de data)
         let g = getActiveGroup(); //Grupo en el DOM
@@ -235,6 +251,7 @@ $(document).ready(function () {
         //Luego borramos el elemento del DOM (Y ponemos el grupo activo en all)
         $("#group-list")[0].removeChild(g.object);
         $("#grp_All").addClass("active");
+        toggleGroupButtons(true);
 
         //Finalmente se borra el grupo de data, borrando la entrada de todos sitios (Registro general, all y sus padre)
 
