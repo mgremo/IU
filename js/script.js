@@ -32,6 +32,26 @@ let data = {
             ip: "216.3.888.12",
             iso: "vm3.iso"
         },
+        {
+            name: "Linux4",
+            state: "sleep",
+            ram: 3000,
+            hdd: 20480,
+            cpu: 50,
+            cores: 20,
+            ip: "216.3.888.12",
+            iso: "vm3.iso"
+        },
+        {
+            name: "Linux5",
+            state: "sleep",
+            ram: 3000,
+            hdd: 20480,
+            cpu: 50,
+            cores: 20,
+            ip: "216.3.888.12",
+            iso: "vm3.iso"
+        },
     ],
     groups: [
         {
@@ -43,7 +63,7 @@ let data = {
         },
         {
             name: 'Linux',
-            members: ['Linux1', 'Linux2', 'Linux3'],
+            members: ['Linux1', 'Linux2', 'Linux3',  'Linux4',  'Linux5'],
             groupMembers: ['GroupMembers1', 'GM2', 'GM3'],
             parents: ['All'],
             childGroups: [],
@@ -262,11 +282,20 @@ function images() {
 
     $("#vm-icons").empty();
 
-    let back = document.createElement("img");
-    back.setAttribute("class", "vm-icon");
-    (document).getElementById("vm-icons").appendChild(back);
+    let container = (document).getElementById("container-images");
+    let row = (document).getElementById("row-images")
+    if(container == undefined){
+        container = document.createElement("div");
+        container.setAttribute("id", "container-images");
+        row = document.createElement("row");
+        row.setAttribute("id", "row-images");
+        (document).getElementById("vm-icons").appendChild(container);
+        (document).getElementById("container-images").appendChild(row);
+    }
 
-    back.src = './images/back.png';
+    let col = document.createElement("col-sm-3");
+    col.setAttribute("id", "col-images");
+
     g.o.members.forEach(function (element) {
 
         let vm = findVmsById(element);
@@ -290,8 +319,10 @@ function images() {
             elem.setAttribute("class", "vm-icon");
             elem.setAttribute("id", "detail_button");
             
-            (document).getElementById("vm-icons").appendChild(elem);
-            (document).getElementById("vm-icons").appendChild(box);
+            
+            (document).getElementById("row-images").appendChild(col);
+            (document).getElementById("col-images").appendChild(elem);
+            (document).getElementById("col-images").appendChild(box);
         }
         
 
