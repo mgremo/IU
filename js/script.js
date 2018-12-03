@@ -152,6 +152,10 @@ function getGroupName(list_name) {
     return list_name.slice(4);
 };
 
+function getSelectedVM(){
+    return data.selected_vm; 
+};
+
 function findVmsById(id) {
     for (let i = 0; i < data.vms.length; i++) {
         if (data.vms[i].name === id) return data.vms[i];
@@ -274,6 +278,7 @@ function toggleGroupButtons(disabled) {
     $("#delete-group")[0].setAttribute("aria-disabled", disabled);
     $("#edit-group")[0].setAttribute("aria-disabled", disabled);
 }
+
 function toggleVMButtons(disabled){
     $("#edit-vm").prop("disabled", disabled);
     $("#delete-vm").prop("disabled", disabled);
@@ -282,7 +287,6 @@ function toggleVMButtons(disabled){
     $("#edit-vm")[0].setAttribute("aria-disabled", disabled);
     $("#remove-vm")[0].setAttribute("aria-disabled", disabled);
 }
-
 
 function showGroup(group,list,callback,cols){
     //Primero vaciamos la lista anterior
@@ -323,10 +327,13 @@ function showGroup(group,list,callback,cols){
         let elem = document.createElement("img");
 
         if (vm != undefined) {
-            if (vm.state === "on") elem.src = './images/greenVM.png';
-            else if (vm.state === "off") elem.src = './images/redVM.png';
-            else if (vm.state === "sleep") elem.src = './images/yellowVM.png';
-            vm.elem = elem;
+            let aux = getSelectedVM();
+            if (aux != vm) {
+                if (vm.state === "on") elem.src = './images/greenVM.png';
+                else if (vm.state === "off") elem.src = './images/redVM.png';
+                else if (vm.state === "sleep") elem.src = './images/yellowVM.png';
+                vm.elem = elem;
+            }
             var box = document.createElement("input");
             box.value = vm.name;
             box.readOnly = true;
@@ -516,6 +523,39 @@ $(document).ready(function () {
         console.log("Elementos del grupo: " + grp_data.o.childGroups.join(' ') + ' ' + grp_data.o.members.join(' ') );
         //Finalmente actualizamos el html
         updateHTMLGroup($(g.object)[0],grp_data.o);
+    });
+
+    $("#button-play").click(function () {
+        //accedemos a la VM seleccionada
+        let vm = getSelectedVM();
+
+        //cambiamos su state
+        vm.state = "on";
+
+        //cambiamos su imagen
+        vm.elem.src = './images/selectedGreenVM.png';
+    });
+
+    $("#button-sleep").click(function () {
+        //accedemos a la VM seleccionada
+        let vm = getSelectedVM();
+
+        //cambiamos su state
+        vm.state = "sleep";
+
+        //cambiamos su imagen
+        vm.elem.src = './images/selectedYellowVM.png';
+    });
+
+    $("#button-off").click(function () {
+        //accedemos a la VM seleccionada
+        let vm = getSelectedVM();
+
+        //cambiamos su state
+        vm.state = "off";
+
+        //cambiamos su imagen
+        vm.elem.src = './images/selectedRedVM.png';
     });
 
 });
