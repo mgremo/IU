@@ -360,10 +360,6 @@ function onVMListClick(){
     toggleVMButtons(false);
 }
 
-function getSelectedVM(){
-    return data.selected_vm = vm; 
-}
-
 function onGroupClick() {
 
     let name = getGroupName(this.id);
@@ -520,48 +516,6 @@ $(document).ready(function () {
         console.log("Elementos del grupo: " + grp_data.o.childGroups.join(' ') + ' ' + grp_data.o.members.join(' ') );
         //Finalmente actualizamos el html
         updateHTMLGroup($(g.object)[0],grp_data.o);
-    });
-
-    $("#button-play").click(function () {
-        //accedemos a la VM seleccionada
-        let vm = getSelectedVM();
-
-        //cambiamos su state
-        vm.state = "on";
-
-        //cambiamos su imagen
-        vm.elem.src = './images/selectedGreenVM.png';
-
-        //update de la lista
-        updateActiveGroup();
-    });
-
-    $("#button-sleep").click(function () {
-        //accedemos a la VM seleccionada
-        let vm = getSelectedVM();
-
-        //cambiamos su state
-        vm.state = "sleep";
-
-        //cambiamos su imagen
-        vm.elem.src = './images/selectedYellowVM.png';
-
-        //update de la lista
-        updateActiveGroup();
-    });
-
-    $("#button-off").click(function () {
-        //accedemos a la VM seleccionada
-        let vm = getSelectedVM();
-
-        //cambiamos su state
-        vm.state = "off";
-
-        //cambiamos su imagen
-        vm.elem.src = './images/selectedRedVM.png';
-
-        //update de la lista
-        updateActiveGroup();
     });
 
 });
