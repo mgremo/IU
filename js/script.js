@@ -238,7 +238,12 @@ function removeChildGroup(grp_data,grp_name){
     }
 }
 function addChildGroup(grp_data,grp_name){
+    //Lo añadimos a la lista de hijos
     grp_data.childGroups.push(grp_name);
+    //Pero tambien hay que añadir el padre al hijo
+    let child_grp = findGroup(grp_name);
+    child_grp.o.parents.push(grp_data.name);
+
 }
 
 //Para activar / desactivar los botones si no hay ninguno seleccionado
@@ -249,29 +254,31 @@ function toggleGroupButtons(disabled) {
     $("#delete-group")[0].setAttribute("aria-disabled", disabled);
     $("#edit-group")[0].setAttribute("aria-disabled", disabled);
 }
+function toggleVMButtons(disabled){
+    $("#edit-vm").prop("disabled", disabled);
+    $("#delete-vm").prop("disabled", disabled);
+    $("#remove-vm").prop("disabled",disabled);
+    $("#delete-vm")[0].setAttribute("aria-disabled", disabled);
+    $("#edit-vm")[0].setAttribute("aria-disabled", disabled);
+    $("#remove-vm")[0].setAttribute("aria-disabled", disabled);
+}
 
-function images() {
 
-    let name = getGroupName(this.id);
+function showGroup(group,list,callback){
+    //Primero vaciamos la lista anterior
+    console.log(list);
+    list.empty();
 
-    let g = findGroup(name);
-
-    //En caso de que sea "All" hay que desactivar las cosas
-    toggleGroupButtons((g.index === 0));
-    console.log(g);
-
-    $("#vm-icons").empty();
-
+    //Creamos las imagenes de fondo
     let back = document.createElement("img");
     back.setAttribute("class", "vm-icon");
-    (document).getElementById("vm-icons").appendChild(back);
-
     back.src = './images/back.png';
-    g.o.members.forEach(function (element) {
+    list[0].append(back);
+
+    //Y para cada miembro del grupo lo añadimos a la lista
+    group.members.forEach(function (element) {
 
         let vm = findVmsById(element);
-        console.log(vm);
-
         let elem = document.createElement("img");
 
         if (vm != undefined) {
@@ -284,18 +291,42 @@ function images() {
             box.readOnly = true;
             box.setAttribute("class", "img-with-text");
     
-            elem.onclick = function() { let vm = findVmsById(this.name); showDetails(vm); selectImage(vm); };
+            elem.onclick = callback;
             
             elem.setAttribute("name", element);
             elem.setAttribute("class", "vm-icon");
             elem.setAttribute("id", "detail_button");
             
-            (document).getElementById("vm-icons").appendChild(elem);
-            (document).getElementById("vm-icons").appendChild(box);
+            list[0].append(elem);
+            list[0].append(box);
         }
         
 
     });
+}
+
+function onVMListClick(){
+    let vm = findVmsById(this.name);
+    data.selected_vm = vm; 
+    showDetails(vm); 
+    selectImage(vm); 
+    toggleVMButtons(false);
+}
+
+function onGroupClick() {
+
+    let name = getGroupName(this.id);
+
+    let g = findGroup(name);
+
+    //En caso de que sea "All" hay que desactivar las cosas
+    toggleGroupButtons((g.index === 0));
+    toggleVMButtons(true);
+
+    console.log("A");
+    data.selected_vm = null; 
+    showGroup(g.o, $("#vm-icons"), onVMListClick);
+
 }
 
 //Carga la lista de grupos al iniciar la pagina
@@ -303,21 +334,22 @@ $(document).ready(function () {
     $("#group-list").empty();
     let all = createGroupItem(data.groups[0], 'active')
     $("#group-list").append(all);
-    let allO = (document).getElementById(all[0].id);
-    allO.onclick = images;
+    let allO = (document).getElementById("grp_All");
+    allO.onclick = onGroupClick;
 
     for (let i = 1; i < data.groups.length; i++) {
         let g = createGroupItem(data.groups[i], "");
         $("#group-list").append(g);
         let o = (document).getElementById(g[0].id);
-        o.onclick = images;
+        o.onclick = onGroupClick;
     }
+    allO.onclick();
     toggleGroupButtons(true);
-    console.log("UN METWO SHINY");
+    console.log("UN METWO SHINY"); 
 });
 
 /*$(document).ready(function(){
-  data.groups.forEach( m =>$("#group-list").click(function() {
+  data.groups.forEach( m =>$("#group-list").onclick(function() {
 
       $("#vm-icons").empty();
       
@@ -357,7 +389,7 @@ $(document).ready(function () {
         let g = createGroupItem(data.groups[data.groups.length - 1], "");
         $("#group-list").append(g);
         let o = (document).getElementById(g[0].id);
-        o.onclick = images;
+        o.onclick = onGroupClick;
         getActiveGroup();
         updateHTMLGroups();
     });

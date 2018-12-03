@@ -55,7 +55,7 @@
             Edit
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#" role="button" data-toggle="modal" data-target="#editVMs">Virtual Machine</a>
+            <a class="dropdown-item" href="#" role="button" id="edit-vm" data-toggle="modal" data-target="#editVMs">Virtual Machine</a>
             <a class="dropdown-item" href="#" role="button" id="edit-group" data-toggle="modal" data-target="#editGroups">Group</a>
           </div>
         </li>
@@ -529,7 +529,7 @@
           Are you sure you want to delete this VM?
         </div>
         <div class="modal-footer">
-          <button type="button" id="delete-vm" class="btn btn-primary" data-dismiss="modal">Delete</button>
+          <button type="button" id="confirm-delete-vm" class="btn btn-primary" data-dismiss="modal">Delete</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
         </div>
       </div>
@@ -603,12 +603,12 @@
               <div class="card-header">
                 <h4>VMs</h4>
                 <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#add">Add </button>
-                <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#confirm-remove-vm">Remove</button>
-                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#confirm-delete-vm">Delete</button>
+                <button type="button" id="remove-vm" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#confirm-remove-vm">Remove</button>
+                <button type="button" id="delete-vm" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#confirm-delete-vm">Delete</button>
               </div>
 
-              <div id="vm-icons" class="vm-icons">
-              </div>
+              <li id="vm-icons" class="vm-icon">
+              </li>
 
             </div>
 
