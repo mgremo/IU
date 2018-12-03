@@ -32,6 +32,26 @@ let data = {
             ip: "216.3.888.12",
             iso: "vm3.iso"
         },
+        {
+            name: "Linux4",
+            state: "sleep",
+            ram: 3000,
+            hdd: 20480,
+            cpu: 50,
+            cores: 20,
+            ip: "216.3.888.12",
+            iso: "vm3.iso"
+        },
+        {
+            name: "Linux5",
+            state: "sleep",
+            ram: 3000,
+            hdd: 20480,
+            cpu: 50,
+            cores: 20,
+            ip: "216.3.888.12",
+            iso: "vm3.iso"
+        },
     ],
     groups: [
         {
@@ -43,7 +63,7 @@ let data = {
         },
         {
             name: 'Linux',
-            members: ['Linux1', 'Linux2', 'Linux3'],
+            members: ['Linux1', 'Linux2', 'Linux3',  'Linux4',  'Linux5'],
             groupMembers: ['GroupMembers1', 'GM2', 'GM3'],
             parents: ['All'],
             childGroups: [],
@@ -264,19 +284,40 @@ function toggleVMButtons(disabled){
 }
 
 
-function showGroup(group,list,callback){
+function showGroup(group,list,callback,cols){
     //Primero vaciamos la lista anterior
-    console.log(list);
     list.empty();
 
     //Creamos las imagenes de fondo
-    let back = document.createElement("img");
-    back.setAttribute("class", "vm-icon");
-    back.src = './images/back.png';
-    list[0].append(back);
-
+    let container = (document).getElementById(list[0].id + "container-images");
+    let act_row = 0;
+    let act_col = 0;
+    if(container == undefined){
+        container = document.createElement("div");
+        container.setAttribute("class", "container");
+        container.setAttribute("id", list[0].id + "container-images");
+        list[0].appendChild(container);
+    }
+    let row = document.createElement("div");
+    row.setAttribute("class", "row");
+    row.setAttribute("id",list[0].id + "row-images" + act_row);
+    container.appendChild(row);
     //Y para cada miembro del grupo lo añadimos a la lista
     group.members.forEach(function (element) {
+        //Si no caben mas elementos en la columna actual, creamos otra fila
+        if(act_col >= cols){
+            act_row++;
+            //Creamos una nueva row y se la mentemos al container
+            row = document.createElement("div");
+            row.setAttribute("class", "row");
+            row.setAttribute("id",list[0].id + "row-images" + act_row);
+            container.appendChild(row);
+            act_col = 0;
+        }
+        //Para cada elemento vamos a ir creando una columna nueva
+        let col = document.createElement("div");
+        col.setAttribute("class", "col-sm-" + 12 / cols);
+        col.setAttribute("id",list[0].id + "col-images" + act_row + act_col);
 
         let vm = findVmsById(element);
         let elem = document.createElement("img");
@@ -294,15 +335,21 @@ function showGroup(group,list,callback){
             elem.onclick = callback;
             
             elem.setAttribute("name", element);
-            elem.setAttribute("class", "vm-icon");
+            elem.setAttribute("class", "vm-icon-list");
             elem.setAttribute("id", "detail_button");
             
-            list[0].append(elem);
-            list[0].append(box);
+            
+            row.appendChild(col);
+            col.appendChild(elem);
+            col.appendChild(box);
         }
-        
+        act_col++;
 
     });
+}
+
+function updateActiveGroup(){
+    getActiveGroup().object.onclick();
 }
 
 function onVMListClick(){
@@ -323,9 +370,8 @@ function onGroupClick() {
     toggleGroupButtons((g.index === 0));
     toggleVMButtons(true);
 
-    console.log("A");
     data.selected_vm = null; 
-    showGroup(g.o, $("#vm-icons"), onVMListClick);
+    showGroup(g.o, $("#vm-icons"), onVMListClick,3);
 
 }
 
@@ -433,6 +479,7 @@ $(document).ready(function () {
         removeGroup(grp_name,grp_data.o);
 
         updateHTMLGroups();
+        updateActiveGroup();
     });
 
 

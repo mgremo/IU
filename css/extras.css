@@ -1,26 +1,33 @@
 .sepleft {
     border-left: 2px dashed gray;
 }
+
 .noM {
     margin: 0px;
 }
-.vm-icon {
-    border-left: 40px solid transparent;
-    margin-bottom: 80px;
+
+.vm-icon-list {
+    margin-bottom: 10px;
     margin-top: 15px;
 }
-.modal-content-body {
-    border-left: 15px solid transparent
+
+.vm-icon-list:hover{
+    cursor: pointer;
 }
+
+.list-group:hover{
+    cursor: pointer;
+}
+
+.modal-content-body {
+    border-left: 15px solid transparent;
+}
+
 .img-with-text {
-    position: absolute;
-    /*bottom: 20px;
-    right: 20px;*/
+    position: relative;
+    text-align: center;
+    width: 60px;
+    bottom: 2px;
     color: black;
     border: none;
-    /*padding-left: 20px;
-    padding-right: 20px;*/
-}
-.ctn {
-    position: relative;
 }
