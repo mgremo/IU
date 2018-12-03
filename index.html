@@ -9,7 +9,7 @@
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/extras.css">
-  
+
   <!-- Scripts js-->
   <script src="js/jquery-3.3.1.slim.min.js"></script>
   <script src="js/script.js"></script>
@@ -156,7 +156,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button"class="btn btn-secondary" href="#" role="button" data-dismiss="modal" data-toggle="modal" data-target="#import">Import</button>
+          <button type="button" class="btn btn-secondary" href="#" role="button" data-dismiss="modal" data-toggle="modal" data-target="#import">Import</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           <button type="button" id="add-vm" class="btn btn-primary" data-dismiss="modal">Add</button>
           <!--hastaaki -->
@@ -209,7 +209,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button"  class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           <button type="button" id="add-group" class="btn btn-primary" data-dismiss="modal">Add</button>
           <!--hastaaki -->
         </div>
@@ -278,32 +278,32 @@
               </div>
             </div>
           </div>
-       
 
-        <div class="row">
-          <!-- ISO-->
-          <!-- Route-->
-          <div class="col-sm-10">
-            <div class="modal-body">
-              <form>
-                <div class="form-group">
-                  <label for="-ram" class="col-form-label">ISO (.ova):</label>
-                  <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text" id="inputGroupFileAddon01">Route:</span>
-                    </div>
-                    <div class="custom-file">
-                      <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-                      <label class="custom-file-label" for="inputGroupFile01">Choose Iso...</label>
+
+          <div class="row">
+            <!-- ISO-->
+            <!-- Route-->
+            <div class="col-sm-10">
+              <div class="modal-body">
+                <form>
+                  <div class="form-group">
+                    <label for="-ram" class="col-form-label">ISO (.ova):</label>
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroupFileAddon01">Route:</span>
+                      </div>
+                      <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                        <label class="custom-file-label" for="inputGroupFile01">Choose Iso...</label>
+                      </div>
                     </div>
                   </div>
-                </div>
+              </div>
+              </form>
             </div>
-            </form>
           </div>
         </div>
-      </div>
-        
+
 
 
 
@@ -408,33 +408,33 @@
         <div class="modal-content">
           <div class="row">
             <div class="col">
-            <!-- GRUPOS -->
-            <!-- Columna 1-->
-            <div class="modal-body">
-              <form>
-                <!-- Name-->
-                <div class="form-group">
-                  <label for="-name" class="col-form-label">Name:</label>
-                  <input type="text" class="form-control" id="import-iso" placeholder="Name...">
-                </div>
-                <!-- Route-->
-                <div class="form-group">
+              <!-- GRUPOS -->
+              <!-- Columna 1-->
+              <div class="modal-body">
+                <form>
+                  <!-- Name-->
+                  <div class="form-group">
+                    <label for="-name" class="col-form-label">Name:</label>
+                    <input type="text" class="form-control" id="import-iso" placeholder="Name...">
+                  </div>
+                  <!-- Route-->
+                  <div class="form-group">
 
-                  <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text" id="inputGroupFileAddon01">Route:</span>
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroupFileAddon01">Route:</span>
+                      </div>
+                      <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                      </div>
                     </div>
-                    <div class="custom-file">
-                      <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-                      <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-                    </div>
+
                   </div>
 
-                </div>
-
-              </form>
+                </form>
+              </div>
             </div>
-          </div>
           </div>
         </div>
         <div class="modal-footer">
@@ -578,7 +578,7 @@
                 Group 1
                 <span class="badge badge-primary badge-pill">5</span>
               </a>
-              <a class="list-group-item list-group-item-action"data-toggle="list" href="#" role="tab" aria-controls="">
+              <a class="list-group-item list-group-item-action" data-toggle="list" href="#" role="tab" aria-controls="">
                 Group 2
                 <span class="badge badge-primary badge-pill">3</span>
               </a>
@@ -602,9 +602,15 @@
             <div class="card">
               <div class="card-header">
                 <h4>VMs</h4>
-                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#add">Add </button>
-                <button type="button" id="remove-vm" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#confirm-remove-vm">Remove</button>
-                <button type="button" id="delete-vm" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#confirm-delete-vm">Delete</button>
+                <button type="button" class="button-style" data-toggle="modal" data-target="#add">
+                  <img src="./images/plusScale.png" alt="Responsive image" id="img">
+                </button>
+                <button type="button" class="button-style" data-toggle="modal" data-target="#confirm-remove-vm">
+                  <img src="./images/minusScale.png" alt="Responsive image" id="img">
+                </button>
+                <button type="button" class="button-style" data-toggle="modal" data-target="#confirm-delete-vm">
+                  <img src="./images/crossScale.png" alt="Responsive image" id="img">
+                </button>
               </div>
 
               <div id="vm-icons" class="vm-icon">
@@ -618,15 +624,15 @@
               <div class="card-header">
                 <h4>Details</h4>
                 <div class="btn-group btn-group-sm btn-group-toggle" data-toggle="buttons">
-                    <label class="btn btn-secondary active">
-                      <input type="radio" name="options" id="option1" autocomplete="off" checked> On
-                    </label>
-                    <label class="btn btn-secondary">
-                      <input type="radio" name="options" id="option2" autocomplete="off"> Sleep
-                    </label>
-                    <label class="btn btn-secondary">
-                      <input type="radio" name="options" id="option3" autocomplete="off"> Off
-                    </label>
+                  <button type="button" class="button-style" id="button-play">
+                    <img src="./images/playScale.png" alt="Responsive image" id="img">
+                  </button>
+                  <button type="button" class="button-style" id="button-sleep">
+                    <img src="./images/pauseScale.png" alt="Responsive image" id="img">
+                  </button>
+                  <button type="button" class="button-style" id="button-off">
+                    <img src="./images/powerScale.png" alt="Responsive image" id="img">
+                  </button>
                 </div>
               </div>
               <!-- DETALLES PARTE ESCRITA -->
