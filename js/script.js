@@ -317,12 +317,50 @@ function toggleGroupButtons(disabled) {
     $("#edit-group")[0].setAttribute("aria-disabled", disabled);
 }
 function toggleVMButtons(disabled) {
+    //Solo se activan los grupos cuando hay alguno seleccionado
     $("#edit-vm").prop("disabled", disabled);
     $("#delete-vm").prop("disabled", disabled);
     $("#remove-vm").prop("disabled", disabled);
     $("#delete-vm")[0].setAttribute("aria-disabled", disabled);
     $("#edit-vm")[0].setAttribute("aria-disabled", disabled);
+
+    //Si el grupo es all siempre aparecerá desactivado
+    if(getActiveGroup().object.id == "grp_All"){
+        disabled = true;
+    }
+    $("#remove-vm").prop("disabled", disabled);
     $("#remove-vm")[0].setAttribute("aria-disabled", disabled);
+}
+function toggleStatusButtons(disabled){
+    if(disabled[0]){
+        $("#button-play")[0].childNodes[1].classList.add("desaturate");
+    }
+    else{
+        $("#button-play")[0].childNodes[1].classList.remove("desaturate");
+    }
+    if(disabled[1]){
+        $("#button-sleep")[0].childNodes[1].classList.add("desaturate");
+    }
+    else{
+        $("#button-sleep")[0].childNodes[1].classList.remove("desaturate");
+    }
+    if(disabled[2]){
+        $("#button-off")[0].childNodes[1].classList.add("desaturate");
+    }
+    else{
+        $("#button-off")[0].childNodes[1].classList.remove("desaturate");
+    }
+
+    let active = disabled[0] && disabled[1] && disabled[2];
+
+    $("#button-play").prop("disabled", active);
+    $("#button-play")[0].setAttribute("aria-disabled", active);
+    $("#button-sleep").prop("disabled", active);
+    $("#button-sleep")[0].setAttribute("aria-disabled", active);
+    $("#button-off").prop("disabled", active);
+    $("#button-off")[0].setAttribute("aria-disabled", active);
+    
+
 }
 
 function showGroup(group, list, callbacks, cols) {
@@ -448,6 +486,19 @@ function onVMListClick() {
     showDetails(vm);
     selectImage(vm);
     toggleVMButtons(false);
+    let statusButtons;
+    switch(vm.state){
+        case "on":
+        statusButtons = [false,true,true];
+        break;
+        case "sleep":
+        statusButtons = [true,false,true];
+        break;
+        case "off":
+        statusButtons = [true,true,false];
+        break;
+    }
+    toggleStatusButtons(statusButtons);
 }
 function onGroupListClick() {
     let g = (document).getElementById("grp_" + this.name);
@@ -468,6 +519,7 @@ function onGroupClick() {
     //En caso de que sea "All" hay que desactivar las cosas
     toggleGroupButtons((g.index === 0));
     toggleVMButtons(true);
+    toggleStatusButtons([true,true,true]);
 
     data.selected_vm = null;
     showGroup(g.o, $("#vm-icons"), [nothing, onVMListClick, onGroupListClick], 4);
@@ -710,9 +762,10 @@ $(document).ready(function () {
         let inputHDD = document.getElementById("add-vm-hd").value;
         let inputCPU = document.getElementById("add-vm-cpu").value;
         let inputCores = document.getElementById("add-vm-cores").value;
-        //let inputIP = document.getElementById("add-vm-ip").value;
+        let inputIP = document.getElementById("add-vm-ip").value;
+        let inputISO = document.getElementById("add-vm-iso").value;
 
-        data.vms.push({ name: inputName, state: "off", ram: inputRam, hdd: inputHDD, cpu: inputCPU, cores: inputCores });
+        data.vms.push({ name: inputName, state: "off", ram: inputRam, hdd: inputHDD, cpu: inputCPU, cores: inputCores,ip:inputIP, iso: inputISO });
         data.groups[0].members.push(inputName);
         updateHTMLGroups();
         updateActiveGroup();
@@ -903,6 +956,7 @@ $(document).ready(function () {
             //cambiamos su imagen
             vm.elem.src = './images/selectedGreenVM.png';
         }
+        toggleStatusButtons([false,true,true]);
     });
 
     $("#button-sleep").click(function () {
@@ -916,6 +970,7 @@ $(document).ready(function () {
             //cambiamos su imagen
             vm.elem.src = './images/selectedYellowVM.png';
         }
+        toggleStatusButtons([true,false,true]);
     });
 
     $("#button-off").click(function () {
@@ -928,6 +983,7 @@ $(document).ready(function () {
             //cambiamos su imagen
             vm.elem.src = './images/selectedRedVM.png';
         }
+        toggleStatusButtons([true,true,false]);
     });
 
 });

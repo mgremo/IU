@@ -39,6 +39,15 @@
     background-color: rgba(0, 0, 0, 0.116);
     border: 1px solid black;
 }
+.state-selected{
+    background-color: rgba(0, 0, 0, 0.116);
+}
+img.desaturate{
+    -webkit-filter: grayscale(1);
+	-webkit-filter: grayscale(100%);
+	filter: gray;
+	filter: grayscale(100%);
+}
 
 .button-style {
     padding: 6px 11px;
