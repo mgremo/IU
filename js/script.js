@@ -754,7 +754,7 @@ $(document).ready(function () {
     })
 
     //ADD VM
-    $("#add-vm").click(function () {
+    $("#add-vm").submit(function () {
         console.log('Nueva VM');
 
         let inputName = document.getElementById("add-vm-name").value;

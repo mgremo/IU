@@ -81,63 +81,57 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
+        <form>
         <div class="modal-content">
           <div class="row">
             <!-- GRUPOS -->
             <!-- Columna 1-->
             <div class="col-sm-5">
               <div class="modal-body">
-                <form>
                   <!-- Name-->
                   <div class="form-group">
                     <label for="-name" class="col-form-label">Name:</label>
-                    <input type="text" class="form-control" id="add-vm-name" placeholder="Name...">
+                    <input type="text" class="form-control" id="add-vm-name" required name="title" placeholder="Name...">
                   </div>
                   <!-- RAM-->
                   <div class="form-group">
                     <label for="-ram" class="col-form-label">RAM (MB):</label>
-                    <input type="text" class="form-control" id="add-vm-ram" placeholder="RAM...">
+                    <input type="number" min="1024" max="65536" required number="title" class="form-control" id="add-vm-ram" placeholder="RAM...">
                   </div>
                   <!-- HD SIZE-->
                   <div class="form-group">
                     <label for="-ram" class="col-form-label">HD Size (MB):</label>
-                    <input type="text" class="form-control" id="add-vm-hd" placeholder="HD Size...">
+                    <input type="number" min="1024" max="" required number="title" class="form-control" id="add-vm-hd" placeholder="HD Size...">
                   </div>
-                </form>
               </div>
             </div>
 
             <!-- Columna 2-->
             <div class="col-sm-5">
               <div class="modal-body">
-                <form>
                   <!-- Name-->
                   <div class="form-group">
                     <label for="-name" class="col-form-label">CPU (%):</label>
-                    <input type="text" class="form-control" id="add-vm-cpu" placeholder="CPU...">
+                    <input type="number" min="0" max="100" required number="title" class="form-control" id="add-vm-cpu" placeholder="CPU...">
                   </div>
-                  <!-- RAM-->
+                  <!-- NUM.CORES-->
                   <div class="form-group">
                     <label for="-ram" class="col-form-label">Num. Cores:</label>
-                    <input type="text" class="form-control" id="add-vm-cores" placeholder="Number of cores...">
+                    <input type="number" min="1" max="" required number="title" class="form-control" id="add-vm-cores" placeholder="Number of cores...">
                   </div>
                   <!-- HD SIZE-->
                   <div class="form-group">
                     <label for="-ram" class="col-form-label">IP:</label>
-                    <input type="text" class="form-control" id="add-vm-ip" placeholder="IP...">
+                    <input type="text" class="form-control" id="add-vm-ip" required name="title" placeholder="IP...">
                   </div>
-
-                </form>
               </div>
             </div>
-
           </div>
           <div class="row">
             <!-- ISO-->
             <!-- Route-->
             <div class="col-sm-10">
               <div class="modal-body">
-                <form>
                   <div class="form-group">
                     <label for="-ram" class="col-form-label">ISO (.ova):</label>
                     <div class="input-group mb-3">
@@ -151,16 +145,16 @@
                     </div>
                   </div>
               </div>
-              </form>
             </div>
           </div>
         </div>
         <div class="modal-footer">
           <button type="button"class="btn btn-secondary" href="#" role="button" data-dismiss="modal" data-toggle="modal" data-target="#import">Import</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" id="add-vm" class="btn btn-primary" data-dismiss="modal">Add</button>
+          <button type="submit" id="add-vm" class="btn btn-primary">Add</button>
           <!--hastaaki -->
         </div>
+      </form>
       </div>
     </div>
   </div>
