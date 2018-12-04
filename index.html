@@ -336,7 +336,7 @@
                   <!-- Name-->
                   <div class="form-group">
                     <label for="-name" class="col-form-label">Name:</label>
-                    <input type="text" class="form-control" id="edit-group-name" placeholder="Grupo 1">
+                    <input type="text" class="form-control" id="edit-group-name" placeholder="...">
                   </div>
                 </form>
               </div>
@@ -361,7 +361,7 @@
                   <!-- RemoveItems-->
                   <div class="form-group">
                     <label for="-name" class="col-form-label">Remove Items:</label>
-                    <input type="text" class="form-control" id="delete-group-items" placeholder="...">
+                    <input type="text" readonly class="form-control" id="remove-group-items" placeholder="...">
                   </div>
                   <div class="card">
                     <div id="remove-grp-items"></div>
@@ -590,9 +590,15 @@
             <div class="card">
               <div class="card-header">
                 <h4>VMs</h4>
-                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#add">Add </button>
-                <button type="button" id="remove-vm" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#confirm-remove-vm">Remove</button>
-                <button type="button" id="delete-vm" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#confirm-delete-vm">Delete</button>
+                <button type="button" class="button-style" data-toggle="modal" data-target="#add">
+                  <img src="./images/plusScale.png" alt="Responsive image" id="img">
+                </button>
+                <button type="button" class="button-style" data-toggle="modal" id="remove-vm" data-target="#confirm-remove-vm">
+                  <img src="./images/minusScale.png" alt="Responsive image" id="img">
+                </button>
+                <button type="button" class="button-style" data-toggle="modal" id="delete-vm" data-target="#confirm-delete-vm">
+                  <img src="./images/crossScale.png" alt="Responsive image" id="img">
+                </button>
               </div>
 
               <div id="vm-icons" class="vm-icon">
@@ -606,15 +612,17 @@
               <div class="card-header">
                 <h4>Details</h4>
                 <div class="btn-group btn-group-sm btn-group-toggle" data-toggle="buttons">
-                    <label class="btn btn-secondary active">
-                      <input type="radio" name="options" id="option1" autocomplete="off" checked> On
-                    </label>
-                    <label class="btn btn-secondary">
-                      <input type="radio" name="options" id="option2" autocomplete="off"> Sleep
-                    </label>
-                    <label class="btn btn-secondary">
-                      <input type="radio" name="options" id="option3" autocomplete="off"> Off
-                    </label>
+                  <div class="btn-group btn-group-sm btn-group-toggle" data-toggle="buttons">
+                    <button type="button" class="button-style" id="button-play">
+                      <img src="./images/playScale.png" alt="Responsive image" id="img">
+                    </button>
+                    <button type="button" class="button-style" id="button-sleep">
+                      <img src="./images/pauseScale.png" alt="Responsive image" id="img">
+                    </button>
+                    <button type="button" class="button-style" id="button-off">
+                      <img src="./images/powerScale.png" alt="Responsive image" id="img">
+                    </button>
+                  </div>
                 </div>
               </div>
               <!-- DETALLES PARTE ESCRITA -->

@@ -159,6 +159,10 @@ function getGroupName(list_name) {
     return list_name.slice(4);
 };
 
+function getSelectedVM(){
+    return data.selected_vm; 
+};
+
 function findVmsById(id) {
     for (let i = 0; i < data.vms.length; i++) {
         if (data.vms[i].name === id) return data.vms[i];
@@ -276,6 +280,14 @@ function removeChildVM(grp_data, vm_name) {
 }
 function addChildGroup(grp_data, grp_name) {
     //Lo añadimos a la lista de hijos
+    //Primero vemos que no sea el propio grupo
+    if(grp_name == grp_data.name)
+        return;
+    //Tambien hay que ver que no exista ya dentro del grupo
+    for(var child of grp_data.childGroups){
+        if(child == grp_name)
+            return;
+    }
     grp_data.childGroups.push(grp_name);
     //Pero tambien hay que añadir el padre al hijo
     let child_grp = findGroup(grp_name);
@@ -284,6 +296,11 @@ function addChildGroup(grp_data, grp_name) {
 }
 function addVM(grp_data, vm_name){
     //Primero añadimos a la lista de miembros del grupo
+    //Hay que comprobar que no este ya incluida, en cuyo caso no hacemos nada
+    for(var aux_vm of grp_data.members){
+        if(aux_vm == vm_name)
+        return;
+    }
     grp_data.members.push(vm_name);
 }
 
@@ -303,7 +320,6 @@ function toggleVMButtons(disabled) {
     $("#edit-vm")[0].setAttribute("aria-disabled", disabled);
     $("#remove-vm")[0].setAttribute("aria-disabled", disabled);
 }
-
 
 function showGroup(group, list, callback, cols) {
     //Primero vaciamos la lista anterior
@@ -382,10 +398,12 @@ function showGroup(group, list, callback, cols) {
         let elem = document.createElement("img");
 
         if (vm != undefined) {
+            let aux = getSelectedVM();
             if (vm.state === "on") elem.src = './images/greenVM.png';
             else if (vm.state === "off") elem.src = './images/redVM.png';
             else if (vm.state === "sleep") elem.src = './images/yellowVM.png';
             vm.elem = elem;
+
             var box = document.createElement("input");
             box.value = vm.name;
             box.readOnly = true;
@@ -529,10 +547,36 @@ function onGroupEditAddClick(){
     }
     updateTextFromSelected(group,buffer,"edit-group-items")
 };
-function initBuffer(group,buffer){
-    buffer = [];
+function onGroupEditRemoveClick(){
+    let index = 0;
+    let g = getActiveGroup();
+    let grp_name = getGroupName(g.object.id);
+    let group = findGroup(grp_name).o; //Grupo en data
+    let nGroups = group.childGroups.length;
+    let buffer = data.edit_buffer[1];
+
+    //Hay que ver si es grupo o vm para hallar su index
+    if(findChildGroup(this.name,group)){
+        index = findChildGroup(this.name,group).index;
+    }
+    else if(findChildVM(this.name,group)){
+        index = nGroups + findChildVM(this.name,group).index;
+    }
+
+    //Una vez hallado, simplemente cmabiamos su buffer
+    buffer[index] = !buffer[index];
+    if(buffer[index]){
+        this.classList.add("edit-selected");
+    }
+    else{
+        this.classList.remove("edit-selected");
+    }
+    updateTextFromSelected(group,buffer,"remove-group-items")
+};
+function initBuffer(group,buffer_index){
+    data.edit_buffer[buffer_index] = [];
     for(let i = 0; i < group.childGroups.length + group.members.length;i++){
-        buffer.push(false);
+        data.edit_buffer[buffer_index].push(false);
     }
 };
 
@@ -604,12 +648,15 @@ $(document).ready(function () {
         let grp_data = findGroup(grp_name).o; //Grupo en data
         let all = data.groups[0];
         console.log("Editar grupo");
+        document.getElementById("edit-group-name").placeholder = grp_data.name;
+        document.getElementById("edit-group-items").placeholder = "";
+        document.getElementById("remove-group-items").placeholder = "";
         //Inicializamos los buffers del los elementos a borrar
-        initBuffer(all,data.edit_buffer[0]);
-        initBuffer(grp_data,data.edit_buffer[1]);
+        initBuffer(all,0);
+        initBuffer(grp_data,1);
         //Tambien inicializamos las funciones callbacks
         showGroup(all,$("#add-grp-items"),onGroupEditAddClick,3);
-        //showGroup(grp_data,$("#remove-grp-items"),onGroupEditItemClick.bind(null,grp_data,data.edit_buffer[1]),3);
+        showGroup(grp_data,$("#remove-grp-items"),onGroupEditRemoveClick,3);
 
     })
 
@@ -632,8 +679,8 @@ $(document).ready(function () {
         }
 
         //Despues borramos los elementos
-        let remove_grps = document.getElementById("delete-group-items").value;
-        remove_grps = remove_grps.split(",");
+        let remove_grps = getChecked(grp_data.o,data.edit_buffer[1]);
+        //remove_grps = remove_grps.split(",");
         //Para cada grupo, hay que borrarlo de la lista de hijos de este grupo
         for (var remove_item of remove_grps) {
             if(findGroup(remove_item))
@@ -643,8 +690,8 @@ $(document).ready(function () {
         }
 
         //Despues añadimos los grupos
-        let add_grps = document.getElementById("edit-group-items").value;
-        add_grps = add_grps.split(",");
+        let add_grps = getChecked(data.groups[0],data.edit_buffer[0]);
+        //add_grps = add_grps.split(data",");
         for (var add_item of add_grps) {
             if(findGroup(add_item))
                 addChildGroup(grp_data.o, add_item);
@@ -656,6 +703,39 @@ $(document).ready(function () {
         //Finalmente actualizamos el html
         updateHTMLGroup($(g.object)[0], grp_data.o);
         updateActiveGroup();
+    });
+
+    $("#button-play").click(function () {
+        //accedemos a la VM seleccionada
+        let vm = getSelectedVM();
+
+        //cambiamos su state
+        vm.state = "on";
+
+        //cambiamos su imagen
+        vm.elem.src = './images/selectedGreenVM.png';
+    });
+
+    $("#button-sleep").click(function () {
+        //accedemos a la VM seleccionada
+        let vm = getSelectedVM();
+
+        //cambiamos su state
+        vm.state = "sleep";
+
+        //cambiamos su imagen
+        vm.elem.src = './images/selectedYellowVM.png';
+    });
+
+    $("#button-off").click(function () {
+        //accedemos a la VM seleccionada
+        let vm = getSelectedVM();
+
+        //cambiamos su state
+        vm.state = "off";
+
+        //cambiamos su imagen
+        vm.elem.src = './images/selectedRedVM.png';
     });
 
 });
