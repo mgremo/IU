@@ -187,6 +187,7 @@ function getActiveGroup() {
 };
 
 function showDetails(vm) {
+    if(vm){
     let ram = document.getElementById("details-vm-ram");
     ram.placeholder = vm.ram;
     let cpu = document.getElementById("details-vm-cpu");
@@ -199,6 +200,21 @@ function showDetails(vm) {
     iso.placeholder = vm.iso;
     let hdSize = document.getElementById("details-vm-hd");
     hdSize.placeholder = vm.hdd;
+    }
+    else{
+        let ram = document.getElementById("details-vm-ram");
+        ram.placeholder = "";
+        let cpu = document.getElementById("details-vm-cpu");
+        cpu.placeholder = "";
+        let ip = document.getElementById("details-vm-ip");
+        ip.placeholder = "";
+        let cores = document.getElementById("details-vm-cores");
+        cores.placeholder = "";
+        let iso = document.getElementById("details-vm-iso");
+        iso.placeholder = "";
+        let hdSize = document.getElementById("details-vm-hd");
+        hdSize.placeholder = "";
+    }
 };
 
 function selectImage(vm) {
@@ -227,7 +243,7 @@ function selectImage(vm) {
     }
 };
 
-function changeGroupName(grp_name, grp_data) {
+function changeActiveGroupName(grp_name, grp_data) {
     //Hay que cambiar el nombre del registro de los padres
     let old_name = grp_data.name;
     for (let parent_name of grp_data.parents) {
@@ -500,10 +516,13 @@ function onVMListClick() {
     }
     toggleStatusButtons(statusButtons);
 }
-function onGroupListClick() {
-    let g = (document).getElementById("grp_" + this.name);
+function changeActiveGroup(group_name){
+    let g = (document).getElementById("grp_" + group_name);
     g.click();
     g.onclick();
+}
+function onGroupListClick() {
+    changeActiveGroup(this.name);
 }
 
 function nothing() {
@@ -520,6 +539,7 @@ function onGroupClick() {
     toggleGroupButtons((g.index === 0));
     toggleVMButtons(true);
     toggleStatusButtons([true,true,true]);
+    showDetails(undefined);
 
     data.selected_vm = null;
     showGroup(g.o, $("#vm-icons"), [nothing, onVMListClick, onGroupListClick], 4);
@@ -726,6 +746,8 @@ $(document).ready(function () {
         let o = (document).getElementById(g[0].id);
         o.onclick = onGroupClick;
 
+        changeActiveGroup(inputName);
+
         getActiveGroup();
         updateHTMLGroups();
         updateActiveGroup();
@@ -915,7 +937,7 @@ $(document).ready(function () {
         let inputName = document.getElementById("edit-group-name").value;
 
         if (inputName !== "" && inputName !== grp_data.o.name) {
-            changeGroupName(inputName, grp_data.o);
+            changeActiveGroupName(inputName, grp_data.o);
         }
 
         //Despues borramos los elementos
