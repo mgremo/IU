@@ -3,6 +3,7 @@
 const EDIT_ADD_ITEMS = 0;
 const EDIT_RMV_ITEMS = 1;
 const ADD_GROUP_ITEMS = 2;
+const EXPORT_ITEMS = 2;
 
 let data = {
     vms: [
@@ -348,6 +349,7 @@ function toggleVMButtons(disabled) {
     $("#remove-vm")[0].setAttribute("aria-disabled", disabled);
 }
 function toggleStatusButtons(disabled){
+    let active = disabled[0] && disabled[1] && disabled[2];
     if(disabled[0]){
         $("#button-play")[0].childNodes[1].classList.add("desaturate");
     }
@@ -367,7 +369,6 @@ function toggleStatusButtons(disabled){
         $("#button-off")[0].childNodes[1].classList.remove("desaturate");
     }
 
-    let active = disabled[0] && disabled[1] && disabled[2];
 
     $("#button-play").prop("disabled", active);
     $("#button-play")[0].setAttribute("aria-disabled", active);
@@ -379,7 +380,7 @@ function toggleStatusButtons(disabled){
 
 }
 
-function showGroup(group, list, callbacks, cols) {
+function showGroup(group, list, callbacks, cols,show_mode) {
     //Primero vaciamos la lista anterior
     list.empty();
     let callback;
@@ -399,7 +400,6 @@ function showGroup(group, list, callbacks, cols) {
     row.setAttribute("class", "row");
     row.setAttribute("id", list[0].id + "row-images" + act_row);
     container.appendChild(row);
-
 
     group.childGroups.forEach(function (element) {
         //Si no caben mas elementos en la columna actual, creamos otra fila
@@ -616,6 +616,31 @@ function updateTextFromSelected(grp, buffer, text_id) {
     text.placeholder = str;
 }
 
+//Callback cuando se pulsa un item al exportar
+function onExportItemClick() {
+    let index = 0;
+    let group = data.groups[0];
+    let nGroups = group.childGroups.length;
+    let buffer = data.buffers[ADD_GROUP_ITEMS];
+
+    //Hay que ver si es grupo o vm para hallar su index
+    if (findChildGroup(this.name, group)) {
+        index = findChildGroup(this.name, group).index;
+    }
+    else if (findChildVM(this.name, group)) {
+        index = nGroups + findChildVM(this.name, group).index;
+    }
+
+    //Una vez hallado, simplemente cmabiamos su buffer
+    buffer[index] = !buffer[index];
+    if (buffer[index]) {
+        this.classList.add("edit-selected");
+    }
+    else {
+        this.classList.remove("edit-selected");
+    }
+    updateTextFromSelected(group, buffer, "export-vm-items")
+};
 
 //Callback cuando se pulsa un item a añadir a un grupo
 function onGroupAddClick() {
@@ -966,6 +991,20 @@ $(document).ready(function () {
         updateHTMLGroup($(g.object)[0], grp_data.o);
         updateActiveGroup();
     });
+
+    $("#export-vm").click(function () {
+        console.log("Exportar VMs");
+        let all = data.groups[0];
+        document.getElementById("export-vm-file").value = "";
+        document.getElementById("export-vm-items").placeholder = "";
+        //Inicializamos los buffers del los elementos a borrar
+        initBuffer(all, EXPORT_ITEMS);
+        //Tambien inicializamos las funciones callbacks
+        showGroup(all, $("#export-vm-list"),onExportItemClick, 3);
+
+    });
+
+
 
     $("#button-play").click(function () {
         //accedemos a la VM seleccionada

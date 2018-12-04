@@ -60,7 +60,7 @@
           </div>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#" role="button" data-toggle="modal" data-target="#export">Export</a>
+          <a class="nav-link" id="export-vm"  href="#" role="button" data-toggle="modal" data-target="#export">Export</a>
         </li>
 
       </ul>
@@ -452,10 +452,10 @@
 
                     <div class="input-group mb-3">
                       <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroupFileAddon01">Route:</span>
+                        <span class="input-group-text" id="export-vm-file">Route:</span>
                       </div>
                       <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                        <input type="file" class="custom-file-input" id="export-iso" aria-describedby="inputGroupFileAddon01">
                         <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
                       </div>
                     </div>
@@ -467,7 +467,7 @@
                 <form>
                   <div class="form-group">
                     <label for="-name" class="col-form-label">Choose VM:</label>
-                    <input type="text" class="form-control" id="export-iso" placeholder="Name...">
+                    <input type="text" class="form-control" id="export-vm-items" placeholder="Name...">
                   </div>
 
                 </form>
@@ -477,19 +477,14 @@
           </div>
         </div>
         <div class="card">
-          <div class="vm-export">
-            <img src="./images/back.png" class="vm-icon" alt="Responsive image" id="img">
-            <img src="./images/blackVM.png" class="vm-icon" alt="Responsive image">
-            <img src="./images/blackVM.png" class="vm-icon" alt="Responsive image">
-            <img src="./images/blackVM.png" class="vm-icon" alt="Responsive image">
-            <img src="./images/folder.png" class="vm-icon" alt="Responsive image">
+          <div id="export-vm-list">
           </div>
         </div>
 
 
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Export</button>
+          <button type="button" id="confirm-export-vm" class="btn btn-primary" data-dismiss="modal">Export</button>
 
           <!--hastaaki -->
         </div>

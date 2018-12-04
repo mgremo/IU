@@ -48,6 +48,12 @@ img.desaturate{
 	filter: gray;
 	filter: grayscale(100%);
 }
+img.half-desaturate{
+    -webkit-filter: grayscale(1);
+	-webkit-filter: grayscale(50%);
+	filter: gray;
+	filter: grayscale(50%);
+}
 
 .button-style {
     padding: 6px 11px;
