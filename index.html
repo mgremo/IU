@@ -9,7 +9,7 @@
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/extras.css">
-  
+
   <!-- Scripts js-->
   <script src="js/jquery-3.3.1.slim.min.js"></script>
   <script src="js/script.js"></script>
@@ -40,7 +40,7 @@
             Add
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#" role="button" id="adds" data-toggle="modal" data-target="#add">
+            <a class="dropdown-item adds" href="#" role="button" data-toggle="modal" data-target="#add">
               Virtual Machine
             </a>
             <a class="dropdown-item add-group" href="#" role="button" data-toggle="modal" data-target="#addGroups">
@@ -60,7 +60,7 @@
           </div>
         </li>
         <li class="nav-item">
-          <a class="nav-link" id="export-vm"  href="#" role="button" data-toggle="modal" data-target="#export">Export</a>
+          <a class="nav-link" id="export-vm" href="#" role="button" data-toggle="modal" data-target="#export">Export</a>
         </li>
 
       </ul>
@@ -81,63 +81,57 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-content">
-          <div class="row">
-            <!-- GRUPOS -->
-            <!-- Columna 1-->
-            <div class="col-sm-5">
-              <div class="modal-body">
-                <form>
+        <form id="add-vm" onsubmit="return false">
+          <div class="modal-content">
+            <div class="row">
+              <!-- GRUPOS -->
+              <!-- Columna 1-->
+              <div class="col-sm-5">
+                <div class="modal-body">
                   <!-- Name-->
                   <div class="form-group">
                     <label for="-name" class="col-form-label">Name:</label>
-                    <input type="text" class="form-control" id="add-vm-name" placeholder="Name...">
+                    <input type="text" class="form-control" id="add-vm-name" required name="title" placeholder="Name...">
                   </div>
                   <!-- RAM-->
                   <div class="form-group">
                     <label for="-ram" class="col-form-label">RAM (MB):</label>
-                    <input type="text" class="form-control" id="add-vm-ram" placeholder="RAM...">
+                    <input type="number" min="1024" max="65536" required number="title" class="form-control" id="add-vm-ram" placeholder="RAM...">
                   </div>
                   <!-- HD SIZE-->
                   <div class="form-group">
                     <label for="-ram" class="col-form-label">HD Size (MB):</label>
-                    <input type="text" class="form-control" id="add-vm-hd" placeholder="HD Size...">
+                    <input type="number" min="1024" max="" required number="title" class="form-control" id="add-vm-hd" placeholder="HD Size...">
                   </div>
-                </form>
+                </div>
               </div>
-            </div>
 
-            <!-- Columna 2-->
-            <div class="col-sm-5">
-              <div class="modal-body">
-                <form>
+              <!-- Columna 2-->
+              <div class="col-sm-5">
+                <div class="modal-body">
                   <!-- Name-->
                   <div class="form-group">
                     <label for="-name" class="col-form-label">CPU (%):</label>
-                    <input type="text" class="form-control" id="add-vm-cpu" placeholder="CPU...">
+                    <input type="number" min="0" max="100" required number="title" class="form-control" id="add-vm-cpu" placeholder="CPU...">
                   </div>
-                  <!-- RAM-->
+                  <!-- NUM.CORES-->
                   <div class="form-group">
                     <label for="-ram" class="col-form-label">Num. Cores:</label>
-                    <input type="text" class="form-control" id="add-vm-cores" placeholder="Number of cores...">
+                    <input type="number" min="1" max="" required number="title" class="form-control" id="add-vm-cores" placeholder="Number of cores...">
                   </div>
                   <!-- HD SIZE-->
                   <div class="form-group">
                     <label for="-ram" class="col-form-label">IP:</label>
-                    <input type="text" class="form-control" id="add-vm-ip" placeholder="IP...">
+                    <input type="text" class="form-control" id="add-vm-ip" required name="title" placeholder="IP...">
                   </div>
-
-                </form>
+                </div>
               </div>
             </div>
-
-          </div>
-          <div class="row">
-            <!-- ISO-->
-            <!-- Route-->
-            <div class="col-sm-10">
-              <div class="modal-body">
-                <form>
+            <div class="row">
+              <!-- ISO-->
+              <!-- Route-->
+              <div class="col-sm-10">
+                <div class="modal-body">
                   <div class="form-group">
                     <label for="-ram" class="col-form-label">ISO (.ova):</label>
                     <div class="input-group mb-3">
@@ -150,17 +144,17 @@
                       </div>
                     </div>
                   </div>
+                </div>
               </div>
-              </form>
             </div>
           </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button"class="btn btn-secondary" href="#" role="button" data-dismiss="modal" data-toggle="modal" data-target="#import">Import</button>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" id="add-vm" class="btn btn-primary" data-dismiss="modal">Add</button>
-          <!--hastaaki -->
-        </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" href="#" role="button" data-dismiss="modal" data-toggle="modal" data-target="#import">Import</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Add</button>
+            <!--hastaaki -->
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -176,17 +170,18 @@
           </button>
         </div>
         <!-- Mio -->
-        <div class="modal-content">
-          <div class="row">
-            <!-- GRUPOS -->
-            <!-- Columna 1-->
-            <div class="col-sm-12">
-              <div class="modal-body">
-                <form>
+        <form id="confirm-add-group">
+          <div class="modal-content">
+            <div class="row">
+              <!-- GRUPOS -->
+              <!-- Columna 1-->
+              <div class="col-sm-12">
+                <div class="modal-body">
+
                   <!-- Name-->
                   <div class="form-group">
                     <label for="-name" class="col-form-label">Name:</label>
-                    <input type="text" id="new-group-name" class="form-control" id="add-group-name" placeholder="Name...">
+                    <input type="text" id="new-group-name" class="form-control" id="add-group-name" required name="title" placeholder="Name...">
                   </div>
                   <!-- Add VMs-->
                   <div class="form-group">
@@ -194,19 +189,20 @@
                     <input type="text" id="new-group-items" class="form-control" id="add-groups-vm" placeholder="VMs...">
                   </div>
 
-                </form>
-                <div class="card">
-                  <div id="add-group-items" ></div>
+
+                  <div class="card">
+                    <div id="add-group-items"></div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button"  class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" id="confirm-add-group" class="btn btn-primary" data-dismiss="modal">Add</button>
-          <!--hastaaki -->
-        </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" >Add</button>
+            <!--hastaaki -->
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -222,13 +218,14 @@
           </button>
         </div>
         <!-- Mio -->
+        <form id="edit-vms">
         <div class="modal-content">
           <div class="row">
             <!-- GRUPOS -->
             <!-- Columna 1-->
             <div class="col-sm-5">
               <div class="modal-body">
-                <form>
+                
                   <!-- Name-->
                   <div class="form-group">
                     <label for="-name" class="col-form-label">Name:</label>
@@ -237,75 +234,70 @@
                   <!-- RAM-->
                   <div class="form-group">
                     <label for="-ram" class="col-form-label">RAM (MB):</label>
-                    <input type="text" class="form-control" id="edit-vm-ram" placeholder="512 MB">
+                    <input type="number" min="1024" max="65536" required number="title" class="form-control" id="edit-vm-ram" placeholder="512 MB">
                   </div>
                   <!-- HD SIZE-->
                   <div class="form-group">
                     <label for="-ram" class="col-form-label">HD Size (MB):</label>
-                    <input type="text" class="form-control" id="edit-vm-hd" placeholder="512 MB">
+                    <input type="number" min="1024" max="" required number="title" class="form-control" id="edit-vm-hd" placeholder="512 MB">
                   </div>
-                </form>
               </div>
             </div>
 
             <!-- Columna 2-->
             <div class="col-sm-5">
               <div class="modal-body">
-                <form>
                   <!-- CPU-->
                   <div class="form-group">
                     <label for="-name" class="col-form-label">CPU (%):</label>
-                    <input type="text" class="form-control" id="edit-vm-cpu" placeholder="30%">
+                    <input type="number" min="0" max="100" required class="form-control" id="edit-vm-cpu" placeholder="30%">
                   </div>
                   <!-- NumCores-->
                   <div class="form-group">
                     <label for="-ram" class="col-form-label">Num. Cores:</label>
-                    <input type="text" class="form-control" id="edit-vm-cores" placeholder="4">
+                    <input type="number" min="0" max="" required class="form-control" id="edit-vm-cores" placeholder="4">
                   </div>
                   <!-- IP-->
                   <div class="form-group">
                     <label for="-ram" class="col-form-label">IP:</label>
-                    <input type="text" class="form-control" id="edit-vm-ip" placeholder="216.3.128.12">
+                    <input type="number" class="form-control" id="edit-vm-ip" placeholder="216.3.128.12">
                   </div>
-
-                </form>
               </div>
             </div>
           </div>
-       
 
-        <div class="row">
-          <!-- ISO-->
-          <!-- Route-->
-          <div class="col-sm-10">
-            <div class="modal-body">
-              <form>
-                <div class="form-group">
-                  <label for="-ram" class="col-form-label">ISO (.ova):</label>
-                  <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text" id="inputGroupFileAddon01">Route:</span>
-                    </div>
-                    <div class="custom-file">
-                      <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-                      <label class="custom-file-label" id="edit-vm-iso" for="inputGroupFile01">Choose Iso...</label>
+
+          <div class="row">
+            <!-- ISO-->
+            <!-- Route-->
+            <div class="col-sm-10">
+              <div class="modal-body">
+                  <div class="form-group">
+                    <label for="-ram" class="col-form-label">ISO (.ova):</label>
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroupFileAddon01">Route:</span>
+                      </div>
+                      <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                        <label class="custom-file-label" id="edit-vm-iso" for="inputGroupFile01">Choose Iso...</label>
+                      </div>
                     </div>
                   </div>
-                </div>
+              </div>
             </div>
-            </form>
           </div>
         </div>
-      </div>
-        
+
 
 
 
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" id="close-edit" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" id="edit-vms" data-dismiss="modal">Edit</button>
+          <button type="submit" class="btn btn-primary" >Edit</button>
           <!--hastaaki -->
         </div>
+        </form>
       </div>
     </div>
   </div>
@@ -313,45 +305,44 @@
   <!-- Modal EDIT Groups -->
   <div class="modal fade" id="editGroups" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
+  
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalCenterTitle">Edit Groups</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <!-- Mio -->
-        <div class="modal-content">
-          <div class="modal-body">
-            <div class="row">
-              <div class="col-sm-6">
-                <!-- GRUPOS -->
-                <form>
+        <form id="confirm-edit-group">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalCenterTitle">Edit Groups</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <!-- Mio -->
+  
+          <div class="modal-content">
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-sm-6">
+                  <!-- GRUPOS -->
+  
                   <!-- Name-->
                   <div class="form-group">
                     <label for="-name" class="col-form-label">Name:</label>
-                    <input type="text" class="form-control" id="edit-group-name" placeholder="...">
+                    <input type="text" required name="title" class="form-control" id="edit-group-name" placeholder="...">
                   </div>
-                </form>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-6">
-                <!-- Add Items-->
-                <div class="form-group">
-                  <label for="-ram" class="col-form-label">Add Items:</label>
-                  <input type="text" readonly class="form-control" id="edit-group-items" placeholder="...">
                 </div>
-                <form>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <!-- Add Items-->
+                  <div class="form-group">
+                    <label for="-ram" class="col-form-label">Add Items:</label>
+                    <input type="text" readonly class="form-control" id="edit-group-items" placeholder="...">
+                  </div>
                   <div class="card">
                     <div id="add-grp-items"></div>
                   </div>
-                </form>
-              </div>
-
-              <!-- Columna 2-->
-              <div class="col-sm-6">
-                <form>
+                </div>
+  
+                <!-- Columna 2-->
+                <div class="col-sm-6">
                   <!-- RemoveItems-->
                   <div class="form-group">
                     <label for="-name" class="col-form-label">Remove Items:</label>
@@ -360,16 +351,16 @@
                   <div class="card">
                     <div id="remove-grp-items"></div>
                   </div>
-                </form>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" id="confirm-edit-group" class="btn btn-primary" data-dismiss="modal">Edit</button>
-          <!--hastaaki -->
-        </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Edit</button>
+            <!--hastaaki -->
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -390,37 +381,37 @@
         <div class="modal-content">
           <div class="row">
             <div class="col">
-            <!-- GRUPOS -->
-            <!-- Columna 1-->
-            <div class="modal-body">
-              <form>
-                <!-- Name-->
-                <div class="form-group">
-                  <label for="-name" class="col-form-label">Name:</label>
-                  <input type="text" class="form-control" id="import-iso" placeholder="Name...">
-                </div>
-                <!-- Route-->
-                <div class="form-group">
+              <!-- GRUPOS -->
+              <!-- Columna 1-->
+              <div class="modal-body">
+                <form>
+                  <!-- Name-->
+                  <div class="form-group">
+                    <label for="-name" class="col-form-label">Name:</label>
+                    <input type="text" class="form-control" id="import-iso" placeholder="Name...">
+                  </div>
+                  <!-- Route-->
+                  <div class="form-group">
 
-                  <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text" id="inputGroupFileAddon01">Route:</span>
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroupFileAddon01">Route:</span>
+                      </div>
+                      <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                      </div>
                     </div>
-                    <div class="custom-file">
-                      <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-                      <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-                    </div>
+
                   </div>
 
-                </div>
-
-              </form>
+                </form>
+              </div>
             </div>
-          </div>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal" data-toggle="modal" id="adds" data-target="#add">Back</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" data-toggle="modal" data-target="#add">Back</button>
           <button type="button" class="btn btn-primary" data-dismiss="modal">Import</button>
 
           <!--hastaaki -->
@@ -575,7 +566,7 @@
                 Group 1
                 <span class="badge badge-primary badge-pill">5</span>
               </a>
-              <a class="list-group-item list-group-item-action"data-toggle="list" href="#" role="tab" aria-controls="">
+              <a class="list-group-item list-group-item-action" data-toggle="list" href="#" role="tab" aria-controls="">
                 Group 2
                 <span class="badge badge-primary badge-pill">3</span>
               </a>
@@ -599,7 +590,7 @@
             <div class="card">
               <div class="card-header">
                 <h4>VMs</h4>
-                <button type="button" class="btn btn-success btn-sm" id="adds" data-toggle="modal" data-target="#add">
+                <button type="button" class="btn btn-success btn-sm adds" data-toggle="modal" data-target="#add">
                   Add
                   <!--<img src="./images/plusScale.png" alt="Responsive image" id="img">-->
                 </button>

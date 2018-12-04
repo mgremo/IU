@@ -10,8 +10,8 @@ let data = {
         {
             name: "Linux1",
             state: "off",
-            ram: 20,
-            hdd: 204,
+            ram: 2000,
+            hdd: 2040,
             cpu: 98,
             cores: 2,
             ip: "216.3.126.12",
@@ -738,13 +738,16 @@ $(document).ready(function () {
         showGroup(all, $("#add-group-items"), onGroupAddClick, 3);
     })
 
-    $("#confirm-add-group").click(function () {
+    $("#confirm-add-group").submit(function () {
         console.log("Añadir grupo");
 
         let inputName = document.getElementById("new-group-name").value;
-        if (inputName == "" || findGroup(inputName))
-            return;
 
+        if(findVmsById(inputName) ||findGroup(inputName)){
+            alert("That name already exists");
+            $("#addGroups").modal('hide'); //or  $('#IDModal').modal('hide');
+            return false;
+        }
         let c_groups = [];
         let vms = [];
         //Tenemos que separar entre vms y items
@@ -776,10 +779,13 @@ $(document).ready(function () {
         getActiveGroup();
         updateHTMLGroups();
         updateActiveGroup();
+
+        $("#addGroups").modal('hide'); //or  $('#IDModal').modal('hide');
+        return false;
     });
 
     // PANTALLA DE ADICION DE UNA VM
-    $("#adds").click(function () {
+    $(".adds").click(function () {
         let name = document.getElementById("add-vm-name");
         name.value = null;
         name.placeholder = "Name...";
@@ -800,23 +806,32 @@ $(document).ready(function () {
         ip.placeholder = "IP...";
     })
 
-    //ADD VM
-    $("#add-vm").click(function () {
-        console.log('Nueva VM');
+   //ADD VM
+   $("#add-vm").submit(function () {  
+    console.log('Nueva VM');
 
-        let inputName = document.getElementById("add-vm-name").value;
-        let inputRam = document.getElementById("add-vm-ram").value;
-        let inputHDD = document.getElementById("add-vm-hd").value;
-        let inputCPU = document.getElementById("add-vm-cpu").value;
-        let inputCores = document.getElementById("add-vm-cores").value;
-        let inputIP = document.getElementById("add-vm-ip").value;
-        let inputISO = document.getElementById("add-vm-iso").value;
+    let inputName = document.getElementById("add-vm-name").value;
+    let inputRam = document.getElementById("add-vm-ram").value;
+    let inputHDD = document.getElementById("add-vm-hd").value;
+    let inputCPU = document.getElementById("add-vm-cpu").value;
+    let inputCores = document.getElementById("add-vm-cores").value;
+    let inputIP = document.getElementById("add-vm-ip").value;
+    let inputISO = document.getElementById("add-vm-iso").value;
 
-        data.vms.push({ name: inputName, state: "off", ram: inputRam, hdd: inputHDD, cpu: inputCPU, cores: inputCores,ip:inputIP, iso: inputISO });
-        data.groups[0].members.push(inputName);
-        updateHTMLGroups();
-        updateActiveGroup();
-    });
+    if(findVmsById(inputName) ||findGroup(inputName)){
+        alert("That name already exists");
+        $("#add").modal('hide'); //or  $('#IDModal').modal('hide');
+        return false;
+    }
+
+    data.vms.push({ name: inputName, state: "off", ram: inputRam, hdd: inputHDD, cpu: inputCPU, cores: inputCores,ip:inputIP, iso: inputISO });
+    data.groups[0].members.push(inputName);
+    updateHTMLGroups();
+    updateActiveGroup();
+
+    $("#add").modal('hide'); //or  $('#IDModal').modal('hide');
+    return false;
+});
 
 
     //BORRAR GRUPO
@@ -876,25 +891,25 @@ $(document).ready(function () {
         let vm = getSelectedVM();
         if (vm != undefined) {
             let name = document.getElementById("edit-vm-name");
-            name.value = null;
+            name.value = vm.name;
             name.placeholder = vm.name;
             let ram = document.getElementById("edit-vm-ram");
-            ram.value = null;
+            ram.value = vm.ram;
             ram.placeholder = vm.ram;
             let hdd = document.getElementById("edit-vm-hd");
-            hdd.value = null;
+            hdd.value = vm.hdd;
             hdd.placeholder = vm.hdd;
             let cpu = document.getElementById("edit-vm-cpu");
-            cpu.value = null;
+            cpu.value = vm.cpu;
             cpu.placeholder = vm.cpu;
             let cores = document.getElementById("edit-vm-cores");
-            cores.value = null;
+            cores.value = vm.cores;
             cores.placeholder = vm.cores;
             let ip = document.getElementById("edit-vm-ip");
-            ip.value = null;
+            ip.value = vm.ip;
             ip.placeholder = vm.ip;
             let iso = document.getElementById("edit-vm-iso");
-            iso.value = null;
+            iso.value = vm.iso;
             iso.value = vm.iso;
             console.log(name.placeholder);
         }
@@ -936,6 +951,7 @@ $(document).ready(function () {
         let all = data.groups[0];
         console.log("Editar grupo");
         document.getElementById("edit-group-name").placeholder = grp_data.name;
+        document.getElementById("edit-group-name").value = grp_data.name;
         document.getElementById("edit-group-items").placeholder = "";
         document.getElementById("remove-group-items").placeholder = "";
         //Inicializamos los buffers del los elementos a borrar
@@ -947,7 +963,7 @@ $(document).ready(function () {
 
     })
 
-    $("#confirm-edit-group").click(function () {
+    $("#confirm-edit-group").submit(function () {
         console.log("Editar Grupos");
         //Primero obtenemos el grupo que esta activo y guardamos sus datos
         //(Tanto los del DOM como los de data)
@@ -960,6 +976,12 @@ $(document).ready(function () {
 
         //Primero se cambia el nombre
         let inputName = document.getElementById("edit-group-name").value;
+
+        if(findVmsById(inputName) || (inputName != grp_data.o.name && findGroup(inputName))){
+            alert("That name already exists");
+            $("#editGroups").modal('hide'); //or  $('#IDModal').modal('hide');
+            return false;
+        }
 
         if (inputName !== "" && inputName !== grp_data.o.name) {
             changeActiveGroupName(inputName, grp_data.o);
@@ -990,6 +1012,8 @@ $(document).ready(function () {
         //Finalmente actualizamos el html
         updateHTMLGroup($(g.object)[0], grp_data.o);
         updateActiveGroup();
+        $("#editGroups").modal('hide'); //or  $('#IDModal').modal('hide');
+        return false;
     });
 
     $("#export-vm").click(function () {
