@@ -329,8 +329,8 @@ function showGroup(group, list, callbacks, cols) {
     //Primero vaciamos la lista anterior
     list.empty();
     let callback;
-    if(callbacks[0] === undefined)
-    callback = callbacks;
+    if (callbacks[0] === undefined)
+        callback = callbacks;
     //Creamos las imagenes de fondo
     let container = (document).getElementById(list[0].id + "container-images");
     let act_row = 0;
@@ -371,7 +371,7 @@ function showGroup(group, list, callbacks, cols) {
         box.setAttribute("class", "img-with-text");
 
         elem.onclick = callback;
-        if(callbacks[2] != undefined)
+        if (callbacks[2] != undefined)
             elem.ondblclick = callbacks[2];
 
         elem.setAttribute("name", element);
@@ -386,7 +386,7 @@ function showGroup(group, list, callbacks, cols) {
 
     });
 
-    if(callbacks[1] == undefined)
+    if (callbacks[1] == undefined)
         callback = callbacks;
     else
         callback = callbacks[1];
@@ -455,7 +455,7 @@ function onGroupListClick() {
     g.onclick();
 }
 
-function nothing(){
+function nothing() {
     console.log("Nothing!");
 }
 
@@ -470,7 +470,7 @@ function onGroupClick() {
     toggleVMButtons(true);
 
     data.selected_vm = null;
-    showGroup(g.o, $("#vm-icons"), [nothing,onVMListClick,onGroupListClick], 4);
+    showGroup(g.o, $("#vm-icons"), [nothing, onVMListClick, onGroupListClick], 4);
 
 }
 
@@ -628,8 +628,6 @@ function initBuffer(group, buffer_index) {
     }
 };
 
-
-
 $(document).ready(function () {
     //ADD GRUPO
     $(".add-group").click(function () {
@@ -681,6 +679,28 @@ $(document).ready(function () {
         updateActiveGroup();
     });
 
+    // PANTALLA DE ADICION DE UNA VM
+    $("#adds").click(function () {
+        let name = document.getElementById("add-vm-name");
+        name.value = null;
+        name.placeholder = "Name...";
+        let ram = document.getElementById("add-vm-ram");
+        ram.value = null;
+        ram.placeholder = "RAM...";
+        let hdd = document.getElementById("add-vm-hd");
+        hdd.value = null;
+        hdd.placeholder = "HD Size..";
+        let cpu = document.getElementById("add-vm-cpu");
+        cpu.value = null;
+        cpu.placeholder = "CPU...";
+        let cores = document.getElementById("add-vm-cores");
+        cores.value = null;
+        cores.placeholder = "Number of cores...";
+        let ip = document.getElementById("add-vm-ip");
+        ip.value = null;
+        ip.placeholder = "IP...";
+    })
+
     //ADD VM
     $("#add-vm").click(function () {
         console.log('Nueva VM');
@@ -700,7 +720,7 @@ $(document).ready(function () {
 
 
     //BORRAR GRUPO
-    $("#confirm-delete-group").click(function () {
+    $("#confirm-delete-groups").click(function () {
         //Primero obtenemos el grupo que esta activo y guardamos sus datos
         //(Tanto los del DOM como los de data)
         let g = getActiveGroup(); //Grupo en el DOM
@@ -723,6 +743,91 @@ $(document).ready(function () {
         updateHTMLGroups();
         updateActiveGroup();
     });
+
+    // BORRAR VM
+    $("#confirm-delete-vms").click(function () {
+        let vm = getSelectedVM();
+
+        for (let i = 0; i < data.groups.length; i++) {
+            let j = 0;
+            while (j < data.groups[i].members.length && data.groups[i].members[j] != vm.name) j++;
+            if (j < data.groups[i].members.length) data.groups[i].members.splice(j, 1);
+        }
+
+        updateActiveGroup();
+    })
+
+    // ELIMINAR UNA VM DE UN GRUPO
+    $("#confirm-remove-vms").click(function () {
+        let vm = getSelectedVM();
+        let g = getActiveGroup(); //Grupo en el DOM
+        let grp_name = getGroupName(g.object.id);
+        let grp_data = findGroup(grp_name); //Grupo en data
+
+        let i = 0;
+        while (i < grp_data.o.members.length && grp_data.o.members[i] != vm.name) i++;
+        if (i < grp_data.o.members.length) grp_data.o.members.splice(i, 1);
+
+        updateActiveGroup();
+    })
+
+    // PANTALLA DE EDICION DE UNA VM
+    $("#edit-vm").click(function () {
+        let vm = getSelectedVM();
+        if (vm != undefined) {
+            let name = document.getElementById("edit-vm-name");
+            name.value = null;
+            name.placeholder = vm.name;
+            let ram = document.getElementById("edit-vm-ram");
+            ram.value = null;
+            ram.placeholder = vm.ram;
+            let hdd = document.getElementById("edit-vm-hd");
+            hdd.value = null;
+            hdd.placeholder = vm.hdd;
+            let cpu = document.getElementById("edit-vm-cpu");
+            cpu.value = null;
+            cpu.placeholder = vm.cpu;
+            let cores = document.getElementById("edit-vm-cores");
+            cores.value = null;
+            cores.placeholder = vm.cores;
+            let ip = document.getElementById("edit-vm-ip");
+            ip.value = null;
+            ip.placeholder = vm.ip;
+            let iso = document.getElementById("edit-vm-iso");
+            iso.value = null;
+            iso.value = vm.iso;
+            console.log(name.placeholder);
+        }
+    })
+
+    // EDITAR UNA VM
+    $("#edit-vms").click(function () {
+        let vm = getSelectedVM();
+
+        let inputName = document.getElementById("edit-vm-name").value;
+        let inputRam = document.getElementById("edit-vm-ram").value;
+        let inputHDD = document.getElementById("edit-vm-hd").value;
+        let inputCPU = document.getElementById("edit-vm-cpu").value;
+        let inputCores = document.getElementById("edit-vm-cores").value;
+        let inputIP = document.getElementById("edit-vm-ip").value;
+
+        if (inputName) {
+            for (let i = 0; i < data.groups.length; i++) {
+                let j = 0;
+                while (j < data.groups[i].members.length && data.groups[i].members[j] != vm.name) j++;
+                if (j < data.groups[i].members.length) data.groups[i].members[j] = inputName;
+            }
+            vm.name = inputName;
+        }
+
+        if (inputRam) vm.ram = inputRam;
+        if (inputHDD) vm.hdd = inputHDD;
+        if (inputCPU) vm.cpu = inputCPU;
+        if (inputCores) vm.cores = inputCores;
+        if (inputIP) vm.ip = inputIP;
+
+        updateActiveGroup();
+    })
 
     $("#edit-group").click(function () {
         let g = getActiveGroup();
