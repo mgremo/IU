@@ -2,7 +2,7 @@
 
 const EDIT_ADD_ITEMS = 0;
 const EDIT_RMV_ITEMS = 1;
-const ADD_GROUP_ITEMS =2;
+const ADD_GROUP_ITEMS = 2;
 
 let data = {
     vms: [
@@ -71,7 +71,7 @@ let data = {
             childGroups: [],
         }
     ],
-    buffers: [ [] , [] ],
+    buffers: [[], []],
 };
 
 //Crea la cuenta de los elementos del grupo
@@ -163,8 +163,8 @@ function getGroupName(list_name) {
     return list_name.slice(4);
 };
 
-function getSelectedVM(){
-    return data.selected_vm; 
+function getSelectedVM() {
+    return data.selected_vm;
 };
 
 function findVmsById(id) {
@@ -285,11 +285,11 @@ function removeChildVM(grp_data, vm_name) {
 function addChildGroup(grp_data, grp_name) {
     //Lo añadimos a la lista de hijos
     //Primero vemos que no sea el propio grupo
-    if(grp_name == grp_data.name)
+    if (grp_name == grp_data.name)
         return;
     //Tambien hay que ver que no exista ya dentro del grupo
-    for(var child of grp_data.childGroups){
-        if(child == grp_name)
+    for (var child of grp_data.childGroups) {
+        if (child == grp_name)
             return;
     }
     grp_data.childGroups.push(grp_name);
@@ -298,12 +298,12 @@ function addChildGroup(grp_data, grp_name) {
     child_grp.o.parents.push(grp_data.name);
 
 }
-function addVM(grp_data, vm_name){
+function addVM(grp_data, vm_name) {
     //Primero añadimos a la lista de miembros del grupo
     //Hay que comprobar que no este ya incluida, en cuyo caso no hacemos nada
-    for(var aux_vm of grp_data.members){
-        if(aux_vm == vm_name)
-        return;
+    for (var aux_vm of grp_data.members) {
+        if (aux_vm == vm_name)
+            return;
     }
     grp_data.members.push(vm_name);
 }
@@ -325,10 +325,12 @@ function toggleVMButtons(disabled) {
     $("#remove-vm")[0].setAttribute("aria-disabled", disabled);
 }
 
-function showGroup(group, list, callback, cols) {
+function showGroup(group, list, callbacks, cols) {
     //Primero vaciamos la lista anterior
     list.empty();
-
+    let callback;
+    if(callbacks[0] === undefined)
+    callback = callbacks;
     //Creamos las imagenes de fondo
     let container = (document).getElementById(list[0].id + "container-images");
     let act_row = 0;
@@ -369,6 +371,8 @@ function showGroup(group, list, callback, cols) {
         box.setAttribute("class", "img-with-text");
 
         elem.onclick = callback;
+        if(callbacks[2] != undefined)
+            elem.ondblclick = callbacks[2];
 
         elem.setAttribute("name", element);
         elem.setAttribute("class", "vm-icon-list");
@@ -381,6 +385,11 @@ function showGroup(group, list, callback, cols) {
         act_col++;
 
     });
+
+    if(callbacks[1] == undefined)
+        callback = callbacks;
+    else
+        callback = callbacks[1];
     //Y para cada miembro del grupo lo añadimos a la lista
     group.members.forEach(function (element) {
         //Si no caben mas elementos en la columna actual, creamos otra fila
@@ -440,6 +449,15 @@ function onVMListClick() {
     selectImage(vm);
     toggleVMButtons(false);
 }
+function onGroupListClick() {
+    let g = (document).getElementById("grp_" + this.name);
+    g.click();
+    g.onclick();
+}
+
+function nothing(){
+    console.log("Nothing!");
+}
 
 function onGroupClick() {
 
@@ -452,7 +470,7 @@ function onGroupClick() {
     toggleVMButtons(true);
 
     data.selected_vm = null;
-    showGroup(g.o, $("#vm-icons"), onVMListClick, 4);
+    showGroup(g.o, $("#vm-icons"), [nothing,onVMListClick,onGroupListClick], 4);
 
 }
 
@@ -500,16 +518,16 @@ $(document).ready(function () {
   }));
 });*/
 
-function getChecked(grp,buffer){
+function getChecked(grp, buffer) {
     let i = 0;
-    let names = [] ;
+    let names = [];
     let nGroups = grp.childGroups.length;
-    for(var b of buffer){
-        if(b){
-            if(i < nGroups){
+    for (var b of buffer) {
+        if (b) {
+            if (i < nGroups) {
                 names.push(grp.childGroups[i]);
             }
-            else{
+            else {
                 let aux_i = i - nGroups;
                 names.push(grp.members[aux_i]);
             }
@@ -519,8 +537,8 @@ function getChecked(grp,buffer){
     return names;
 }
 
-function updateTextFromSelected(grp,buffer,text_id){
-    let str = getChecked(grp,buffer);
+function updateTextFromSelected(grp, buffer, text_id) {
+    let str = getChecked(grp, buffer);
     str.join(", ");
     let text = document.getElementById(text_id);
     text.placeholder = str;
@@ -528,56 +546,56 @@ function updateTextFromSelected(grp,buffer,text_id){
 
 
 //Callback cuando se pulsa un item a añadir a un grupo
-function onGroupAddClick(){
+function onGroupAddClick() {
     let index = 0;
     let group = data.groups[0];
     let nGroups = group.childGroups.length;
     let buffer = data.buffers[ADD_GROUP_ITEMS];
 
     //Hay que ver si es grupo o vm para hallar su index
-    if(findChildGroup(this.name,group)){
-        index = findChildGroup(this.name,group).index;
+    if (findChildGroup(this.name, group)) {
+        index = findChildGroup(this.name, group).index;
     }
-    else if(findChildVM(this.name,group)){
-        index = nGroups + findChildVM(this.name,group).index;
+    else if (findChildVM(this.name, group)) {
+        index = nGroups + findChildVM(this.name, group).index;
     }
 
     //Una vez hallado, simplemente cmabiamos su buffer
     buffer[index] = !buffer[index];
-    if(buffer[index]){
+    if (buffer[index]) {
         this.classList.add("edit-selected");
     }
-    else{
+    else {
         this.classList.remove("edit-selected");
     }
-    updateTextFromSelected(group,buffer,"new-group-items")
+    updateTextFromSelected(group, buffer, "new-group-items")
 };
 //Callback cuando se pulsa un item a añadir a un grupo
-function onGroupEditAddClick(){
+function onGroupEditAddClick() {
     let index = 0;
     let group = data.groups[0];
     let nGroups = group.childGroups.length;
     let buffer = data.buffers[0];
 
     //Hay que ver si es grupo o vm para hallar su index
-    if(findChildGroup(this.name,group)){
-        index = findChildGroup(this.name,group).index;
+    if (findChildGroup(this.name, group)) {
+        index = findChildGroup(this.name, group).index;
     }
-    else if(findChildVM(this.name,group)){
-        index = nGroups + findChildVM(this.name,group).index;
+    else if (findChildVM(this.name, group)) {
+        index = nGroups + findChildVM(this.name, group).index;
     }
 
     //Una vez hallado, simplemente cmabiamos su buffer
     buffer[index] = !buffer[index];
-    if(buffer[index]){
+    if (buffer[index]) {
         this.classList.add("edit-selected");
     }
-    else{
+    else {
         this.classList.remove("edit-selected");
     }
-    updateTextFromSelected(group,buffer,"edit-group-items")
+    updateTextFromSelected(group, buffer, "edit-group-items")
 };
-function onGroupEditRemoveClick(){
+function onGroupEditRemoveClick() {
     let index = 0;
     let g = getActiveGroup();
     let grp_name = getGroupName(g.object.id);
@@ -586,26 +604,26 @@ function onGroupEditRemoveClick(){
     let buffer = data.buffers[1];
 
     //Hay que ver si es grupo o vm para hallar su index
-    if(findChildGroup(this.name,group)){
-        index = findChildGroup(this.name,group).index;
+    if (findChildGroup(this.name, group)) {
+        index = findChildGroup(this.name, group).index;
     }
-    else if(findChildVM(this.name,group)){
-        index = nGroups + findChildVM(this.name,group).index;
+    else if (findChildVM(this.name, group)) {
+        index = nGroups + findChildVM(this.name, group).index;
     }
 
     //Una vez hallado, simplemente cmabiamos su buffer
     buffer[index] = !buffer[index];
-    if(buffer[index]){
+    if (buffer[index]) {
         this.classList.add("edit-selected");
     }
-    else{
+    else {
         this.classList.remove("edit-selected");
     }
-    updateTextFromSelected(group,buffer,"remove-group-items")
+    updateTextFromSelected(group, buffer, "remove-group-items")
 };
-function initBuffer(group,buffer_index){
+function initBuffer(group, buffer_index) {
     data.buffers[buffer_index] = [];
-    for(let i = 0; i < group.childGroups.length + group.members.length;i++){
+    for (let i = 0; i < group.childGroups.length + group.members.length; i++) {
         data.buffers[buffer_index].push(false);
     }
 };
@@ -614,31 +632,31 @@ function initBuffer(group,buffer_index){
 
 $(document).ready(function () {
     //ADD GRUPO
-    $(".add-group").click(function(){
+    $(".add-group").click(function () {
         console.log("Añadir Grupo");
         let all = data.groups[0];
         document.getElementById("new-group-name").value = "";
         document.getElementById("new-group-items").placeholder = "";
         //Inicializamos los buffers del los elementos a borrar
-        initBuffer(all,ADD_GROUP_ITEMS);
+        initBuffer(all, ADD_GROUP_ITEMS);
         //Tambien inicializamos las funciones callbacks
-        showGroup(all,$("#add-group-items"),onGroupAddClick,3);      
+        showGroup(all, $("#add-group-items"), onGroupAddClick, 3);
     })
 
     $("#confirm-add-group").click(function () {
         console.log("Añadir grupo");
 
         let inputName = document.getElementById("new-group-name").value;
-        if(inputName == "" || findGroup(inputName))
+        if (inputName == "" || findGroup(inputName))
             return;
 
         let c_groups = [];
         let vms = [];
         //Tenemos que separar entre vms y items
-        let items = getChecked(data.groups[0],data.buffers[ADD_GROUP_ITEMS]);
-        for(var item of items){
+        let items = getChecked(data.groups[0], data.buffers[ADD_GROUP_ITEMS]);
+        for (var item of items) {
             //Si es un grupo
-            if(findGroup(item)){
+            if (findGroup(item)) {
                 //Lo añadimos a la lista de grupos
                 //Y hay que añadir el grupo nuevo como padre
                 c_groups.push(item);
@@ -646,7 +664,7 @@ $(document).ready(function () {
                 grp_child.parents.push(inputName);
             }
             //Si es vm, lo añadimos a las vms
-            else if(findVmsById(item)){
+            else if (findVmsById(item)) {
                 vms.push(item);
             }
         }
@@ -674,7 +692,7 @@ $(document).ready(function () {
         let inputCores = document.getElementById("add-vm-cores").value;
         //let inputIP = document.getElementById("add-vm-ip").value;
 
-        data.vms.push({ name: inputName,state: "off", ram: inputRam, hdd: inputHDD, cpu: inputCPU, cores: inputCores });
+        data.vms.push({ name: inputName, state: "off", ram: inputRam, hdd: inputHDD, cpu: inputCPU, cores: inputCores });
         data.groups[0].members.push(inputName);
         updateHTMLGroups();
         updateActiveGroup();
@@ -706,7 +724,7 @@ $(document).ready(function () {
         updateActiveGroup();
     });
 
-    $("#edit-group").click(function(){
+    $("#edit-group").click(function () {
         let g = getActiveGroup();
         let grp_name = getGroupName(g.object.id);
         let grp_data = findGroup(grp_name).o; //Grupo en data
@@ -716,11 +734,11 @@ $(document).ready(function () {
         document.getElementById("edit-group-items").placeholder = "";
         document.getElementById("remove-group-items").placeholder = "";
         //Inicializamos los buffers del los elementos a borrar
-        initBuffer(all,EDIT_ADD_ITEMS);
-        initBuffer(grp_data,EDIT_RMV_ITEMS);
+        initBuffer(all, EDIT_ADD_ITEMS);
+        initBuffer(grp_data, EDIT_RMV_ITEMS);
         //Tambien inicializamos las funciones callbacks
-        showGroup(all,$("#add-grp-items"),onGroupEditAddClick,3);
-        showGroup(grp_data,$("#remove-grp-items"),onGroupEditRemoveClick,3);
+        showGroup(all, $("#add-grp-items"), onGroupEditAddClick, 3);
+        showGroup(grp_data, $("#remove-grp-items"), onGroupEditRemoveClick, 3);
 
     })
 
@@ -743,23 +761,23 @@ $(document).ready(function () {
         }
 
         //Despues borramos los elementos
-        let remove_grps = getChecked(grp_data.o,data.buffers[EDIT_RMV_ITEMS]);
+        let remove_grps = getChecked(grp_data.o, data.buffers[EDIT_RMV_ITEMS]);
         //remove_grps = remove_grps.split(",");
         //Para cada grupo, hay que borrarlo de la lista de hijos de este grupo
         for (var remove_item of remove_grps) {
-            if(findGroup(remove_item))
+            if (findGroup(remove_item))
                 removeChildGroup(grp_data.o, remove_item);
-            else if(findVmsById(remove_item))
-                removeChildVM(grp_data.o,remove_item);
+            else if (findVmsById(remove_item))
+                removeChildVM(grp_data.o, remove_item);
         }
 
         //Despues añadimos los grupos
-        let add_grps = getChecked(data.groups[0],data.buffers[EDIT_ADD_ITEMS]);
+        let add_grps = getChecked(data.groups[0], data.buffers[EDIT_ADD_ITEMS]);
         //add_grps = add_grps.split(data",");
         for (var add_item of add_grps) {
-            if(findGroup(add_item))
+            if (findGroup(add_item))
                 addChildGroup(grp_data.o, add_item);
-            else if(findVmsById(add_item))
+            else if (findVmsById(add_item))
                 addVM(grp_data.o, add_item);
         }
 
@@ -773,33 +791,38 @@ $(document).ready(function () {
         //accedemos a la VM seleccionada
         let vm = getSelectedVM();
 
-        //cambiamos su state
-        vm.state = "on";
+        if (vm != undefined) {
+            //cambiamos su state
+            vm.state = "on";
 
-        //cambiamos su imagen
-        vm.elem.src = './images/selectedGreenVM.png';
+            //cambiamos su imagen
+            vm.elem.src = './images/selectedGreenVM.png';
+        }
     });
 
     $("#button-sleep").click(function () {
         //accedemos a la VM seleccionada
         let vm = getSelectedVM();
 
-        //cambiamos su state
-        vm.state = "sleep";
+        if (vm != undefined) {
+            //cambiamos su state
+            vm.state = "sleep";
 
-        //cambiamos su imagen
-        vm.elem.src = './images/selectedYellowVM.png';
+            //cambiamos su imagen
+            vm.elem.src = './images/selectedYellowVM.png';
+        }
     });
 
     $("#button-off").click(function () {
         //accedemos a la VM seleccionada
         let vm = getSelectedVM();
+        if (vm != undefined) {
+            //cambiamos su state
+            vm.state = "off";
 
-        //cambiamos su state
-        vm.state = "off";
-
-        //cambiamos su imagen
-        vm.elem.src = './images/selectedRedVM.png';
+            //cambiamos su imagen
+            vm.elem.src = './images/selectedRedVM.png';
+        }
     });
 
 });
