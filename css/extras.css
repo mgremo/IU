@@ -9,6 +9,8 @@
 .vm-icon-list {
     margin-bottom: 10px;
     margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .vm-icon-list:hover{
@@ -25,9 +27,15 @@
 
 .img-with-text {
     position: relative;
+    margin-left: auto;
+    margin-right: auto;
     text-align: center;
     width: 60px;
     bottom: 2px;
     color: black;
     border: none;
+}
+.edit-selected { 
+    background-color: rgba(0, 0, 0, 0.116);
+    border: 1px solid black;
 }

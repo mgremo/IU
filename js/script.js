@@ -56,30 +56,29 @@ let data = {
     groups: [
         {
             name: 'All',
-            members: ['Linux1', 'Linux2', 'Linux3'],
-            groupMembers: ['Linux'],
+            members: ['Linux1', 'Linux2', 'Linux3', 'Linux4', 'Linux5'],
             parents: [],
             childGroups: ['Linux']
         },
         {
             name: 'Linux',
-            members: ['Linux1', 'Linux2', 'Linux3',  'Linux4',  'Linux5'],
-            groupMembers: ['GroupMembers1', 'GM2', 'GM3'],
+            members: ['Linux1', 'Linux2',],
             parents: ['All'],
             childGroups: [],
         }
-    ]
+    ],
+    edit_buffer: [ [] , [] ],
 };
 
 //Crea la cuenta de los elementos del grupo
-function createBadge(group){
+function createBadge(group) {
     let badge = [
-    group.name,
-    '<span class="badge badge-primary badge-pill" title=',
-    group.members.join(' '),
-    '>',
-    group.members.length + group.childGroups.length,
-    '</span>'
+        group.name,
+        '<span class="badge badge-primary badge-pill" title=',
+        group.members.join(' '),
+        '>',
+        group.members.length + group.childGroups.length,
+        '</span>'
     ];
     return badge.join('');
 }
@@ -101,15 +100,15 @@ function createGroupItem(group, active) {
     return $(html.join(''));
 }
 
-function updateHTMLGroups(){
+function updateHTMLGroups() {
     for (var grp of data.groups) {
         console.log(grp);
-        updateHTMLGroup($("#grp_" + grp.name)[0],grp);
+        updateHTMLGroup($("#grp_" + grp.name)[0], grp);
     }
 }
 
 //Actualiza el elemento HTML de un grupo
-function updateHTMLGroup(grp_dom, grp_data){
+function updateHTMLGroup(grp_dom, grp_data) {
     grp_dom.innerHTML = createBadge(grp_data);
     console.log("Nuevo nombre: " + grp_data.name);
     grp_dom.id = "grp_" + grp_data.name;
@@ -130,6 +129,14 @@ function findGroup(name) {
 function findChildGroup(name, parent) {
     let i = 0;
     for (var child_name of parent.childGroups) {
+        if (child_name === name)
+            return { o: child_name, index: i };
+        i++;
+    }
+}
+function findChildVM(name, group) {
+    let i = 0;
+    for (var child_name of group.members) {
         if (child_name === name)
             return { o: child_name, index: i };
         i++;
@@ -171,7 +178,7 @@ function getActiveGroup() {
     }
 };
 
-function showDetails(vm){
+function showDetails(vm) {
     let ram = document.getElementById("details-vm-ram");
     ram.placeholder = vm.ram;
     let cpu = document.getElementById("details-vm-cpu");
@@ -186,7 +193,7 @@ function showDetails(vm){
     hdSize.placeholder = vm.hdd;
 };
 
-function selectImage(vm){
+function selectImage(vm) {
 
     let g = getActiveGroup();
 
@@ -194,7 +201,7 @@ function selectImage(vm){
 
     let o = findGroup(name);
 
-    o.o.members.forEach(function(element){
+    o.o.members.forEach(function (element) {
         let vm = findVmsById(element);
         if (vm != undefined) {
             if (vm.state === "on") vm.elem.src = './images/greenVM.png';
@@ -212,58 +219,72 @@ function selectImage(vm){
     }
 };
 
-function changeGroupName(grp_name,grp_data){
+function changeGroupName(grp_name, grp_data) {
     //Hay que cambiar el nombre del registro de los padres
     let old_name = grp_data.name;
-    for(let parent_name of grp_data.parents){
+    for (let parent_name of grp_data.parents) {
         let parent_grp = findGroup(parent_name);
-        let child_grp = findChildGroup(old_name,parent_grp.o);
+        let child_grp = findChildGroup(old_name, parent_grp.o);
         parent_grp.o.childGroups[child_grp.index] = grp_name;
     }
     //Tambien hay que cambiar el nombre en el registro de los hijos
-    for(let child_name of grp_data.childGroups){
+    for (let child_name of grp_data.childGroups) {
         let child_group = findGroup(child_name);
         let parent_grp = findParentGroup(old_name, child_group.o);
         child_group.o.parents[parent_grp.index] = grp_name;
     }
     grp_data.name = grp_name;
-    
+
 }
-function removeGroup(grp_name,grp_data){
+function removeGroup(grp_name, grp_data) {
     //Primero borramos el grupo de los registros padre
-    for(let parent_name of grp_data.parents){
+    for (let parent_name of grp_data.parents) {
         let parent_grp = findGroup(parent_name);
-        let child_grp = findChildGroup(grp_name,parent_grp.o);
-        parent_grp.o.childGroups.splice(child_grp.index,1);
+        let child_grp = findChildGroup(grp_name, parent_grp.o);
+        parent_grp.o.childGroups.splice(child_grp.index, 1);
     }
     //Tambien hay que cambiar el nombre en el registro de los hijos
-    for(let child_name of grp_data.childGroups){
+    for (let child_name of grp_data.childGroups) {
         let child_grp = findGroup(child_name);
         let parent_grp = findParentGroup(grp_name, child_grp.o);
-        child_grp.o.parents.splice(parent_grp.index,1);
+        child_grp.o.parents.splice(parent_grp.index, 1);
     }
 
     //Finalmente borramos el grupo de los datos
     let index = findGroup(grp_data.name).index;
     data.groups.splice(index, 1);
 }
-function removeChildGroup(grp_data,grp_name){
+function removeChildGroup(grp_data, grp_name) {
     let index = 0;
-    for(let child_name of grp_data.childGroups){
-        if(child_name == grp_name){
+    for (let child_name of grp_data.childGroups) {
+        if (child_name == grp_name) {
             console.log("Borrando " + child_name);
-            grp_data.childGroups.splice(index,1);
+            grp_data.childGroups.splice(index, 1);
         }
         index++;
     }
 }
-function addChildGroup(grp_data,grp_name){
+function removeChildVM(grp_data, vm_name) {
+    let index = 0;
+    for (let child_name of grp_data.members) {
+        if (child_name == vm_name) {
+            console.log("Borrando " + child_name);
+            grp_data.members.splice(index, 1);
+        }
+        index++;
+    }
+}
+function addChildGroup(grp_data, grp_name) {
     //Lo añadimos a la lista de hijos
     grp_data.childGroups.push(grp_name);
     //Pero tambien hay que añadir el padre al hijo
     let child_grp = findGroup(grp_name);
     child_grp.o.parents.push(grp_data.name);
 
+}
+function addVM(grp_data, vm_name){
+    //Primero añadimos a la lista de miembros del grupo
+    grp_data.members.push(vm_name);
 }
 
 //Para activar / desactivar los botones si no hay ninguno seleccionado
@@ -274,17 +295,17 @@ function toggleGroupButtons(disabled) {
     $("#delete-group")[0].setAttribute("aria-disabled", disabled);
     $("#edit-group")[0].setAttribute("aria-disabled", disabled);
 }
-function toggleVMButtons(disabled){
+function toggleVMButtons(disabled) {
     $("#edit-vm").prop("disabled", disabled);
     $("#delete-vm").prop("disabled", disabled);
-    $("#remove-vm").prop("disabled",disabled);
+    $("#remove-vm").prop("disabled", disabled);
     $("#delete-vm")[0].setAttribute("aria-disabled", disabled);
     $("#edit-vm")[0].setAttribute("aria-disabled", disabled);
     $("#remove-vm")[0].setAttribute("aria-disabled", disabled);
 }
 
 
-function showGroup(group,list,callback,cols){
+function showGroup(group, list, callback, cols) {
     //Primero vaciamos la lista anterior
     list.empty();
 
@@ -292,7 +313,7 @@ function showGroup(group,list,callback,cols){
     let container = (document).getElementById(list[0].id + "container-images");
     let act_row = 0;
     let act_col = 0;
-    if(container == undefined){
+    if (container == undefined) {
         container = document.createElement("div");
         container.setAttribute("class", "container");
         container.setAttribute("id", list[0].id + "container-images");
@@ -300,24 +321,62 @@ function showGroup(group,list,callback,cols){
     }
     let row = document.createElement("div");
     row.setAttribute("class", "row");
-    row.setAttribute("id",list[0].id + "row-images" + act_row);
+    row.setAttribute("id", list[0].id + "row-images" + act_row);
     container.appendChild(row);
-    //Y para cada miembro del grupo lo añadimos a la lista
-    group.members.forEach(function (element) {
+
+
+    group.childGroups.forEach(function (element) {
         //Si no caben mas elementos en la columna actual, creamos otra fila
-        if(act_col >= cols){
+        if (act_col >= cols) {
             act_row++;
             //Creamos una nueva row y se la mentemos al container
             row = document.createElement("div");
             row.setAttribute("class", "row");
-            row.setAttribute("id",list[0].id + "row-images" + act_row);
+            row.setAttribute("id", list[0].id + "row-images" + act_row);
             container.appendChild(row);
             act_col = 0;
         }
         //Para cada elemento vamos a ir creando una columna nueva
         let col = document.createElement("div");
         col.setAttribute("class", "col-sm-" + 12 / cols);
-        col.setAttribute("id",list[0].id + "col-images" + act_row + act_col);
+        col.setAttribute("id", list[0].id + "col-images" + act_row + act_col);
+
+        let elem = document.createElement("img");
+        elem.src = './images/folder.png';
+        var box = document.createElement("input");
+        box.value = element;
+        box.readOnly = true;
+        box.setAttribute("class", "img-with-text");
+
+        elem.onclick = callback;
+
+        elem.setAttribute("name", element);
+        elem.setAttribute("class", "vm-icon-list");
+        elem.setAttribute("id", "detail_button");
+
+
+        row.appendChild(col);
+        col.appendChild(elem);
+        col.appendChild(box);
+        act_col++;
+
+    });
+    //Y para cada miembro del grupo lo añadimos a la lista
+    group.members.forEach(function (element) {
+        //Si no caben mas elementos en la columna actual, creamos otra fila
+        if (act_col >= cols) {
+            act_row++;
+            //Creamos una nueva row y se la mentemos al container
+            row = document.createElement("div");
+            row.setAttribute("class", "row");
+            row.setAttribute("id", list[0].id + "row-images" + act_row);
+            container.appendChild(row);
+            act_col = 0;
+        }
+        //Para cada elemento vamos a ir creando una columna nueva
+        let col = document.createElement("div");
+        col.setAttribute("class", "col-sm-" + 12 / cols);
+        col.setAttribute("id", list[0].id + "col-images" + act_row + act_col);
 
         let vm = findVmsById(element);
         let elem = document.createElement("img");
@@ -331,14 +390,14 @@ function showGroup(group,list,callback,cols){
             box.value = vm.name;
             box.readOnly = true;
             box.setAttribute("class", "img-with-text");
-    
+
             elem.onclick = callback;
-            
+
             elem.setAttribute("name", element);
             elem.setAttribute("class", "vm-icon-list");
             elem.setAttribute("id", "detail_button");
-            
-            
+
+
             row.appendChild(col);
             col.appendChild(elem);
             col.appendChild(box);
@@ -348,15 +407,15 @@ function showGroup(group,list,callback,cols){
     });
 }
 
-function updateActiveGroup(){
+function updateActiveGroup() {
     getActiveGroup().object.onclick();
 }
 
-function onVMListClick(){
+function onVMListClick() {
     let vm = findVmsById(this.name);
-    data.selected_vm = vm; 
-    showDetails(vm); 
-    selectImage(vm); 
+    data.selected_vm = vm;
+    showDetails(vm);
+    selectImage(vm);
     toggleVMButtons(false);
 }
 
@@ -370,8 +429,8 @@ function onGroupClick() {
     toggleGroupButtons((g.index === 0));
     toggleVMButtons(true);
 
-    data.selected_vm = null; 
-    showGroup(g.o, $("#vm-icons"), onVMListClick,3);
+    data.selected_vm = null;
+    showGroup(g.o, $("#vm-icons"), onVMListClick, 4);
 
 }
 
@@ -391,7 +450,7 @@ $(document).ready(function () {
     }
     allO.onclick();
     toggleGroupButtons(true);
-    console.log("UN METWO SHINY"); 
+    console.log("UN METWO SHINY");
 });
 
 /*$(document).ready(function(){
@@ -419,7 +478,63 @@ $(document).ready(function () {
   }));
 });*/
 
+function getChecked(grp,buffer){
+    let i = 0;
+    let names = [] ;
+    let nGroups = grp.childGroups.length;
+    for(var b of buffer){
+        if(b){
+            if(i < nGroups){
+                names.push(grp.childGroups[i]);
+            }
+            else{
+                let aux_i = i - nGroups;
+                names.push(grp.members[aux_i]);
+            }
+        }
+        i++;
+    }
+    return names;
+}
 
+function updateTextFromSelected(grp,buffer,text_id){
+    let str = getChecked(grp,buffer);
+    str.join(", ");
+    let text = document.getElementById(text_id);
+    text.placeholder = str;
+}
+
+//Callback cuando se pulsa un item a añadir a un grupo
+function onGroupEditAddClick(){
+    let index = 0;
+    let group = data.groups[0];
+    let nGroups = group.childGroups.length;
+    let buffer = data.edit_buffer[0];
+
+    //Hay que ver si es grupo o vm para hallar su index
+    if(findChildGroup(this.name,group)){
+        index = findChildGroup(this.name,group).index;
+    }
+    else if(findChildVM(this.name,group)){
+        index = nGroups + findChildVM(this.name,group).index;
+    }
+
+    //Una vez hallado, simplemente cmabiamos su buffer
+    buffer[index] = !buffer[index];
+    if(buffer[index]){
+        this.classList.add("edit-selected");
+    }
+    else{
+        this.classList.remove("edit-selected");
+    }
+    updateTextFromSelected(group,buffer,"edit-group-items")
+};
+function initBuffer(group,buffer){
+    buffer = [];
+    for(let i = 0; i < group.childGroups.length + group.members.length;i++){
+        buffer.push(false);
+    }
+};
 
 //Al pulsar ADD VM, crea una y refresca
 $(document).ready(function () {
@@ -429,7 +544,7 @@ $(document).ready(function () {
 
         let inputName = document.getElementById("add-group-name").value;
 
-        data.groups.push({ name: inputName, members: ['VM 1', 'VM 2'], parents: ['All'], childGroups: [] });
+        data.groups.push({ name: inputName, members: ['Linux1', 'Linux2'], parents: ['All'], childGroups: [] });
         data.groups[0].childGroups.push(inputName);
         //Refrescar lista
         let g = createGroupItem(data.groups[data.groups.length - 1], "");
@@ -438,6 +553,7 @@ $(document).ready(function () {
         o.onclick = onGroupClick;
         getActiveGroup();
         updateHTMLGroups();
+        updateActiveGroup();
     });
 
     //ADD VM
@@ -476,12 +592,26 @@ $(document).ready(function () {
         toggleGroupButtons(true);
 
         //Finalmente se borra el grupo de data, borrando la entrada de todos sitios (Registro general, all y sus padre)
-        removeGroup(grp_name,grp_data.o);
+        removeGroup(grp_name, grp_data.o);
 
         updateHTMLGroups();
         updateActiveGroup();
     });
 
+    $("#edit-group").click(function(){
+        let g = getActiveGroup();
+        let grp_name = getGroupName(g.object.id);
+        let grp_data = findGroup(grp_name).o; //Grupo en data
+        let all = data.groups[0];
+        console.log("Editar grupo");
+        //Inicializamos los buffers del los elementos a borrar
+        initBuffer(all,data.edit_buffer[0]);
+        initBuffer(grp_data,data.edit_buffer[1]);
+        //Tambien inicializamos las funciones callbacks
+        showGroup(all,$("#add-grp-items"),onGroupEditAddClick,3);
+        //showGroup(grp_data,$("#remove-grp-items"),onGroupEditItemClick.bind(null,grp_data,data.edit_buffer[1]),3);
+
+    })
 
     $("#confirm-edit-group").click(function () {
         console.log("Editar Grupos");
@@ -496,26 +626,36 @@ $(document).ready(function () {
 
         //Primero se cambia el nombre
         let inputName = document.getElementById("edit-group-name").value;
-        
-        if(inputName !== grp_data.o.name){
-            changeGroupName(inputName,grp_data.o);}
+
+        if (inputName !== "" && inputName !== grp_data.o.name) {
+            changeGroupName(inputName, grp_data.o);
+        }
 
         //Despues borramos los elementos
         let remove_grps = document.getElementById("delete-group-items").value;
+        remove_grps = remove_grps.split(",");
         //Para cada grupo, hay que borrarlo de la lista de hijos de este grupo
-        for(var remove_item of remove_grps){
-            removeChildGroup(grp_data.o,remove_item);
+        for (var remove_item of remove_grps) {
+            if(findGroup(remove_item))
+                removeChildGroup(grp_data.o, remove_item);
+            else if(findVmsById(remove_item))
+                removeChildVM(grp_data.o,remove_item);
         }
 
         //Despues añadimos los grupos
         let add_grps = document.getElementById("edit-group-items").value;
-        for(var add_item of add_grps){
-            addChildGroup(grp_data.o,add_item);
+        add_grps = add_grps.split(",");
+        for (var add_item of add_grps) {
+            if(findGroup(add_item))
+                addChildGroup(grp_data.o, add_item);
+            else if(findVmsById(add_item))
+                addVM(grp_data.o, add_item);
         }
 
-        console.log("Elementos del grupo: " + grp_data.o.childGroups.join(' ') + ' ' + grp_data.o.members.join(' ') );
+        console.log("Elementos del grupo: " + grp_data.o.childGroups.join(' ') + ' ' + grp_data.o.members.join(' '));
         //Finalmente actualizamos el html
-        updateHTMLGroup($(g.object)[0],grp_data.o);
+        updateHTMLGroup($(g.object)[0], grp_data.o);
+        updateActiveGroup();
     });
 
 });
