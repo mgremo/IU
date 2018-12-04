@@ -43,7 +43,7 @@
             <a class="dropdown-item" href="#" role="button" data-toggle="modal" data-target="#add">
               Virtual Machine
             </a>
-            <a class="dropdown-item" href="#" role="button" data-toggle="modal" data-target="#addGroups">
+            <a class="dropdown-item add-group" href="#" role="button" data-toggle="modal" data-target="#addGroups">
               Group
             </a>
           </div>
@@ -186,23 +186,17 @@
                   <!-- Name-->
                   <div class="form-group">
                     <label for="-name" class="col-form-label">Name:</label>
-                    <input type="text" class="form-control" id="add-group-name" placeholder="Name...">
+                    <input type="text" id="new-group-name" class="form-control" id="add-group-name" placeholder="Name...">
                   </div>
                   <!-- Add VMs-->
                   <div class="form-group">
                     <label for="-ram" class="col-form-label">Add VMs:</label>
-                    <input type="text" class="form-control" id="add-groups-vm" placeholder="VMs...">
+                    <input type="text" id="new-group-items" class="form-control" id="add-groups-vm" placeholder="VMs...">
                   </div>
 
                 </form>
                 <div class="card">
-                  <div class="vm-export">
-                    <img src="./images/back.png" class="vm-icon" alt="Responsive image" id="img">
-                    <img src="./images/blackVM.png" class="vm-icon" alt="Responsive image">
-                    <img src="./images/blackVM.png" class="vm-icon" alt="Responsive image">
-                    <img src="./images/blackVM.png" class="vm-icon" alt="Responsive image">
-                    <img src="./images/folder.png" class="vm-icon" alt="Responsive image">
-                  </div>
+                  <div id="add-group-items" ></div>
                 </div>
               </div>
             </div>
@@ -210,7 +204,7 @@
         </div>
         <div class="modal-footer">
           <button type="button"  class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" id="add-group" class="btn btn-primary" data-dismiss="modal">Add</button>
+          <button type="button" id="confirm-add-group" class="btn btn-primary" data-dismiss="modal">Add</button>
           <!--hastaaki -->
         </div>
       </div>
@@ -552,7 +546,7 @@
         <div class="card">
           <div class="card-header">
             <h2>Groups</h2>
-            <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#addGroups">Add</button>
+            <button type="button" class="btn btn-success btn-sm add-group" data-toggle="modal" data-target="#addGroups">Add</button>
 
             <button type="button" id="delete-group" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#confirm-delete-group">Delete</button>
           </div>
@@ -590,14 +584,17 @@
             <div class="card">
               <div class="card-header">
                 <h4>VMs</h4>
-                <button type="button" class="button-style" data-toggle="modal" data-target="#add">
-                  <img src="./images/plusScale.png" alt="Responsive image" id="img">
+                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#add">
+                  Add
+                  <!--<img src="./images/plusScale.png" alt="Responsive image" id="img">-->
                 </button>
-                <button type="button" class="button-style" data-toggle="modal" id="remove-vm" data-target="#confirm-remove-vm">
-                  <img src="./images/minusScale.png" alt="Responsive image" id="img">
+                <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" id="remove-vm" data-target="#confirm-remove-vm">
+                  Remove
+                  <!--<img src="./images/minusScale.png" alt="Responsive image" id="img">-->
                 </button>
-                <button type="button" class="button-style" data-toggle="modal" id="delete-vm" data-target="#confirm-delete-vm">
-                  <img src="./images/crossScale.png" alt="Responsive image" id="img">
+                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" id="delete-vm" data-target="#confirm-delete-vm">
+                  Delete
+                  <!--<img src="./images/crossScale.png" alt="Responsive image" id="img">-->
                 </button>
               </div>
 

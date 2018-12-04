@@ -1,5 +1,9 @@
 "use strict"
 
+const EDIT_ADD_ITEMS = 0;
+const EDIT_RMV_ITEMS = 1;
+const ADD_GROUP_ITEMS =2;
+
 let data = {
     vms: [
         {
@@ -67,7 +71,7 @@ let data = {
             childGroups: [],
         }
     ],
-    edit_buffer: [ [] , [] ],
+    buffers: [ [] , [] ],
 };
 
 //Crea la cuenta de los elementos del grupo
@@ -522,12 +526,38 @@ function updateTextFromSelected(grp,buffer,text_id){
     text.placeholder = str;
 }
 
+
+//Callback cuando se pulsa un item a añadir a un grupo
+function onGroupAddClick(){
+    let index = 0;
+    let group = data.groups[0];
+    let nGroups = group.childGroups.length;
+    let buffer = data.buffers[ADD_GROUP_ITEMS];
+
+    //Hay que ver si es grupo o vm para hallar su index
+    if(findChildGroup(this.name,group)){
+        index = findChildGroup(this.name,group).index;
+    }
+    else if(findChildVM(this.name,group)){
+        index = nGroups + findChildVM(this.name,group).index;
+    }
+
+    //Una vez hallado, simplemente cmabiamos su buffer
+    buffer[index] = !buffer[index];
+    if(buffer[index]){
+        this.classList.add("edit-selected");
+    }
+    else{
+        this.classList.remove("edit-selected");
+    }
+    updateTextFromSelected(group,buffer,"new-group-items")
+};
 //Callback cuando se pulsa un item a añadir a un grupo
 function onGroupEditAddClick(){
     let index = 0;
     let group = data.groups[0];
     let nGroups = group.childGroups.length;
-    let buffer = data.edit_buffer[0];
+    let buffer = data.buffers[0];
 
     //Hay que ver si es grupo o vm para hallar su index
     if(findChildGroup(this.name,group)){
@@ -553,7 +583,7 @@ function onGroupEditRemoveClick(){
     let grp_name = getGroupName(g.object.id);
     let group = findGroup(grp_name).o; //Grupo en data
     let nGroups = group.childGroups.length;
-    let buffer = data.edit_buffer[1];
+    let buffer = data.buffers[1];
 
     //Hay que ver si es grupo o vm para hallar su index
     if(findChildGroup(this.name,group)){
@@ -574,27 +604,60 @@ function onGroupEditRemoveClick(){
     updateTextFromSelected(group,buffer,"remove-group-items")
 };
 function initBuffer(group,buffer_index){
-    data.edit_buffer[buffer_index] = [];
+    data.buffers[buffer_index] = [];
     for(let i = 0; i < group.childGroups.length + group.members.length;i++){
-        data.edit_buffer[buffer_index].push(false);
+        data.buffers[buffer_index].push(false);
     }
 };
 
-//Al pulsar ADD VM, crea una y refresca
+
+
 $(document).ready(function () {
     //ADD GRUPO
-    $("#add-group").click(function () {
-        console.log('Nuevo Grupo');
+    $(".add-group").click(function(){
+        console.log("Añadir Grupo");
+        let all = data.groups[0];
+        document.getElementById("new-group-name").value = "";
+        document.getElementById("new-group-items").placeholder = "";
+        //Inicializamos los buffers del los elementos a borrar
+        initBuffer(all,ADD_GROUP_ITEMS);
+        //Tambien inicializamos las funciones callbacks
+        showGroup(all,$("#add-group-items"),onGroupAddClick,3);      
+    })
 
-        let inputName = document.getElementById("add-group-name").value;
+    $("#confirm-add-group").click(function () {
+        console.log("Añadir grupo");
 
-        data.groups.push({ name: inputName, members: ['Linux1', 'Linux2'], parents: ['All'], childGroups: [] });
+        let inputName = document.getElementById("new-group-name").value;
+        if(inputName == "" || findGroup(inputName))
+            return;
+
+        let c_groups = [];
+        let vms = [];
+        //Tenemos que separar entre vms y items
+        let items = getChecked(data.groups[0],data.buffers[ADD_GROUP_ITEMS]);
+        for(var item of items){
+            //Si es un grupo
+            if(findGroup(item)){
+                //Lo añadimos a la lista de grupos
+                //Y hay que añadir el grupo nuevo como padre
+                c_groups.push(item);
+                let grp_child = findGroup(item).o;
+                grp_child.parents.push(inputName);
+            }
+            //Si es vm, lo añadimos a las vms
+            else if(findVmsById(item)){
+                vms.push(item);
+            }
+        }
+        data.groups.push({ name: inputName, members: vms, parents: ['All'], childGroups: c_groups });
         data.groups[0].childGroups.push(inputName);
         //Refrescar lista
         let g = createGroupItem(data.groups[data.groups.length - 1], "");
         $("#group-list").append(g);
         let o = (document).getElementById(g[0].id);
         o.onclick = onGroupClick;
+
         getActiveGroup();
         updateHTMLGroups();
         updateActiveGroup();
@@ -611,9 +674,10 @@ $(document).ready(function () {
         let inputCores = document.getElementById("add-vm-cores").value;
         //let inputIP = document.getElementById("add-vm-ip").value;
 
-        data.vms.push({ name: inputName, ram: inputRam, hdd: inputHDD, cpu: inputCPU, cores: inputCores });
+        data.vms.push({ name: inputName,state: "off", ram: inputRam, hdd: inputHDD, cpu: inputCPU, cores: inputCores });
         data.groups[0].members.push(inputName);
         updateHTMLGroups();
+        updateActiveGroup();
     });
 
 
@@ -652,8 +716,8 @@ $(document).ready(function () {
         document.getElementById("edit-group-items").placeholder = "";
         document.getElementById("remove-group-items").placeholder = "";
         //Inicializamos los buffers del los elementos a borrar
-        initBuffer(all,0);
-        initBuffer(grp_data,1);
+        initBuffer(all,EDIT_ADD_ITEMS);
+        initBuffer(grp_data,EDIT_RMV_ITEMS);
         //Tambien inicializamos las funciones callbacks
         showGroup(all,$("#add-grp-items"),onGroupEditAddClick,3);
         showGroup(grp_data,$("#remove-grp-items"),onGroupEditRemoveClick,3);
@@ -679,7 +743,7 @@ $(document).ready(function () {
         }
 
         //Despues borramos los elementos
-        let remove_grps = getChecked(grp_data.o,data.edit_buffer[1]);
+        let remove_grps = getChecked(grp_data.o,data.buffers[EDIT_RMV_ITEMS]);
         //remove_grps = remove_grps.split(",");
         //Para cada grupo, hay que borrarlo de la lista de hijos de este grupo
         for (var remove_item of remove_grps) {
@@ -690,7 +754,7 @@ $(document).ready(function () {
         }
 
         //Despues añadimos los grupos
-        let add_grps = getChecked(data.groups[0],data.edit_buffer[0]);
+        let add_grps = getChecked(data.groups[0],data.buffers[EDIT_ADD_ITEMS]);
         //add_grps = add_grps.split(data",");
         for (var add_item of add_grps) {
             if(findGroup(add_item))
