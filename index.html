@@ -367,55 +367,56 @@
 
   <!-- Modal Import-->
   <div class="modal fade" id="import" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-
-
+  
+  
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalCenterTitle">Import Virtual Machine</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <!-- Mio -->
-        <div class="modal-content">
-          <div class="row">
-            <div class="col">
-              <!-- GRUPOS -->
-              <!-- Columna 1-->
-              <div class="modal-body">
-                <form>
+        <form id="import">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalCenterTitle">Import Virtual Machine</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <!-- Mio -->
+          <div class="modal-content">
+            <div class="row">
+              <div class="col">
+                <!-- GRUPOS -->
+                <!-- Columna 1-->
+                <div class="modal-body">
+  
                   <!-- Name-->
                   <div class="form-group">
                     <label for="-name" class="col-form-label">Name:</label>
-                    <input type="text" class="form-control" id="import-iso" placeholder="Name...">
+                    <input type="text" class="form-control" required id="import-name" placeholder="Name...">
                   </div>
                   <!-- Route-->
                   <div class="form-group">
-
+  
                     <div class="input-group mb-3">
                       <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroupFileAddon01">Route:</span>
                       </div>
                       <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                        <input type="file" required accept".ova" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
                         <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
                       </div>
                     </div>
-
+  
                   </div>
-
-                </form>
+  
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal" data-toggle="modal" data-target="#add">Back</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Import</button>
-
-          <!--hastaaki -->
-        </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" data-toggle="modal" data-target="#add">Back</button>
+            <button type="submit" class="btn btn-primary">Import</button>
+  
+            <!--hastaaki -->
+          </div>
+        </form>
       </div>
     </div>
   </div>

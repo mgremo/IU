@@ -1028,7 +1028,32 @@ $(document).ready(function () {
 
     });
 
+    $("#import").submit(function(){
+        console.log('Nueva VM');
+        
+            let inputName = document.getElementById("import-name").value;
+            let inputRam = "";
+            let inputHDD = "";
+            let inputCPU = "";
+            let inputCores = "";
+            let inputIP = "";
+            let inputISO = "";
+        
+            if(findVmsById(inputName) ||findGroup(inputName)){
+                alert("That name already exists");
+                $("#import").modal('hide'); //or  $('#IDModal').modal('hide');
+                return false;
+            }
+        
+            data.vms.push({ name: inputName, state: "off", ram: inputRam, hdd: inputHDD, cpu: inputCPU, cores: inputCores,ip:inputIP, iso: inputISO });
+            data.groups[0].members.push(inputName);
+            updateHTMLGroups();
+            updateActiveGroup();
+        
+            $("#import").modal('hide'); //or  $('#IDModal').modal('hide');
+            return false;
 
+    });
 
     $("#button-play").click(function () {
         //accedemos a la VM seleccionada
